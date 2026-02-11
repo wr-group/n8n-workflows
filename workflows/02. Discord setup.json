@@ -1,0 +1,636 @@
+{
+  "updatedAt": "2025-11-19T11:15:25.000Z",
+  "createdAt": "2025-11-19T00:10:38.098Z",
+  "id": "WFulPUNTXXpN0Fai",
+  "name": "02. Discord setup",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -48
+      ],
+      "id": "d200e10f-6593-45b3-b043-1b499dfec3f1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "get",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1440503512285970432",
+          "mode": "list",
+          "cachedResultName": "test",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106/1440503512285970432"
+        },
+        "messageId": "1440503931141755001",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        -48
+      ],
+      "id": "ca723982-14fb-4fd0-a58c-c308dc3d546d",
+      "name": "Get a message",
+      "webhookId": "22f2b630-1bac-4e2a-a416-cb11520dc754",
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "guildIds": [
+          "753455160209965106"
+        ],
+        "channelIds": [
+          "1210410694688641055"
+        ],
+        "roleIds": [
+          "901010019900882994",
+          "901010696152698890"
+        ],
+        "pattern": "every",
+        "additionalFields": {
+          "attachmentsRequired": true
+        }
+      },
+      "type": "n8n-nodes-discord-trigger-new.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -272
+      ],
+      "id": "fc4c5bea-7fa8-42e8-a794-72b3583c69af",
+      "name": "Discord Trigger",
+      "credentials": {
+        "discordBotTriggerApi": {
+          "id": "bWnCMGqUZEPKKfgs",
+          "name": "WR: Discord Bot Trigger Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.attachments[0].attachment }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -96,
+        -272
+      ],
+      "id": "64289a59-fd9a-44c7-a943-6e853452012f",
+      "name": "Download Image"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ocr.space/parse/image",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apiKey",
+              "value": "K87556744088957"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        128,
+        -272
+      ],
+      "id": "8ce7edd4-831a-4e6e-91a0-5f64ca3045ef",
+      "name": "Analyze Image Using OCR api"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get OCR text\nconst raw = $input.first().json.ParsedResults[0].ParsedText || '';\nconst ocrText = String(raw).replace(/\\r\\n/g, '\\n');\n\n// Split into cleaned lines once so we can reuse\nconst lines = ocrText\n  .split('\\n')\n  .map(l => l.trim())\n  .filter(l => l);\n\n// Get Discord message ID from \"Discord Trigger\" node\nlet discordId = '';\ntry {\n  if ($node && $node['Discord Trigger'] && $node['Discord Trigger'].json) {\n    discordId = $node['Discord Trigger'].json.id || '';\n  }\n} catch (error) {\n  discordId = '';\n}\n\n// ---- Helpers ----\n\n// Brisbane date as \"dd/MM/yy\"\nfunction getBrisbaneDateString() {\n  const now = new Date();\n  const formatter = new Intl.DateTimeFormat('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    year: '2-digit',\n    month: '2-digit',\n    day: '2-digit',\n  });\n\n  const parts = formatter.formatToParts(now);\n  let day = '01';\n  let month = '01';\n  let year = '00';\n\n  for (const p of parts) {\n    if (p.type === 'day') day = p.value;\n    if (p.type === 'month') month = p.value;\n    if (p.type === 'year') year = p.value;\n  }\n\n  return `${day}/${month}/${year}`;\n}\n\n// Escape string for regex\nfunction escapeRegex(str) {\n  return str.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');\n}\n\n// Get value after a label like \"Label: value\"\nfunction getFieldByLabels(labels) {\n  if (!Array.isArray(labels)) {\n    labels = [labels];\n  }\n\n  for (const label of labels) {\n    const pattern = escapeRegex(label) + '\\\\s*[:\\\\-]?\\\\s*(.+)';\n    const regex = new RegExp(pattern, 'i');\n    const match = ocrText.match(regex);\n    if (match) {\n      return match[1].split('\\n')[0].trim();\n    }\n  }\n\n  return '';\n}\n\n// Get value using a custom regex with (.+) capture\nfunction getFieldByRegex(regex) {\n  const match = ocrText.match(regex);\n  if (match) {\n    return match[1].split('\\n')[0].trim();\n  }\n  return '';\n}\n\nfunction capitalizeWord(w) {\n  if (!w) return '';\n  return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();\n}\n\n// ---- Parse main fields ----\n\n// Name from explicit labels (if they exist)\nlet firstName = getFieldByLabels(['First Name', 'Firstname']);\nlet lastName = getFieldByLabels(['Last Name', 'Surname']);\n\n// Try \"Name\" / \"Full Name\" label\nif (!firstName && !lastName) {\n  const fullNameLabelled = getFieldByLabels(['Name', 'Full Name']);\n  if (fullNameLabelled) {\n    const nameParts = fullNameLabelled.trim().split(/\\s+/);\n    firstName = nameParts[0] || '';\n    lastName = nameParts.slice(1).join(' ') || '';\n  }\n}\n\n// If still no name, try to detect a clean name line like \"Gerard Osmand\"\nif (!firstName && !lastName) {\n  for (const line of lines) {\n    if (!line) continue;\n    // Skip lines with numbers or @ (likely phone/email)\n    if (/[0-9@]/.test(line)) continue;\n    // Skip obvious labels\n    if (/^(mobile|phone|tel|email|address|suburb|state|postcode|postal|enquiry|message|comments|quantity|qty)\\b/i.test(line)) {\n      continue;\n    }\n    // Reasonable length for a name\n    if (line.length > 60) continue;\n\n    const words = line.trim().split(/\\s+/);\n    if (words.length >= 2 && words.length <= 4) {\n      firstName = words[0];\n      lastName = words.slice(1).join(' ');\n      break;\n    }\n  }\n}\n\n// Contact numbers\nlet mobileNumber = getFieldByLabels(['Mobile Number', 'Mobile']);\nlet phoneNumber = getFieldByLabels(['Phone Number', 'Phone']);\n\n// If still empty, try to detect numbers generically\nif (!mobileNumber || !phoneNumber) {\n  const phoneMatches = ocrText.match(/\\+?\\d[\\d\\s\\-\\(\\)]{7,}/g);\n  if (phoneMatches) {\n    if (!mobileNumber && phoneMatches.length > 0) {\n      mobileNumber = phoneMatches[0].trim();\n    }\n    if (!phoneNumber && phoneMatches.length > 1) {\n      phoneNumber = phoneMatches[1].trim();\n    }\n  }\n}\n\n// Email\nlet emailAddress = '';\nconst emailMatch = ocrText.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}/);\nif (emailMatch) {\n  emailAddress = emailMatch[0];\n}\n\n// If we *still* don't have a name, try to infer from email local-part\nif (!firstName && !lastName && emailAddress) {\n  const local = emailAddress.split('@')[0];\n  let parts = local.split(/[._\\-]+/).filter(Boolean);\n\n  if (parts.length >= 2) {\n    firstName = capitalizeWord(parts[0]);\n    lastName = capitalizeWord(parts.slice(1).join(' '));\n  } else if (parts.length === 1) {\n    const s = parts[0];\n    if (s.length > 3) {\n      const mid = Math.floor(s.length / 2);\n      firstName = capitalizeWord(s.slice(0, mid));\n      lastName = capitalizeWord(s.slice(mid));\n    }\n  }\n}\n\n// ---- Address (with breakdown) ----\nlet address = getFieldByLabels(['Address', 'Street Address']);\n\n// If there is no labelled address, try to detect a line like \"11224 Pacific Pde Billinga\"\nif (!address) {\n  for (const line of lines) {\n    if (!line) continue;\n\n    const hasLetters = /[A-Za-z]/.test(line);\n    const hasDigits = /\\d/.test(line);\n\n    // Need both letters and digits to look like an address\n    if (!hasLetters || !hasDigits) continue;\n\n    // Skip obvious non-address labels\n    if (/^(mobile|phone|tel|email|suburb|state|postcode|postal|enquiry|message|comments|quantity|qty)\\b/i.test(line)) {\n      continue;\n    }\n\n    // Skip email-looking lines\n    if (/@/.test(line)) continue;\n\n    // Skip lines that are mostly digits with almost no spaces (very phone-ish)\n    const digitsInLine = (line.match(/\\d/g) || []).length;\n    if (digitsInLine >= 7 && line.replace(/\\d/g, '').trim().length < 5) {\n      continue;\n    }\n\n    // This is likely an address line\n    address = line;\n    break;\n  }\n}\n\nlet suburb = '';       // will also be filled later by other logic if needed\nlet postalCode = '';   // same\n\n// If we have an address line, try to split into Address + Suburb + Postal Code\nif (address) {\n  const parts = address.split(/\\s+/).filter(Boolean);\n  const streetTypeRegex = /^(st|st\\.|street|rd|rd\\.|road|ave|av|avenue|pde|parade|ct|cres|circuit|pl|pl\\.|ln|lane|hwy|highway|blvd|terrace|tce)$/i;\n\n  // Find last street-type word index\n  let streetTypeIndex = -1;\n  for (let i = 0; i < parts.length; i++) {\n    if (streetTypeRegex.test(parts[i])) {\n      streetTypeIndex = i;\n    }\n  }\n\n  // Find postcode candidate in address line (4-digit token near the end)\n  let pcIndex = -1;\n  for (let i = parts.length - 1; i >= 0; i--) {\n    if (/^\\d{4}$/.test(parts[i])) {\n      pcIndex = i;\n      break;\n    }\n  }\n\n  // Street portion (Address)\n  let streetPart = address;\n  if (streetTypeIndex !== -1) {\n    streetPart = parts.slice(0, streetTypeIndex + 1).join(' ');\n  } else if (pcIndex > 1) {\n    // If no street type but postcode exists, assume everything before suburb and pc is street\n    streetPart = parts.slice(0, pcIndex - 1).join(' ');\n  }\n\n  // Suburb & Postal Code from address line\n  let suburbCandidate = '';\n  let postalCandidate = '';\n\n  if (pcIndex !== -1) {\n    postalCandidate = parts[pcIndex];\n\n    let startSuburbIdx;\n    if (streetTypeIndex !== -1 && streetTypeIndex < pcIndex) {\n      startSuburbIdx = streetTypeIndex + 1;\n    } else {\n      startSuburbIdx = Math.max(1, pcIndex - 1);\n    }\n    const suburbParts = parts.slice(startSuburbIdx, pcIndex);\n    if (suburbParts.length > 0) {\n      suburbCandidate = suburbParts.map(capitalizeWord).join(' ');\n    }\n  } else {\n    // No explicit postcode on this line – try to take everything after the street type as suburb\n    if (streetTypeIndex !== -1 && streetTypeIndex < parts.length - 1) {\n      const suburbParts = parts.slice(streetTypeIndex + 1);\n      if (suburbParts.length > 0) {\n        suburbCandidate = suburbParts.map(capitalizeWord).join(' ');\n      }\n    }\n  }\n\n  // Assign parsed values if we got them\n  if (streetPart) {\n    address = streetPart;\n  }\n  if (suburbCandidate) {\n    suburb = suburbCandidate;\n  }\n  if (postalCandidate) {\n    postalCode = postalCandidate;\n  }\n}\n\n// ---- State / Suburb / Postal from the whole text (fill gaps only) ----\nlet state = getFieldByLabels(['State']) || '';\n\nif (!state || !postalCode || !suburb) {\n  const stateRegex = /\\b(QLD|NSW|VIC|SA|WA|TAS|ACT|NT)\\b/i;\n  for (const line of lines) {\n    const sm = line.match(stateRegex);\n    if (sm) {\n      if (!state) {\n        state = sm[1].toUpperCase();\n      }\n      if (!postalCode) {\n        const pcm = line.match(/\\b\\d{4}\\b/);\n        if (pcm) {\n          postalCode = pcm[0];\n        }\n      }\n      if (!suburb) {\n        let cleaned = line;\n        cleaned = cleaned.replace(stateRegex, '');\n        if (postalCode) {\n          cleaned = cleaned.replace(postalCode, '');\n        }\n        const s = cleaned.trim().replace(/,\\s*$/, '');\n        if (s) {\n          suburb = s\n            .split(/\\s+/)\n            .map(capitalizeWord)\n            .join(' ');\n        }\n      }\n      break;\n    }\n  }\n\n  // Fallback postal code (any 4-digit number from a line that is NOT clearly a phone line)\n  if (!postalCode) {\n    for (const line of lines) {\n      const digitsInLine = (line.match(/\\d/g) || []).length;\n      // Skip lines that have many digits (likely phone numbers like \"0418 643 667\")\n      if (digitsInLine >= 7) continue;\n\n      const pcm = line.match(/\\b\\d{4}\\b/);\n      if (pcm) {\n        postalCode = pcm[0];\n        break;\n      }\n    }\n  }\n}\n\n// Enquiry / message\nlet enquiry = getFieldByLabels(['Enquiry', 'Message', 'Details', 'Comments']);\n\n// Quantity\nlet quantityRaw = getFieldByLabels(['Quantity', 'Qty', 'Number of Items', 'Panels']);\nlet quantity = '';\nif (quantityRaw) {\n  const qm = quantityRaw.match(/\\d+/);\n  if (qm) {\n    quantity = qm[0];\n  }\n}\n\n// I'd Like To Get My Project Underway\nlet projectUnderway = getFieldByRegex(/I['’]d Like To Get My Project Underway\\s*[:\\-]?\\s*(.+)/i);\nif (!projectUnderway) {\n  projectUnderway = getFieldByLabels([\n    \"I'd Like To Get My Project Underway\",\n    'Timeframe',\n    'When are you looking to start?',\n  ]);\n}\n\n// How they heard about us\nlet heardAboutUs = getFieldByLabels([\n  'How they heard about us',\n  'How did you hear about us',\n  'Hear about us',\n  'How did you find us',\n]);\n\n// Referred By – prefer label, else technician names in text\nlet referredBy = getFieldByLabels(['Referred By', 'Referral Name', 'Referred by']);\n\nconst techNames = ['Paul', 'Rhys', 'Chris', 'Jimmy', 'Phil', 'Cody'];\n\nif (!referredBy) {\n  const lowerText = ocrText.toLowerCase();\n  for (const name of techNames) {\n    if (lowerText.includes(name.toLowerCase())) {\n      referredBy = name;\n      break;\n    }\n  }\n}\n\n// ---- Build output ----\n\nconst output = {\n  Timestamp: getBrisbaneDateString(),\n  Id: discordId,\n  'Lead Type': 'Referral',\n  'First Name': firstName || '',\n  'Last Name': lastName || '',\n  'Mobile Number': mobileNumber || '',\n  'Phone Number': phoneNumber || '',\n  'Email Address': emailAddress || '',\n  Address: address || '',\n  State: state || '',\n  Suburb: suburb || '',\n  'Postal Code': postalCode || '',\n  Enquiry: enquiry || '',\n  Quantity: quantity || '',\n  \"I’d Like To Get My Project Underway\": projectUnderway || '',\n  'How they heard about us': heardAboutUs || '',\n  'Lead Qualifier': 'Good',\n  'Referred By': referredBy || '',\n};\n\nreturn [\n  {\n    json: output,\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -272
+      ],
+      "id": "a8e2fc4f-df94-4676-aab2-fc56f834b107",
+      "name": "Parse Text"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+          "mode": "list",
+          "cachedResultName": "Leads Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "raw",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.Timestamp }}",
+            "Id": "={{ $json.Id }}",
+            "Lead Type": "={{ $json['Lead Type'] }}",
+            "First Name": "={{ $json['First Name'] }}",
+            "Last Name": "={{ $json['Last Name'] }}",
+            "Mobile Number": "={{ $json['Mobile Number'] }}",
+            "Email Address": "={{ $json['Email Address'] }}",
+            "Phone Number": "={{ $json['Phone Number'] }}",
+            "Address": "={{ $json.Address }}",
+            "State": "={{ $json.State }}",
+            "Postal Code": "={{ $json['Postal Code'] }}",
+            "Suburb": "={{ $json.Suburb }}",
+            "Enquiry": "={{ $json.Enquiry }}",
+            "Quantity": "={{ $json.Quantity }}",
+            "I’d Like To Get My Project Underway": "={{ $json['I’d Like To Get My Project Underway'] }}",
+            "How they heard about us": "={{ $json['How they heard about us'] }}",
+            "Lead Qualifier": "={{ $json['Lead Qualifier'] }}",
+            "Referred By": "={{ $json['Referred By'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Type",
+              "displayName": "Lead Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "State",
+              "displayName": "State",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Suburb",
+              "displayName": "Suburb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Postal Code",
+              "displayName": "Postal Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Enquiry",
+              "displayName": "Enquiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "I’d Like To Get My Project Underway",
+              "displayName": "I’d Like To Get My Project Underway",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "How they heard about us",
+              "displayName": "How they heard about us",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Qualifier",
+              "displayName": "Lead Qualifier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Referred By",
+              "displayName": "Referred By",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        576,
+        -272
+      ],
+      "id": "c4c3330d-0f75-440e-b2b1-fc698dc97784",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ 'lead-' + $now.setZone('Australia/Brisbane').toFormat('dd-MM-yy') }}\n\n",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1nfOvAb06F8r_K8K_kHUPquGbtS3bEqNO",
+          "mode": "list",
+          "cachedResultName": "Lead Referrals",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1nfOvAb06F8r_K8K_kHUPquGbtS3bEqNO"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1024,
+        -272
+      ],
+      "id": "eacf398b-cae5-41bb-8a92-97215ba01b58",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cO0NLqiTRlyGeXAH",
+          "name": "WR: Google Drive Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Discord Trigger').item.json.attachments[0].attachment }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        800,
+        -272
+      ],
+      "id": "e2ec079a-7a92-46d9-9551-be5ff9a92db9",
+      "name": "Download Image1"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger').item.json.channelId }}",
+          "mode": "id"
+        },
+        "content": "Uploaded photos record",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        -272
+      ],
+      "id": "2d89e643-f526-4ab5-940a-1829ecfbb49d",
+      "name": "Send a message",
+      "webhookId": "cffddd91-b0f3-41a5-91a8-74a33782c5c9",
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "Analyze Image Using OCR api",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Image Using OCR api": {
+      "main": [
+        [
+          {
+            "node": "Parse Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Text": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Download Image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image1": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8139a621-d8e5-4442-9eed-ac408c79f63d",
+  "activeVersionId": null,
+  "versionCounter": 26,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-11-19T00:10:38.101Z",
+      "createdAt": "2025-11-19T00:10:38.101Z",
+      "role": "workflow:owner",
+      "workflowId": "WFulPUNTXXpN0Fai",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}
