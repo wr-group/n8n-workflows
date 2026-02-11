@@ -1,0 +1,3673 @@
+{
+  "updatedAt": "2025-12-31T10:46:00.580Z",
+  "createdAt": "2025-12-16T12:11:38.554Z",
+  "id": "Uzlh3DdUzfoqEMye",
+  "name": "06. Missed Calls & VMs -PW",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1675312005,
+          "mode": "list",
+          "cachedResultName": "Missed Calls & VMs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1675312005"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        224
+      ],
+      "id": "e06a9fff-9890-4e98-b9dc-0109208a3190",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "X6hUNZyYXuyFC9wd",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{\n  (\n    $json.Trigger === \"Create Lead\"\n    && String($json.googlesheet_id ?? \"\").trim() !== \"\"\n    && (\n      $json.Response == null\n      || (typeof $json.Response === \"string\" && $json.Response.trim() === \"\")\n      || (Array.isArray($json.Response) && $json.Response.length === 0)\n    )\n  ) ? 1 : 0\n}}\n",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "3683f2c0-5aea-4a98-8e09-2d2bc78d4be1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create Lead"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "88954350-2dee-4517-af76-2e86fdaf2fa7",
+                    "leftValue": "={{\n  (\n    $json.Trigger === \"Search\"\n    && String($json.googlesheet_id ?? \"\").trim() !== \"\"\n    && (\n      $json.Response == null\n      || (typeof $json.Response === \"string\" && $json.Response.trim() === \"\")\n      || (Array.isArray($json.Response) && $json.Response.length === 0)\n    )\n  ) ? 1 : 0\n}}\n",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Search"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4cb5c1df-0b7e-4075-b319-53e7120ade73",
+                    "leftValue": "={{\n  (\n    $json.Trigger === \"Create Comment\"\n    && String($json.googlesheet_id ?? \"\").trim() !== \"\"\n    && (\n      $json.Response == null\n      || (typeof $json.Response === \"string\" && $json.Response.trim() === \"\")\n      || (Array.isArray($json.Response) && $json.Response.length === 0)\n    )\n  ) ? 1 : 0\n}}\n",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create Comment"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        96,
+        208
+      ],
+      "id": "02d10f32-179e-42df-9443-4b69c504c4d4",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+          "mode": "list",
+          "cachedResultName": "Leads Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "raw",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.dateFormatted }}",
+            "Id": "={{ $json.googlesheet_id }}",
+            "Lead Type": "={{ $json.leadType }}",
+            "First Name": "={{ $json.contactFirstName }}",
+            "Last Name": "={{ $json.contactLastName }}",
+            "Mobile Number": "={{ $json.mobileNumber }}",
+            "Email Address": "={{ $json.email }}",
+            "Address": "={{ $json.streetAddress }}",
+            "State": "={{ $json.state }}",
+            "Postal Code": "={{ $json.postalCode }}",
+            "Suburb": "={{ $json.suburb }}",
+            "Phone Number": "={{ $json.phoneNumber }}",
+            "Enquiry": "={{ $json.enquiryDetails }}",
+            "How they heard about us": "={{ $json.howDidYouHearAboutUs }}",
+            "Referred By": "={{ $json.referredBy }}",
+            "Lead Qualifier": "={{ $json.leadQualifier }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Type",
+              "displayName": "Lead Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "State",
+              "displayName": "State",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Suburb",
+              "displayName": "Suburb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Postal Code",
+              "displayName": "Postal Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Enquiry",
+              "displayName": "Enquiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "I’d Like To Get My Project Underway",
+              "displayName": "I’d Like To Get My Project Underway",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "How they heard about us",
+              "displayName": "How they heard about us",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Qualifier",
+              "displayName": "Lead Qualifier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Referred By",
+              "displayName": "Referred By",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        944,
+        -208
+      ],
+      "id": "f3a586a8-2d3e-47f1-a0d7-760cfb14d859",
+      "name": "Append record to Leads Logs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1216,
+        -16
+      ],
+      "id": "1fb9ca87-eee5-40fb-a499-5650679d717d",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1664,
+        -16
+      ],
+      "id": "77a3d70a-d0d2-40a2-939c-fb99c9ddabe7",
+      "name": "Wait1",
+      "webhookId": "e0e40d3b-76d1-47b8-bea6-c1b78c20912c"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Map Discord name -> Discord Id\nconst discordIdByName = {\n  \"Jon Martinez\": \"438891298708127754\",\n  \"Ray Santa Agata\": \"335993132372066316\",\n  \"Don Puerto\": \"325664446103945217\",\n  \"Jenny Martinez\": \"741976774283493427\",\n  \"Larry Efe\": \"779992712253407252\",\n  \"Rod Penanueva\": \"878089515862999120\",\n  \"Brian Bustamante\": \"993685671262822440\",\n  \"Amie Tagabe\": \"1428522538723447076\",\n  \"Andrew Palencia\": \"1062615267303243817\",\n  \"Christine Kam\": \"534480983098130483\",\n};\n\n// Aliases (if sheet uses shortened names)\nconst nameAliases = {\n  \"Amie\": \"Amie Tagabe\",\n};\n\n// Strings that mean \"no selection\"\nconst NO_SELECTION = new Set([\n  \"\",\n  \"please select\",\n  \"please-select\",\n  \"select\",\n  \"n/a\",\n  \"na\",\n  \"none\",\n  \"null\",\n]);\n\nfunction isNoSelection(v) {\n  const s = String(v ?? \"\").trim().toLowerCase();\n  return NO_SELECTION.has(s);\n}\n\n// Normalize any notify input (string/array/comma-separated) -> array of names\nfunction normalizeNotifyNames(raw) {\n  if (raw == null) return [];\n\n  // If the cell is \"Please Select\", treat as empty\n  if (isNoSelection(raw)) return [];\n\n  const arr = Array.isArray(raw) ? raw : [raw];\n\n  return arr\n    .flatMap(x => String(x).split(','))\n    .map(s => s.trim())\n    .filter(s => s && !isNoSelection(s)); // also filters \"Please Select\" inside comma lists\n}\n\nfunction toDiscordName(name) {\n  const cleaned = String(name || \"\").trim();\n  return nameAliases[cleaned] || cleaned;\n}\n\nreturn items.map(item => {\n  const j = item.json;\n\n  // CSR discord id\n  const csrRaw = String(j.CSR ?? \"\").trim();\n  const csrDiscordName = toDiscordName(csrRaw);\n  const csrDiscordId = discordIdByName[csrDiscordName] || null;\n\n  // Column F \"notify\" (already mapped into j.notify by your Google Sheets node)\n  const notifyNames = normalizeNotifyNames(j.notify);\n\n  // ✅ If you want CSR auto-added ONLY when notify is a real person, keep this:\n  // (If you DON'T want CSR auto-added at all, comment this out.)\n  if (notifyNames.length > 0 && csrRaw) notifyNames.push(csrRaw);\n\n  // de-dupe by name (case-insensitive)\n  const seen = new Set();\n  const notifyUnique = notifyNames.filter(n => {\n    const key = n.toLowerCase();\n    if (seen.has(key)) return false;\n    seen.add(key);\n    return true;\n  });\n\n  const notify = notifyUnique.map(name => {\n    const discordName = toDiscordName(name);\n    return {\n      name,\n      id: discordIdByName[discordName] || null,\n    };\n  });\n\n  // ✅ Use this in an IF node to decide whether to run the next node\n  const shouldNotify = notify.length > 0;\n\n  return {\n    json: {\n      CSR: j.CSR ?? null,\n      csrDiscordId,\n      leadType: j.leadType ?? null,\n      howDidYouHearAboutUs: j.howDidYouHearAboutUs ?? null,\n      contactFirstName: j.contactFirstName ?? null,\n      contactLastName: j.contactLastName ?? null,\n      contactJobTitle: j.contactJobTitle ?? null,\n      email: j.email ?? null,\n      mobileNumber: j.mobileNumber ?? null,\n      phoneNumber: j.phoneNumber ?? null,\n      streetAddress: j.streetAddress ?? null,\n      suburb: j.suburb ?? null,\n      state: j.state ?? null,\n      postalCode: j.postalCode ?? null,\n      enquiryDetails: j.enquiryDetails ?? null,\n      productInterest: j.productInterest ?? null,\n      salesPipeline: j.salesPipeline ?? null,\n\n      notify,         // [{name, id}, ...]\n      shouldNotify,   // true if notify contains a real person\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        768,
+        -16
+      ],
+      "id": "adf34663-bf54-4b7f-8fa2-fa7bb1338a32",
+      "name": "Notify CSR"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "TDvWgyYlFtUOtmZt",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/TDvWgyYlFtUOtmZt",
+          "cachedResultName": "06. Missed Calls & VMs -SW"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        -192
+      ],
+      "id": "cd58d8d1-e295-4915-ac71-8a26e3623728",
+      "name": "Call '06. Missed Calls & VMs -SW'"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"first_name\": \"{{$json.contactFirstName}}\",\n  \"last_name\": \"{{$json.contactLastName}}\",\n  \"email\": \"{{$json.email}}\",\n  \"home_phone\": \"\",\n  \"work_phone\": \"{{$json.phoneNumber}}\",\n  \"mobile\": \"{{$json.mobileNumber}}\",\n  \"street\": \"{{$json.streetAddress}}\",\n  \"suburb\": \"{{$json.suburb}}\",\n  \"state\": \"{{$json.state}}\",\n  \"postal\": \"{{$json.postalCode}}\",\n  \"longitude\": 0,\n  \"latitude\": 0,\n  \"company\": 0,\n  \"lead_source\": 9,\n  \"job_title\": \"{{$json.contactJobTitle}}\",\n  \"other_contact_details\": \"\",\n  \"google_keyword\": \"\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        768,
+        -688
+      ],
+      "id": "ded63a6c-1895-4b4a-927d-c9b0bed1b390",
+      "name": "Create Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/opportunities/create",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"contact_id\" : \"{{ $json.contact_id }}\",\n    \"lead_source\" : 9,\n    \"pipeline\" : 53,\n    \"product_interest\" : \"{{ $json.productInterest }}\",\n    \"description\" : \". Goodbye.\",\n    \"next_action\" : \"\",\n    \"action_date\" : \"\",\n    \"owner_id\" : 25,\n    \"status\" : 1,\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.streetAddress }}\",\n    \"suburb\" : 2,\n    \"state\" : 1,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"revenue\" : 0,\n    \"chance\" : 50,\n    \"call_result\" : 2,\n    \"contact_name\" : \"{{ $json.contactFirstName }} {{ $json.contactLastName }}\",\n    \"email\" : \"{{ $json.email }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1440,
+        -624
+      ],
+      "id": "bd6951d8-78a5-4797-b68e-8ed0ea6bce26",
+      "name": "Create Opportunity",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n// Parses: $json.data (JSON string)\n// Outputs: status, success, contact_id\n\nreturn items.map((item) => {\n  const raw = item.json.data;\n\n  if (typeof raw !== 'string' || !raw.trim()) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: 'Missing or invalid \"data\" field (expected JSON string).',\n      },\n    };\n  }\n\n  try {\n    const parsed = JSON.parse(raw);\n\n    return {\n      json: {\n        status: parsed?.status ?? null,\n        success: parsed?.data?.success ?? null,\n        contact_id: parsed?.data?.data?.id ?? null,\n      },\n    };\n  } catch (err) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: `Failed to parse JSON in \"data\": ${err.message}`,\n      },\n    };\n  }\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        -688
+      ],
+      "id": "fd8e6671-5769-41fd-be66-fa40db66c50d",
+      "name": "Parse field after creating Contact"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "518539db-0a0c-4df0-a874-910aab86ce04",
+              "leftValue": "={{ $json.shouldNotify }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        992,
+        -16
+      ],
+      "id": "783cc5cf-6901-4da0-bc49-0322a1bc1995",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1216,
+        -624
+      ],
+      "id": "76924e07-3aa2-4641-9865-77678dada86c",
+      "name": "Merge Contact Id and Input Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n\n// ---- Helpers ----\n\nfunction inferHowDidYouHear(textLower) {\n  if (textLower.includes('hipages')) return 'HiPages Lead';\n  if (textLower.includes('facebook')) return 'Facebook';\n  if (textLower.includes('instagram')) return 'Instagram';\n  if (textLower.includes('youtube')) return 'Youtube';\n  if (textLower.includes('sdr website')) return 'SDR website';\n  if (textLower.includes('wr.net')) return 'WR.net Website';\n  if (textLower.includes('wr.com')) return 'WR.com website';\n  if (textLower.includes('real estate') || textLower.includes('property manager')) {\n    return 'Real Estate Property Managers';\n  }\n  if (textLower.includes('flyer')) return 'Flyers';\n  if (textLower.includes('sticker')) return 'Stickers';\n  if (textLower.includes('referral') || textLower.includes('referal')) return 'Referral';\n  if (textLower.includes('inbound')) return 'Inbound Lead';\n  return 'Google';\n}\n\nfunction normalizeProductInterest(raw) {\n  if (!raw) return 'Repairs';\n  const text = raw.toLowerCase();\n  if (text.includes('window painting')) return 'Window Painting';\n  if (text.includes('new screen')) return 'New Screen';\n  if (text.includes('glass replacement')) return 'Glass Replacement';\n  if (text.includes('repair')) return 'Repairs';\n  return 'Repairs';\n}\n\nfunction extractAfterLabel(text, label) {\n  const idx = text.indexOf(label);\n  if (idx === -1) return '';\n  const after = text.slice(idx + label.length);\n  return after.split('\\n')[0].trim();\n}\n\nfunction extractBetweenLabels(text, startLabel, endLabel) {\n  const startIdx = text.indexOf(startLabel);\n  if (startIdx === -1) return '';\n  const fromStart = text.slice(startIdx + startLabel.length);\n  if (!endLabel) return fromStart.trim();\n  const endIdx = fromStart.indexOf(endLabel);\n  return endIdx === -1 ? fromStart.trim() : fromStart.slice(0, endIdx).trim();\n}\n\nfunction parseAddress(addressRaw) {\n  if (!addressRaw) {\n    return {\n      streetAddress: null,\n      suburb: null,\n      postalCode: null,\n      state: null,\n      addressDescription: null,\n    };\n  }\n\n  let addr = addressRaw.replace(/\\s+/g, ' ').trim();\n  let streetAddress = null,\n    suburb = null,\n    postalCode = null,\n    state = null,\n    addressDescription = null;\n\n  const postMatch = addr.match(/(\\d{4})(?:\\b|$)/);\n  if (postMatch) {\n    postalCode = postMatch[1];\n    addr = addr.replace(postMatch[0], '').trim();\n  }\n\n  const stateMatch = addr.match(/\\b(QLD|NSW|VIC|WA|SA|TAS|ACT|NT)\\b/i);\n  if (stateMatch) {\n    state = stateMatch[1].toUpperCase();\n    addr = addr.replace(stateMatch[0], '').trim();\n  }\n\n  if (addr.includes(',')) {\n    const parts = addr.split(',').map(p => p.trim()).filter(Boolean);\n    if (/\\d/.test(parts[0])) {\n      streetAddress = parts[0];\n      suburb = parts[1] || null;\n      if (parts.length > 2) addressDescription = parts.slice(2).join(', ');\n    } else {\n      suburb = parts[0];\n      if (parts.length > 1) addressDescription = parts.slice(1).join(', ');\n    }\n  } else {\n    suburb = addr || null;\n  }\n\n  return { streetAddress, suburb, postalCode, state, addressDescription };\n}\n\nfunction formatNowBrisbane() {\n  const now = new Date();\n  const dateStr = now.toLocaleDateString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n  });\n\n  const timeStr = now.toLocaleTimeString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  });\n\n  return `${dateStr}, ${timeStr}`;\n}\n\nfunction formatAuPhone(raw) {\n  if (!raw) return null;\n  let digits = String(raw).replace(/\\D/g, '');\n  if (!digits) return null;\n  if (digits.length === 9 && digits.startsWith('4')) digits = '0' + digits;\n  if (digits.length === 10 && digits.startsWith('04'))\n    return `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7)}`;\n  if (digits.length === 10 && digits.startsWith('0'))\n    return `${digits.slice(0, 2)} ${digits.slice(2, 6)} ${digits.slice(6)}`;\n  return digits;\n}\n\nfunction splitContactName(fullName) {\n  if (!fullName) return { contactFirstName: null, contactLastName: null };\n\n  const cleaned = String(fullName).replace(/\\s+/g, ' ').trim();\n  if (!cleaned) return { contactFirstName: null, contactLastName: null };\n\n  const parts = cleaned.split(' ').filter(Boolean);\n\n  if (parts.length === 1) {\n    return { contactFirstName: parts[0], contactLastName: null };\n  }\n\n  return {\n    contactFirstName: parts[0],\n    contactLastName: parts.slice(1).join(' '),\n  };\n}\n\nfunction normalizeLeadType(raw) {\n  const t = String(raw || '').replace(/\\s+/g, ' ').trim();\n  if (!t) return null;\n\n  const low = t.toLowerCase();\n  if (low.includes('missed call')) return 'Missed call Lead';\n  if (low.includes('voicemail')) return 'Voicemail Lead';\n  return t;\n}\n\n// ---- GLOBAL CSR (from previous node) ----\nconst CSR_VALUE = $input.first().json.CSR || null;\n\n// ✅ Normalize Search Result (empty sheet cell -> null)\nconst rawSearchResult = $input.first().json[\"Search Result\"];\nconst SEARCH_RESULT_VALUE =\n  rawSearchResult == null ||\n  (typeof rawSearchResult === \"string\" && rawSearchResult.trim() === \"\")\n    ? null\n    : rawSearchResult;\n\n// ---- Main mapping ----\n\nconst newItems = items.map((item) => {\n  const row = item.json;\n  const contactText = row.Contact || '';\n\n  // Lead Type\n  const leadTypeRaw = extractAfterLabel(contactText, 'Lead Type:');\n  const leadType = normalizeLeadType(leadTypeRaw);\n\n  // Contact name\n  const contactName = extractAfterLabel(contactText, 'Contact Name:');\n  let { contactFirstName, contactLastName } = splitContactName(contactName);\n  if (!contactFirstName) contactFirstName = 'no name';\n\n  // Other fields\n  const contactJobTitle = extractAfterLabel(contactText, 'Contact Job Title:');\n  const addressRaw = extractAfterLabel(contactText, 'Address:');\n  const email = extractAfterLabel(contactText, 'Email:');\n  const mobileRaw = extractAfterLabel(contactText, 'Mobile Number:');\n  const phoneRaw = extractAfterLabel(contactText, 'Phone Number:');\n  const referredByRaw = extractAfterLabel(contactText, 'Referred By:');\n\n  const enquiryDetails = extractBetweenLabels(\n    contactText,\n    'Enquiry Details:',\n    'How did you hear about us?'\n  );\n\n  const howDidRaw = extractBetweenLabels(\n    contactText,\n    'How did you hear about us?',\n    'Product Interest:'\n  );\n\n  const productRaw = extractBetweenLabels(\n    contactText,\n    'Product Interest:',\n    'Sales Pipeline:'\n  );\n\n  const salesPipelineFromText = extractAfterLabel(contactText, 'Sales Pipeline:');\n\n  const salesPipeline =\n    String(leadType || '').toLowerCase().includes('missed call')\n      ? 'WC&L VM-Inbound Call'\n      : (salesPipelineFromText || null);\n\n  // ✅ Normalize Notify → always array\n  let notify = [];\n  if (Array.isArray(row.Notify)) {\n    notify = row.Notify.filter(Boolean);\n  } else if (row.Notify) {\n    notify = [row.Notify];\n  }\n\n  const { streetAddress, suburb, postalCode, state, addressDescription } =\n    parseAddress(addressRaw);\n\n  return {\n    json: {\n      googlesheet_id: row.Id || null,\n\n      // ✅ CONFIRMED / ADDED\n      Trigger: row.Trigger || null,\n      Response: row.Response || null,\n\n      // ✅ Search Result (empty -> null)\n      \"Search Result\": SEARCH_RESULT_VALUE,\n\n      dateRaw: Date.now(),\n      dateFormatted: formatNowBrisbane(),\n\n      CSR: CSR_VALUE,\n\n      leadQualifier: 'Good',\n      leadType,\n      howDidYouHearAboutUs: inferHowDidYouHear((howDidRaw || '').toLowerCase()),\n      referredBy: referredByRaw || null,\n\n      contactFirstName,\n      contactLastName,\n      contactJobTitle: contactJobTitle || null,\n\n      email: email || null,\n      mobileNumber: formatAuPhone(mobileRaw),\n      phoneNumber: formatAuPhone(phoneRaw),\n\n      streetAddress,\n      suburb,\n      state,\n      postalCode,\n      addressDescription,\n\n      enquiryDetails: enquiryDetails || null,\n      productInterest: normalizeProductInterest(productRaw),\n      salesPipeline,\n\n      notify,\n    }\n  };\n});\n\nreturn newItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        224
+      ],
+      "id": "b7002443-31b5-49ef-abe2-95016d7c3ff2",
+      "name": "Parse Raw Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+              "name": "googlesheet_id",
+              "value": "={{ $json.googlesheet_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+              "name": "dateFormatted",
+              "value": "={{ $json.dateFormatted }}",
+              "type": "string"
+            },
+            {
+              "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+              "name": "CSR",
+              "value": "={{ $json.CSR }}",
+              "type": "string"
+            },
+            {
+              "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+              "name": "leadQualifier",
+              "value": "={{ $json.leadQualifier }}",
+              "type": "string"
+            },
+            {
+              "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+              "name": "leadType",
+              "value": "={{ $json.leadType }}",
+              "type": "string"
+            },
+            {
+              "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+              "name": "referredBy",
+              "value": "={{ $json.referredBy }}",
+              "type": "string"
+            },
+            {
+              "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+              "name": "contactFirstName",
+              "value": "={{ $json.contactFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+              "name": "contactLastName",
+              "value": "={{ $json.contactLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+              "name": "addressDescription",
+              "value": "={{ $json.addressDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+              "name": "enquiryDetails",
+              "value": "={{ $json.enquiryDetails }}",
+              "type": "string"
+            },
+            {
+              "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+              "name": "productInterest",
+              "value": "={{ $json.productInterest }}",
+              "type": "string"
+            },
+            {
+              "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+              "name": "salesPipeline",
+              "value": "={{ $json.salesPipeline }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        224
+      ],
+      "id": "aac73657-35d6-4fed-834b-e6936523e5f2",
+      "name": "Set Search Field"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+              "name": "googlesheet_id",
+              "value": "={{ $json.googlesheet_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+              "name": "dateFormatted",
+              "value": "={{ $json.dateFormatted }}",
+              "type": "string"
+            },
+            {
+              "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+              "name": "CSR",
+              "value": "={{ $json.CSR }}",
+              "type": "string"
+            },
+            {
+              "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+              "name": "leadQualifier",
+              "value": "={{ $json.leadQualifier }}",
+              "type": "string"
+            },
+            {
+              "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+              "name": "leadType",
+              "value": "={{ $json.leadType }}",
+              "type": "string"
+            },
+            {
+              "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+              "name": "referredBy",
+              "value": "={{ $json.referredBy }}",
+              "type": "string"
+            },
+            {
+              "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+              "name": "contactFirstName",
+              "value": "={{ $json.contactFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+              "name": "contactLastName",
+              "value": "={{ $json.contactLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+              "name": "addressDescription",
+              "value": "={{ $json.addressDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+              "name": "enquiryDetails",
+              "value": "={{ $json.enquiryDetails }}",
+              "type": "string"
+            },
+            {
+              "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+              "name": "productInterest",
+              "value": "={{ $json.productInterest }}",
+              "type": "string"
+            },
+            {
+              "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+              "name": "salesPipeline",
+              "value": "={{ $json.salesPipeline }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        -400
+      ],
+      "id": "0640b0e7-3063-4a53-aa04-5176bd8168e3",
+      "name": "Set Contact Field"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+              "name": "googlesheet_id",
+              "value": "={{ $json.googlesheet_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+              "name": "dateFormatted",
+              "value": "={{ $json.dateFormatted }}",
+              "type": "string"
+            },
+            {
+              "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+              "name": "CSR",
+              "value": "={{ $json.CSR }}",
+              "type": "string"
+            },
+            {
+              "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+              "name": "leadQualifier",
+              "value": "={{ $json.leadQualifier }}",
+              "type": "string"
+            },
+            {
+              "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+              "name": "leadType",
+              "value": "={{ $json.leadType }}",
+              "type": "string"
+            },
+            {
+              "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+              "name": "referredBy",
+              "value": "={{ $json.referredBy }}",
+              "type": "string"
+            },
+            {
+              "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+              "name": "contactFirstName",
+              "value": "={{ $json.contactFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+              "name": "contactLastName",
+              "value": "={{ $json.contactLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+              "name": "addressDescription",
+              "value": "={{ $json.addressDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+              "name": "enquiryDetails",
+              "value": "={{ $json.enquiryDetails }}",
+              "type": "string"
+            },
+            {
+              "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+              "name": "productInterest",
+              "value": "={{ $json.productInterest }}",
+              "type": "string"
+            },
+            {
+              "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+              "name": "salesPipeline",
+              "value": "={{ $json.salesPipeline }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        416
+      ],
+      "id": "2566bff2-74d9-45c6-86f2-68bb628472c2",
+      "name": "Set Comment Field"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        -400
+      ],
+      "id": "5c26e4c3-e3e5-415f-a528-41e9d1dff9e0",
+      "name": "Contact Wait ",
+      "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        224
+      ],
+      "id": "62508c00-e9bb-41d2-bc96-75b961c7df6d",
+      "name": "Search Wait",
+      "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+    },
+    {
+      "parameters": {
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/search?q=86921&type=contact",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.candidates.q }}"
+            },
+            {
+              "name": "type",
+              "value": "contact"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1216,
+        224
+      ],
+      "id": "c29e425e-43c6-4a68-86af-ab1f470f0940",
+      "name": "Search Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function node\n\nconst candidates = [];\n\nconst clean = (v) => String(v ?? \"\").trim();\n\nconst normalizeAuNumber9 = (v) => {\n  let digits = clean(v).replace(/\\D/g, \"\"); // keep digits only\n  if (!digits) return \"\";\n\n  // Remove common AU prefixes\n  if (digits.startsWith(\"61\")) digits = digits.slice(2); // +61 / 61\n  if (digits.startsWith(\"0\")) digits = digits.slice(1);  // 04.. or 02.. etc\n\n  // Force to last 9 digits (mobile/landline after removing 0 is typically 9 digits)\n  if (digits.length > 9) digits = digits.slice(-9);\n\n  return digits;\n};\n\n// Email candidate (as-is)\nif (clean($json.email)) {\n  candidates.push({ q: clean($json.email), by: \"email\" });\n}\n\n// Mobile candidate (normalized to 9 digits)\nconst mobile9 = normalizeAuNumber9($json.mobileNumber);\nif (mobile9) {\n  candidates.push({ q: mobile9, by: \"mobile\" });\n}\n\n// Phone candidate (normalized to 9 digits)\nconst phone9 = normalizeAuNumber9($json.phoneNumber);\nif (phone9) {\n  candidates.push({ q: phone9, by: \"phone\" });\n}\n\nreturn [{ ...$json, candidates, found: false }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        768,
+        224
+      ],
+      "id": "508b9a17-aa70-4104-ba47-30726974a940",
+      "name": "Search by Email, Mobile, Phone"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "candidates",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "googlesheet_id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        992,
+        224
+      ],
+      "id": "40c0c3fa-6c05-4916-916e-9490454481af",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function node (place AFTER HTTP Request)\n//\n// Output only:\n// - id          (from Split Out -> googlesheet_id)\n// - status\n// - found\n// - contact_id  (from API contact[0].id when found)\n// - message     (2 lines when found)\n//\n// Removes original `data` and does not include `parsed`.\n\nlet parsed;\ntry {\n  parsed = typeof $json.data === \"string\" ? JSON.parse($json.data) : ($json.data ?? {});\n} catch (e) {\n  parsed = {};\n}\n\nconst status = parsed?.status ?? null;\n\nconst apiMessage = parsed?.data?.message ?? null;     // e.g. \"Data not found\"\nconst apiContactRaw = parsed?.data?.contact ?? null;  // e.g. \"[{ \\\"id\\\": 86940, ...}]\"\n\n// Parse contact array if present (it is a JSON string in your payload)\nlet contactArr = [];\nif (typeof apiContactRaw === \"string\" && apiContactRaw.trim() !== \"\") {\n  try {\n    contactArr = JSON.parse(apiContactRaw);\n  } catch (e) {\n    contactArr = [];\n  }\n}\n\n// Determine found:\n// Prefer actual contact data; fallback to message check\nconst found = (Array.isArray(contactArr) && contactArr.length > 0)\n  ? true\n  : !(typeof apiMessage === \"string\" && apiMessage.toLowerCase().includes(\"data not found\"));\n\n// Extract contact_id if found\nconst contact_id = (found && Array.isArray(contactArr) && contactArr[0]?.id != null)\n  ? contactArr[0].id\n  : null;\n\n// 2-line message when found\nconst message = found\n  ? `Contact found\\ncontact_id: ${contact_id}`\n  : \"No contact found (checked email, mobile, and phone).\";\n\n// Pull id from the \"Split Out\" node\nconst id = $('Split Out').first().json.googlesheet_id ?? null;\n\nreturn [{\n  id,\n  status,\n  found,\n  contact_id,\n  message,\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        224
+      ],
+      "id": "ee3fb7e0-d283-477a-884d-450a3f6733ca",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1ab2a24b-d655-40c5-88c3-1e79d143c2bf",
+              "leftValue": "={{ $json.found }}",
+              "rightValue": "success",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1664,
+        224
+      ],
+      "id": "5fbb62d2-ecbb-4fdc-b093-0e9a904b59b8",
+      "name": "If Search is True the send response"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2cfa7854-bf4a-4b90-bb50-02e714a0426a",
+              "leftValue": "={{ $json.Id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "8a67b518-9cf6-477c-866d-21d8f19afcdb",
+              "leftValue": "={{ $json.Response }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -352,
+        224
+      ],
+      "id": "8e5a3a48-dce3-498d-a136-37de01baa1d1",
+      "name": "Check if ID is not empty and response is empty"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1675312005,
+          "mode": "list",
+          "cachedResultName": "Missed Calls & VMs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1675312005"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $json.Id }}",
+            "Response": "✅ Lead has been successfully created"
+          },
+          "matchingColumns": [
+            "Id"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CSR",
+              "displayName": "CSR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Recording",
+              "displayName": "Recording",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Contact",
+              "displayName": "Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notify",
+              "displayName": "Notify",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Trigger",
+              "displayName": "Trigger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Search Result",
+              "displayName": "Search Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Response",
+              "displayName": "Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        928,
+        -384
+      ],
+      "id": "c0fb7f68-5ed2-4d1a-9e11-21d32121e5d2",
+      "name": "Update row in Window Revival - Missed Calls & VMs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1675312005,
+          "mode": "list",
+          "cachedResultName": "Missed Calls & VMs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1675312005"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $json.id }}",
+            "Response": "={{ $json.message }}"
+          },
+          "matchingColumns": [
+            "Id"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CSR",
+              "displayName": "CSR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Recording",
+              "displayName": "Recording",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Contact",
+              "displayName": "Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notify",
+              "displayName": "Notify",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Trigger",
+              "displayName": "Trigger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Search Result",
+              "displayName": "Search Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Response",
+              "displayName": "Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1888,
+        224
+      ],
+      "id": "f6918bd9-df54-443d-85cc-dfb0ed5cbd0a",
+      "name": "Update row in Window Revival - Missed Calls & VMs1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Set Contact Field",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Search Field",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Comment Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append record to Leads Logs": {
+      "main": [
+        []
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Check if ID is not empty and response is empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Call '06. Missed Calls & VMs -SW'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify CSR": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call '06. Missed Calls & VMs -SW'": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Contact": {
+      "main": [
+        [
+          {
+            "node": "Parse field after creating Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse field after creating Contact": {
+      "main": [
+        [
+          {
+            "node": "Merge Contact Id and Input Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Opportunity": {
+      "main": [
+        []
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Contact Id and Input Fields": {
+      "main": [
+        [
+          {
+            "node": "Create Opportunity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Raw Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Contact Field": {
+      "main": [
+        [
+          {
+            "node": "Contact Wait ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Field": {
+      "main": [
+        [
+          {
+            "node": "Search Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Wait ": {
+      "main": [
+        [
+          {
+            "node": "Append record to Leads Logs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify CSR",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Contact",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Contact Id and Input Fields",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Update row in Window Revival - Missed Calls & VMs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Wait": {
+      "main": [
+        [
+          {
+            "node": "Search by Email, Mobile, Phone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Contact": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search by Email, Mobile, Phone": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Search Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If Search is True the send response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Search is True the send response": {
+      "main": [
+        [
+          {
+            "node": "Update row in Window Revival - Missed Calls & VMs1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in Window Revival - Missed Calls & VMs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if ID is not empty and response is empty": {
+      "main": [
+        [
+          {
+            "node": "Parse Raw Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in Window Revival - Missed Calls & VMs": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Google Sheets Trigger": {
+      "documentId": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+      "sheetId": 1675312005,
+      "lastRevision": 1117,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y&revision=1117&exportFormat=xlsx"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d0334248-939e-4286-9ce8-e54b1d52db75",
+  "activeVersionId": "d0334248-939e-4286-9ce8-e54b1d52db75",
+  "versionCounter": 197,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-12-16T12:11:38.559Z",
+      "createdAt": "2025-12-16T12:11:38.559Z",
+      "role": "workflow:owner",
+      "workflowId": "Uzlh3DdUzfoqEMye",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-11-25T13:05:18.454Z",
+      "createdAt": "2025-11-25T13:05:18.454Z",
+      "id": "xn6seEX74pkTOLqC",
+      "name": "@lead"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2025-12-31T10:46:11.000Z",
+    "createdAt": "2025-12-31T10:46:00.582Z",
+    "versionId": "d0334248-939e-4286-9ce8-e54b1d52db75",
+    "workflowId": "Uzlh3DdUzfoqEMye",
+    "nodes": [
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "documentId": {
+            "__rl": true,
+            "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+            "mode": "list",
+            "cachedResultName": "Window Revival - System",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1675312005,
+            "mode": "list",
+            "cachedResultName": "Missed Calls & VMs",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1675312005"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheetsTrigger",
+        "typeVersion": 1,
+        "position": [
+          -576,
+          224
+        ],
+        "id": "e06a9fff-9890-4e98-b9dc-0109208a3190",
+        "name": "Google Sheets Trigger",
+        "credentials": {
+          "googleSheetsTriggerOAuth2Api": {
+            "id": "X6hUNZyYXuyFC9wd",
+            "name": "Google Sheets Trigger account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{\n  (\n    $json.Trigger === \"Create Lead\"\n    && String($json.googlesheet_id ?? \"\").trim() !== \"\"\n    && (\n      $json.Response == null\n      || (typeof $json.Response === \"string\" && $json.Response.trim() === \"\")\n      || (Array.isArray($json.Response) && $json.Response.length === 0)\n    )\n  ) ? 1 : 0\n}}\n",
+                      "rightValue": 1,
+                      "operator": {
+                        "type": "number",
+                        "operation": "equals"
+                      },
+                      "id": "3683f2c0-5aea-4a98-8e09-2d2bc78d4be1"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Create Lead"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "88954350-2dee-4517-af76-2e86fdaf2fa7",
+                      "leftValue": "={{\n  (\n    $json.Trigger === \"Search\"\n    && String($json.googlesheet_id ?? \"\").trim() !== \"\"\n    && (\n      $json.Response == null\n      || (typeof $json.Response === \"string\" && $json.Response.trim() === \"\")\n      || (Array.isArray($json.Response) && $json.Response.length === 0)\n    )\n  ) ? 1 : 0\n}}\n",
+                      "rightValue": 1,
+                      "operator": {
+                        "type": "number",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Search"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "4cb5c1df-0b7e-4075-b319-53e7120ade73",
+                      "leftValue": "={{\n  (\n    $json.Trigger === \"Create Comment\"\n    && String($json.googlesheet_id ?? \"\").trim() !== \"\"\n    && (\n      $json.Response == null\n      || (typeof $json.Response === \"string\" && $json.Response.trim() === \"\")\n      || (Array.isArray($json.Response) && $json.Response.length === 0)\n    )\n  ) ? 1 : 0\n}}\n",
+                      "rightValue": 1,
+                      "operator": {
+                        "type": "number",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Create Comment"
+              }
+            ]
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          96,
+          208
+        ],
+        "id": "02d10f32-179e-42df-9443-4b69c504c4d4",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+            "mode": "list",
+            "cachedResultName": "Leads Logs",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "raw",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Timestamp": "={{ $json.dateFormatted }}",
+              "Id": "={{ $json.googlesheet_id }}",
+              "Lead Type": "={{ $json.leadType }}",
+              "First Name": "={{ $json.contactFirstName }}",
+              "Last Name": "={{ $json.contactLastName }}",
+              "Mobile Number": "={{ $json.mobileNumber }}",
+              "Email Address": "={{ $json.email }}",
+              "Address": "={{ $json.streetAddress }}",
+              "State": "={{ $json.state }}",
+              "Postal Code": "={{ $json.postalCode }}",
+              "Suburb": "={{ $json.suburb }}",
+              "Phone Number": "={{ $json.phoneNumber }}",
+              "Enquiry": "={{ $json.enquiryDetails }}",
+              "How they heard about us": "={{ $json.howDidYouHearAboutUs }}",
+              "Referred By": "={{ $json.referredBy }}",
+              "Lead Qualifier": "={{ $json.leadQualifier }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Timestamp",
+                "displayName": "Timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Id",
+                "displayName": "Id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Lead Type",
+                "displayName": "Lead Type",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "First Name",
+                "displayName": "First Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Last Name",
+                "displayName": "Last Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Mobile Number",
+                "displayName": "Mobile Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Phone Number",
+                "displayName": "Phone Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Email Address",
+                "displayName": "Email Address",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Address",
+                "displayName": "Address",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "State",
+                "displayName": "State",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Suburb",
+                "displayName": "Suburb",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Postal Code",
+                "displayName": "Postal Code",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Enquiry",
+                "displayName": "Enquiry",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Quantity",
+                "displayName": "Quantity",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "I’d Like To Get My Project Underway",
+                "displayName": "I’d Like To Get My Project Underway",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "How they heard about us",
+                "displayName": "How they heard about us",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Lead Qualifier",
+                "displayName": "Lead Qualifier",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Referred By",
+                "displayName": "Referred By",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          944,
+          -208
+        ],
+        "id": "f3a586a8-2d3e-47f1-a0d7-760cfb14d859",
+        "name": "Append record to Leads Logs",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          1216,
+          -16
+        ],
+        "id": "1fb9ca87-eee5-40fb-a499-5650679d717d",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1664,
+          -16
+        ],
+        "id": "77a3d70a-d0d2-40a2-939c-fb99c9ddabe7",
+        "name": "Wait1",
+        "webhookId": "e0e40d3b-76d1-47b8-bea6-c1b78c20912c"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Map Discord name -> Discord Id\nconst discordIdByName = {\n  \"Jon Martinez\": \"438891298708127754\",\n  \"Ray Santa Agata\": \"335993132372066316\",\n  \"Don Puerto\": \"325664446103945217\",\n  \"Jenny Martinez\": \"741976774283493427\",\n  \"Larry Efe\": \"779992712253407252\",\n  \"Rod Penanueva\": \"878089515862999120\",\n  \"Brian Bustamante\": \"993685671262822440\",\n  \"Amie Tagabe\": \"1428522538723447076\",\n  \"Andrew Palencia\": \"1062615267303243817\",\n  \"Christine Kam\": \"534480983098130483\",\n};\n\n// Aliases (if sheet uses shortened names)\nconst nameAliases = {\n  \"Amie\": \"Amie Tagabe\",\n};\n\n// Strings that mean \"no selection\"\nconst NO_SELECTION = new Set([\n  \"\",\n  \"please select\",\n  \"please-select\",\n  \"select\",\n  \"n/a\",\n  \"na\",\n  \"none\",\n  \"null\",\n]);\n\nfunction isNoSelection(v) {\n  const s = String(v ?? \"\").trim().toLowerCase();\n  return NO_SELECTION.has(s);\n}\n\n// Normalize any notify input (string/array/comma-separated) -> array of names\nfunction normalizeNotifyNames(raw) {\n  if (raw == null) return [];\n\n  // If the cell is \"Please Select\", treat as empty\n  if (isNoSelection(raw)) return [];\n\n  const arr = Array.isArray(raw) ? raw : [raw];\n\n  return arr\n    .flatMap(x => String(x).split(','))\n    .map(s => s.trim())\n    .filter(s => s && !isNoSelection(s)); // also filters \"Please Select\" inside comma lists\n}\n\nfunction toDiscordName(name) {\n  const cleaned = String(name || \"\").trim();\n  return nameAliases[cleaned] || cleaned;\n}\n\nreturn items.map(item => {\n  const j = item.json;\n\n  // CSR discord id\n  const csrRaw = String(j.CSR ?? \"\").trim();\n  const csrDiscordName = toDiscordName(csrRaw);\n  const csrDiscordId = discordIdByName[csrDiscordName] || null;\n\n  // Column F \"notify\" (already mapped into j.notify by your Google Sheets node)\n  const notifyNames = normalizeNotifyNames(j.notify);\n\n  // ✅ If you want CSR auto-added ONLY when notify is a real person, keep this:\n  // (If you DON'T want CSR auto-added at all, comment this out.)\n  if (notifyNames.length > 0 && csrRaw) notifyNames.push(csrRaw);\n\n  // de-dupe by name (case-insensitive)\n  const seen = new Set();\n  const notifyUnique = notifyNames.filter(n => {\n    const key = n.toLowerCase();\n    if (seen.has(key)) return false;\n    seen.add(key);\n    return true;\n  });\n\n  const notify = notifyUnique.map(name => {\n    const discordName = toDiscordName(name);\n    return {\n      name,\n      id: discordIdByName[discordName] || null,\n    };\n  });\n\n  // ✅ Use this in an IF node to decide whether to run the next node\n  const shouldNotify = notify.length > 0;\n\n  return {\n    json: {\n      CSR: j.CSR ?? null,\n      csrDiscordId,\n      leadType: j.leadType ?? null,\n      howDidYouHearAboutUs: j.howDidYouHearAboutUs ?? null,\n      contactFirstName: j.contactFirstName ?? null,\n      contactLastName: j.contactLastName ?? null,\n      contactJobTitle: j.contactJobTitle ?? null,\n      email: j.email ?? null,\n      mobileNumber: j.mobileNumber ?? null,\n      phoneNumber: j.phoneNumber ?? null,\n      streetAddress: j.streetAddress ?? null,\n      suburb: j.suburb ?? null,\n      state: j.state ?? null,\n      postalCode: j.postalCode ?? null,\n      enquiryDetails: j.enquiryDetails ?? null,\n      productInterest: j.productInterest ?? null,\n      salesPipeline: j.salesPipeline ?? null,\n\n      notify,         // [{name, id}, ...]\n      shouldNotify,   // true if notify contains a real person\n    }\n  };\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          768,
+          -16
+        ],
+        "id": "adf34663-bf54-4b7f-8fa2-fa7bb1338a32",
+        "name": "Notify CSR"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "TDvWgyYlFtUOtmZt",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/TDvWgyYlFtUOtmZt",
+            "cachedResultName": "06. Missed Calls & VMs -SW"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1440,
+          -192
+        ],
+        "id": "cd58d8d1-e295-4915-ac71-8a26e3623728",
+        "name": "Call '06. Missed Calls & VMs -SW'"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/contacts",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"first_name\": \"{{$json.contactFirstName}}\",\n  \"last_name\": \"{{$json.contactLastName}}\",\n  \"email\": \"{{$json.email}}\",\n  \"home_phone\": \"\",\n  \"work_phone\": \"{{$json.phoneNumber}}\",\n  \"mobile\": \"{{$json.mobileNumber}}\",\n  \"street\": \"{{$json.streetAddress}}\",\n  \"suburb\": \"{{$json.suburb}}\",\n  \"state\": \"{{$json.state}}\",\n  \"postal\": \"{{$json.postalCode}}\",\n  \"longitude\": 0,\n  \"latitude\": 0,\n  \"company\": 0,\n  \"lead_source\": 9,\n  \"job_title\": \"{{$json.contactJobTitle}}\",\n  \"other_contact_details\": \"\",\n  \"google_keyword\": \"\"\n}\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          768,
+          -688
+        ],
+        "id": "ded63a6c-1895-4b4a-927d-c9b0bed1b390",
+        "name": "Create Contact",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/opportunities/create",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n    \"contact_id\" : \"{{ $json.contact_id }}\",\n    \"lead_source\" : 9,\n    \"pipeline\" : 53,\n    \"product_interest\" : \"{{ $json.productInterest }}\",\n    \"description\" : \". Goodbye.\",\n    \"next_action\" : \"\",\n    \"action_date\" : \"\",\n    \"owner_id\" : 25,\n    \"status\" : 1,\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.streetAddress }}\",\n    \"suburb\" : 2,\n    \"state\" : 1,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"revenue\" : 0,\n    \"chance\" : 50,\n    \"call_result\" : 2,\n    \"contact_name\" : \"{{ $json.contactFirstName }} {{ $json.contactLastName }}\",\n    \"email\" : \"{{ $json.email }}\"\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1440,
+          -624
+        ],
+        "id": "bd6951d8-78a5-4797-b68e-8ed0ea6bce26",
+        "name": "Create Opportunity",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Code node (JavaScript)\n// Parses: $json.data (JSON string)\n// Outputs: status, success, contact_id\n\nreturn items.map((item) => {\n  const raw = item.json.data;\n\n  if (typeof raw !== 'string' || !raw.trim()) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: 'Missing or invalid \"data\" field (expected JSON string).',\n      },\n    };\n  }\n\n  try {\n    const parsed = JSON.parse(raw);\n\n    return {\n      json: {\n        status: parsed?.status ?? null,\n        success: parsed?.data?.success ?? null,\n        contact_id: parsed?.data?.data?.id ?? null,\n      },\n    };\n  } catch (err) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: `Failed to parse JSON in \"data\": ${err.message}`,\n      },\n    };\n  }\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          992,
+          -688
+        ],
+        "id": "fd8e6671-5769-41fd-be66-fa40db66c50d",
+        "name": "Parse field after creating Contact"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "518539db-0a0c-4df0-a874-910aab86ce04",
+                "leftValue": "={{ $json.shouldNotify }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          992,
+          -16
+        ],
+        "id": "783cc5cf-6901-4da0-bc49-0322a1bc1995",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          1216,
+          -624
+        ],
+        "id": "76924e07-3aa2-4641-9865-77678dada86c",
+        "name": "Merge Contact Id and Input Fields"
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Code node (JavaScript)\n\n// ---- Helpers ----\n\nfunction inferHowDidYouHear(textLower) {\n  if (textLower.includes('hipages')) return 'HiPages Lead';\n  if (textLower.includes('facebook')) return 'Facebook';\n  if (textLower.includes('instagram')) return 'Instagram';\n  if (textLower.includes('youtube')) return 'Youtube';\n  if (textLower.includes('sdr website')) return 'SDR website';\n  if (textLower.includes('wr.net')) return 'WR.net Website';\n  if (textLower.includes('wr.com')) return 'WR.com website';\n  if (textLower.includes('real estate') || textLower.includes('property manager')) {\n    return 'Real Estate Property Managers';\n  }\n  if (textLower.includes('flyer')) return 'Flyers';\n  if (textLower.includes('sticker')) return 'Stickers';\n  if (textLower.includes('referral') || textLower.includes('referal')) return 'Referral';\n  if (textLower.includes('inbound')) return 'Inbound Lead';\n  return 'Google';\n}\n\nfunction normalizeProductInterest(raw) {\n  if (!raw) return 'Repairs';\n  const text = raw.toLowerCase();\n  if (text.includes('window painting')) return 'Window Painting';\n  if (text.includes('new screen')) return 'New Screen';\n  if (text.includes('glass replacement')) return 'Glass Replacement';\n  if (text.includes('repair')) return 'Repairs';\n  return 'Repairs';\n}\n\nfunction extractAfterLabel(text, label) {\n  const idx = text.indexOf(label);\n  if (idx === -1) return '';\n  const after = text.slice(idx + label.length);\n  return after.split('\\n')[0].trim();\n}\n\nfunction extractBetweenLabels(text, startLabel, endLabel) {\n  const startIdx = text.indexOf(startLabel);\n  if (startIdx === -1) return '';\n  const fromStart = text.slice(startIdx + startLabel.length);\n  if (!endLabel) return fromStart.trim();\n  const endIdx = fromStart.indexOf(endLabel);\n  return endIdx === -1 ? fromStart.trim() : fromStart.slice(0, endIdx).trim();\n}\n\nfunction parseAddress(addressRaw) {\n  if (!addressRaw) {\n    return {\n      streetAddress: null,\n      suburb: null,\n      postalCode: null,\n      state: null,\n      addressDescription: null,\n    };\n  }\n\n  let addr = addressRaw.replace(/\\s+/g, ' ').trim();\n  let streetAddress = null,\n    suburb = null,\n    postalCode = null,\n    state = null,\n    addressDescription = null;\n\n  const postMatch = addr.match(/(\\d{4})(?:\\b|$)/);\n  if (postMatch) {\n    postalCode = postMatch[1];\n    addr = addr.replace(postMatch[0], '').trim();\n  }\n\n  const stateMatch = addr.match(/\\b(QLD|NSW|VIC|WA|SA|TAS|ACT|NT)\\b/i);\n  if (stateMatch) {\n    state = stateMatch[1].toUpperCase();\n    addr = addr.replace(stateMatch[0], '').trim();\n  }\n\n  if (addr.includes(',')) {\n    const parts = addr.split(',').map(p => p.trim()).filter(Boolean);\n    if (/\\d/.test(parts[0])) {\n      streetAddress = parts[0];\n      suburb = parts[1] || null;\n      if (parts.length > 2) addressDescription = parts.slice(2).join(', ');\n    } else {\n      suburb = parts[0];\n      if (parts.length > 1) addressDescription = parts.slice(1).join(', ');\n    }\n  } else {\n    suburb = addr || null;\n  }\n\n  return { streetAddress, suburb, postalCode, state, addressDescription };\n}\n\nfunction formatNowBrisbane() {\n  const now = new Date();\n  const dateStr = now.toLocaleDateString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n  });\n\n  const timeStr = now.toLocaleTimeString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  });\n\n  return `${dateStr}, ${timeStr}`;\n}\n\nfunction formatAuPhone(raw) {\n  if (!raw) return null;\n  let digits = String(raw).replace(/\\D/g, '');\n  if (!digits) return null;\n  if (digits.length === 9 && digits.startsWith('4')) digits = '0' + digits;\n  if (digits.length === 10 && digits.startsWith('04'))\n    return `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7)}`;\n  if (digits.length === 10 && digits.startsWith('0'))\n    return `${digits.slice(0, 2)} ${digits.slice(2, 6)} ${digits.slice(6)}`;\n  return digits;\n}\n\nfunction splitContactName(fullName) {\n  if (!fullName) return { contactFirstName: null, contactLastName: null };\n\n  const cleaned = String(fullName).replace(/\\s+/g, ' ').trim();\n  if (!cleaned) return { contactFirstName: null, contactLastName: null };\n\n  const parts = cleaned.split(' ').filter(Boolean);\n\n  if (parts.length === 1) {\n    return { contactFirstName: parts[0], contactLastName: null };\n  }\n\n  return {\n    contactFirstName: parts[0],\n    contactLastName: parts.slice(1).join(' '),\n  };\n}\n\nfunction normalizeLeadType(raw) {\n  const t = String(raw || '').replace(/\\s+/g, ' ').trim();\n  if (!t) return null;\n\n  const low = t.toLowerCase();\n  if (low.includes('missed call')) return 'Missed call Lead';\n  if (low.includes('voicemail')) return 'Voicemail Lead';\n  return t;\n}\n\n// ---- GLOBAL CSR (from previous node) ----\nconst CSR_VALUE = $input.first().json.CSR || null;\n\n// ✅ Normalize Search Result (empty sheet cell -> null)\nconst rawSearchResult = $input.first().json[\"Search Result\"];\nconst SEARCH_RESULT_VALUE =\n  rawSearchResult == null ||\n  (typeof rawSearchResult === \"string\" && rawSearchResult.trim() === \"\")\n    ? null\n    : rawSearchResult;\n\n// ---- Main mapping ----\n\nconst newItems = items.map((item) => {\n  const row = item.json;\n  const contactText = row.Contact || '';\n\n  // Lead Type\n  const leadTypeRaw = extractAfterLabel(contactText, 'Lead Type:');\n  const leadType = normalizeLeadType(leadTypeRaw);\n\n  // Contact name\n  const contactName = extractAfterLabel(contactText, 'Contact Name:');\n  let { contactFirstName, contactLastName } = splitContactName(contactName);\n  if (!contactFirstName) contactFirstName = 'no name';\n\n  // Other fields\n  const contactJobTitle = extractAfterLabel(contactText, 'Contact Job Title:');\n  const addressRaw = extractAfterLabel(contactText, 'Address:');\n  const email = extractAfterLabel(contactText, 'Email:');\n  const mobileRaw = extractAfterLabel(contactText, 'Mobile Number:');\n  const phoneRaw = extractAfterLabel(contactText, 'Phone Number:');\n  const referredByRaw = extractAfterLabel(contactText, 'Referred By:');\n\n  const enquiryDetails = extractBetweenLabels(\n    contactText,\n    'Enquiry Details:',\n    'How did you hear about us?'\n  );\n\n  const howDidRaw = extractBetweenLabels(\n    contactText,\n    'How did you hear about us?',\n    'Product Interest:'\n  );\n\n  const productRaw = extractBetweenLabels(\n    contactText,\n    'Product Interest:',\n    'Sales Pipeline:'\n  );\n\n  const salesPipelineFromText = extractAfterLabel(contactText, 'Sales Pipeline:');\n\n  const salesPipeline =\n    String(leadType || '').toLowerCase().includes('missed call')\n      ? 'WC&L VM-Inbound Call'\n      : (salesPipelineFromText || null);\n\n  // ✅ Normalize Notify → always array\n  let notify = [];\n  if (Array.isArray(row.Notify)) {\n    notify = row.Notify.filter(Boolean);\n  } else if (row.Notify) {\n    notify = [row.Notify];\n  }\n\n  const { streetAddress, suburb, postalCode, state, addressDescription } =\n    parseAddress(addressRaw);\n\n  return {\n    json: {\n      googlesheet_id: row.Id || null,\n\n      // ✅ CONFIRMED / ADDED\n      Trigger: row.Trigger || null,\n      Response: row.Response || null,\n\n      // ✅ Search Result (empty -> null)\n      \"Search Result\": SEARCH_RESULT_VALUE,\n\n      dateRaw: Date.now(),\n      dateFormatted: formatNowBrisbane(),\n\n      CSR: CSR_VALUE,\n\n      leadQualifier: 'Good',\n      leadType,\n      howDidYouHearAboutUs: inferHowDidYouHear((howDidRaw || '').toLowerCase()),\n      referredBy: referredByRaw || null,\n\n      contactFirstName,\n      contactLastName,\n      contactJobTitle: contactJobTitle || null,\n\n      email: email || null,\n      mobileNumber: formatAuPhone(mobileRaw),\n      phoneNumber: formatAuPhone(phoneRaw),\n\n      streetAddress,\n      suburb,\n      state,\n      postalCode,\n      addressDescription,\n\n      enquiryDetails: enquiryDetails || null,\n      productInterest: normalizeProductInterest(productRaw),\n      salesPipeline,\n\n      notify,\n    }\n  };\n});\n\nreturn newItems;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -128,
+          224
+        ],
+        "id": "b7002443-31b5-49ef-abe2-95016d7c3ff2",
+        "name": "Parse Raw Fields"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+                "name": "googlesheet_id",
+                "value": "={{ $json.googlesheet_id }}",
+                "type": "string"
+              },
+              {
+                "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+                "name": "dateFormatted",
+                "value": "={{ $json.dateFormatted }}",
+                "type": "string"
+              },
+              {
+                "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+                "name": "CSR",
+                "value": "={{ $json.CSR }}",
+                "type": "string"
+              },
+              {
+                "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+                "name": "leadQualifier",
+                "value": "={{ $json.leadQualifier }}",
+                "type": "string"
+              },
+              {
+                "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+                "name": "leadType",
+                "value": "={{ $json.leadType }}",
+                "type": "string"
+              },
+              {
+                "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+                "name": "referredBy",
+                "value": "={{ $json.referredBy }}",
+                "type": "string"
+              },
+              {
+                "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+                "name": "contactFirstName",
+                "value": "={{ $json.contactFirstName }}",
+                "type": "string"
+              },
+              {
+                "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+                "name": "contactLastName",
+                "value": "={{ $json.contactLastName }}",
+                "type": "string"
+              },
+              {
+                "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+                "name": "email",
+                "value": "={{ $json.email }}",
+                "type": "string"
+              },
+              {
+                "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+                "name": "mobileNumber",
+                "value": "={{ $json.mobileNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+                "name": "phoneNumber",
+                "value": "={{ $json.phoneNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+                "name": "streetAddress",
+                "value": "={{ $json.streetAddress }}",
+                "type": "string"
+              },
+              {
+                "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+                "name": "suburb",
+                "value": "={{ $json.suburb }}",
+                "type": "string"
+              },
+              {
+                "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+                "name": "state",
+                "value": "={{ $json.state }}",
+                "type": "string"
+              },
+              {
+                "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+                "name": "postalCode",
+                "value": "={{ $json.postalCode }}",
+                "type": "string"
+              },
+              {
+                "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+                "name": "addressDescription",
+                "value": "={{ $json.addressDescription }}",
+                "type": "string"
+              },
+              {
+                "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+                "name": "enquiryDetails",
+                "value": "={{ $json.enquiryDetails }}",
+                "type": "string"
+              },
+              {
+                "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+                "name": "productInterest",
+                "value": "={{ $json.productInterest }}",
+                "type": "string"
+              },
+              {
+                "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+                "name": "salesPipeline",
+                "value": "={{ $json.salesPipeline }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          320,
+          224
+        ],
+        "id": "aac73657-35d6-4fed-834b-e6936523e5f2",
+        "name": "Set Search Field"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+                "name": "googlesheet_id",
+                "value": "={{ $json.googlesheet_id }}",
+                "type": "string"
+              },
+              {
+                "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+                "name": "dateFormatted",
+                "value": "={{ $json.dateFormatted }}",
+                "type": "string"
+              },
+              {
+                "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+                "name": "CSR",
+                "value": "={{ $json.CSR }}",
+                "type": "string"
+              },
+              {
+                "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+                "name": "leadQualifier",
+                "value": "={{ $json.leadQualifier }}",
+                "type": "string"
+              },
+              {
+                "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+                "name": "leadType",
+                "value": "={{ $json.leadType }}",
+                "type": "string"
+              },
+              {
+                "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+                "name": "referredBy",
+                "value": "={{ $json.referredBy }}",
+                "type": "string"
+              },
+              {
+                "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+                "name": "contactFirstName",
+                "value": "={{ $json.contactFirstName }}",
+                "type": "string"
+              },
+              {
+                "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+                "name": "contactLastName",
+                "value": "={{ $json.contactLastName }}",
+                "type": "string"
+              },
+              {
+                "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+                "name": "email",
+                "value": "={{ $json.email }}",
+                "type": "string"
+              },
+              {
+                "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+                "name": "mobileNumber",
+                "value": "={{ $json.mobileNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+                "name": "phoneNumber",
+                "value": "={{ $json.phoneNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+                "name": "streetAddress",
+                "value": "={{ $json.streetAddress }}",
+                "type": "string"
+              },
+              {
+                "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+                "name": "suburb",
+                "value": "={{ $json.suburb }}",
+                "type": "string"
+              },
+              {
+                "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+                "name": "state",
+                "value": "={{ $json.state }}",
+                "type": "string"
+              },
+              {
+                "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+                "name": "postalCode",
+                "value": "={{ $json.postalCode }}",
+                "type": "string"
+              },
+              {
+                "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+                "name": "addressDescription",
+                "value": "={{ $json.addressDescription }}",
+                "type": "string"
+              },
+              {
+                "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+                "name": "enquiryDetails",
+                "value": "={{ $json.enquiryDetails }}",
+                "type": "string"
+              },
+              {
+                "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+                "name": "productInterest",
+                "value": "={{ $json.productInterest }}",
+                "type": "string"
+              },
+              {
+                "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+                "name": "salesPipeline",
+                "value": "={{ $json.salesPipeline }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          320,
+          -400
+        ],
+        "id": "0640b0e7-3063-4a53-aa04-5176bd8168e3",
+        "name": "Set Contact Field"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+                "name": "googlesheet_id",
+                "value": "={{ $json.googlesheet_id }}",
+                "type": "string"
+              },
+              {
+                "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+                "name": "dateFormatted",
+                "value": "={{ $json.dateFormatted }}",
+                "type": "string"
+              },
+              {
+                "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+                "name": "CSR",
+                "value": "={{ $json.CSR }}",
+                "type": "string"
+              },
+              {
+                "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+                "name": "leadQualifier",
+                "value": "={{ $json.leadQualifier }}",
+                "type": "string"
+              },
+              {
+                "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+                "name": "leadType",
+                "value": "={{ $json.leadType }}",
+                "type": "string"
+              },
+              {
+                "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+                "name": "referredBy",
+                "value": "={{ $json.referredBy }}",
+                "type": "string"
+              },
+              {
+                "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+                "name": "contactFirstName",
+                "value": "={{ $json.contactFirstName }}",
+                "type": "string"
+              },
+              {
+                "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+                "name": "contactLastName",
+                "value": "={{ $json.contactLastName }}",
+                "type": "string"
+              },
+              {
+                "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+                "name": "email",
+                "value": "={{ $json.email }}",
+                "type": "string"
+              },
+              {
+                "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+                "name": "mobileNumber",
+                "value": "={{ $json.mobileNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+                "name": "phoneNumber",
+                "value": "={{ $json.phoneNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+                "name": "streetAddress",
+                "value": "={{ $json.streetAddress }}",
+                "type": "string"
+              },
+              {
+                "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+                "name": "suburb",
+                "value": "={{ $json.suburb }}",
+                "type": "string"
+              },
+              {
+                "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+                "name": "state",
+                "value": "={{ $json.state }}",
+                "type": "string"
+              },
+              {
+                "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+                "name": "postalCode",
+                "value": "={{ $json.postalCode }}",
+                "type": "string"
+              },
+              {
+                "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+                "name": "addressDescription",
+                "value": "={{ $json.addressDescription }}",
+                "type": "string"
+              },
+              {
+                "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+                "name": "enquiryDetails",
+                "value": "={{ $json.enquiryDetails }}",
+                "type": "string"
+              },
+              {
+                "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+                "name": "productInterest",
+                "value": "={{ $json.productInterest }}",
+                "type": "string"
+              },
+              {
+                "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+                "name": "salesPipeline",
+                "value": "={{ $json.salesPipeline }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          320,
+          416
+        ],
+        "id": "2566bff2-74d9-45c6-86f2-68bb628472c2",
+        "name": "Set Comment Field"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          544,
+          -400
+        ],
+        "id": "5c26e4c3-e3e5-415f-a528-41e9d1dff9e0",
+        "name": "Contact Wait ",
+        "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          544,
+          224
+        ],
+        "id": "62508c00-e9bb-41d2-bc96-75b961c7df6d",
+        "name": "Search Wait",
+        "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+      },
+      {
+        "parameters": {
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/search?q=86921&type=contact",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "q",
+                "value": "={{ $json.candidates.q }}"
+              },
+              {
+                "name": "type",
+                "value": "contact"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1216,
+          224
+        ],
+        "id": "c29e425e-43c6-4a68-86af-ab1f470f0940",
+        "name": "Search Contact",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Function node\n\nconst candidates = [];\n\nconst clean = (v) => String(v ?? \"\").trim();\n\nconst normalizeAuNumber9 = (v) => {\n  let digits = clean(v).replace(/\\D/g, \"\"); // keep digits only\n  if (!digits) return \"\";\n\n  // Remove common AU prefixes\n  if (digits.startsWith(\"61\")) digits = digits.slice(2); // +61 / 61\n  if (digits.startsWith(\"0\")) digits = digits.slice(1);  // 04.. or 02.. etc\n\n  // Force to last 9 digits (mobile/landline after removing 0 is typically 9 digits)\n  if (digits.length > 9) digits = digits.slice(-9);\n\n  return digits;\n};\n\n// Email candidate (as-is)\nif (clean($json.email)) {\n  candidates.push({ q: clean($json.email), by: \"email\" });\n}\n\n// Mobile candidate (normalized to 9 digits)\nconst mobile9 = normalizeAuNumber9($json.mobileNumber);\nif (mobile9) {\n  candidates.push({ q: mobile9, by: \"mobile\" });\n}\n\n// Phone candidate (normalized to 9 digits)\nconst phone9 = normalizeAuNumber9($json.phoneNumber);\nif (phone9) {\n  candidates.push({ q: phone9, by: \"phone\" });\n}\n\nreturn [{ ...$json, candidates, found: false }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          768,
+          224
+        ],
+        "id": "508b9a17-aa70-4104-ba47-30726974a940",
+        "name": "Search by Email, Mobile, Phone"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "candidates",
+          "include": "selectedOtherFields",
+          "fieldsToInclude": "googlesheet_id",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          992,
+          224
+        ],
+        "id": "40c0c3fa-6c05-4916-916e-9490454481af",
+        "name": "Split Out"
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Function node (place AFTER HTTP Request)\n//\n// Output only:\n// - id          (from Split Out -> googlesheet_id)\n// - status\n// - found\n// - contact_id  (from API contact[0].id when found)\n// - message     (2 lines when found)\n//\n// Removes original `data` and does not include `parsed`.\n\nlet parsed;\ntry {\n  parsed = typeof $json.data === \"string\" ? JSON.parse($json.data) : ($json.data ?? {});\n} catch (e) {\n  parsed = {};\n}\n\nconst status = parsed?.status ?? null;\n\nconst apiMessage = parsed?.data?.message ?? null;     // e.g. \"Data not found\"\nconst apiContactRaw = parsed?.data?.contact ?? null;  // e.g. \"[{ \\\"id\\\": 86940, ...}]\"\n\n// Parse contact array if present (it is a JSON string in your payload)\nlet contactArr = [];\nif (typeof apiContactRaw === \"string\" && apiContactRaw.trim() !== \"\") {\n  try {\n    contactArr = JSON.parse(apiContactRaw);\n  } catch (e) {\n    contactArr = [];\n  }\n}\n\n// Determine found:\n// Prefer actual contact data; fallback to message check\nconst found = (Array.isArray(contactArr) && contactArr.length > 0)\n  ? true\n  : !(typeof apiMessage === \"string\" && apiMessage.toLowerCase().includes(\"data not found\"));\n\n// Extract contact_id if found\nconst contact_id = (found && Array.isArray(contactArr) && contactArr[0]?.id != null)\n  ? contactArr[0].id\n  : null;\n\n// 2-line message when found\nconst message = found\n  ? `Contact found\\ncontact_id: ${contact_id}`\n  : \"No contact found (checked email, mobile, and phone).\";\n\n// Pull id from the \"Split Out\" node\nconst id = $('Split Out').first().json.googlesheet_id ?? null;\n\nreturn [{\n  id,\n  status,\n  found,\n  contact_id,\n  message,\n}];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1440,
+          224
+        ],
+        "id": "ee3fb7e0-d283-477a-884d-450a3f6733ca",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "1ab2a24b-d655-40c5-88c3-1e79d143c2bf",
+                "leftValue": "={{ $json.found }}",
+                "rightValue": "success",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1664,
+          224
+        ],
+        "id": "5fbb62d2-ecbb-4fdc-b093-0e9a904b59b8",
+        "name": "If Search is True the send response"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "2cfa7854-bf4a-4b90-bb50-02e714a0426a",
+                "leftValue": "={{ $json.Id }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "8a67b518-9cf6-477c-866d-21d8f19afcdb",
+                "leftValue": "={{ $json.Response }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          -352,
+          224
+        ],
+        "id": "8e5a3a48-dce3-498d-a136-37de01baa1d1",
+        "name": "Check if ID is not empty and response is empty"
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+            "mode": "list",
+            "cachedResultName": "Window Revival - System",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1675312005,
+            "mode": "list",
+            "cachedResultName": "Missed Calls & VMs",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1675312005"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Id": "={{ $json.Id }}",
+              "Response": "✅ Lead has been successfully created"
+            },
+            "matchingColumns": [
+              "Id"
+            ],
+            "schema": [
+              {
+                "id": "Date",
+                "displayName": "Date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "CSR",
+                "displayName": "CSR",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Recording",
+                "displayName": "Recording",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Contact",
+                "displayName": "Contact",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Comment",
+                "displayName": "Comment",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Notify",
+                "displayName": "Notify",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Trigger",
+                "displayName": "Trigger",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Search Result",
+                "displayName": "Search Result",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Id",
+                "displayName": "Id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Response",
+                "displayName": "Response",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          928,
+          -384
+        ],
+        "id": "c0fb7f68-5ed2-4d1a-9e11-21d32121e5d2",
+        "name": "Update row in Window Revival - Missed Calls & VMs",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+            "mode": "list",
+            "cachedResultName": "Window Revival - System",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1675312005,
+            "mode": "list",
+            "cachedResultName": "Missed Calls & VMs",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1675312005"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Id": "={{ $json.id }}",
+              "Response": "={{ $json.message }}"
+            },
+            "matchingColumns": [
+              "Id"
+            ],
+            "schema": [
+              {
+                "id": "Date",
+                "displayName": "Date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "CSR",
+                "displayName": "CSR",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Recording",
+                "displayName": "Recording",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Contact",
+                "displayName": "Contact",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Comment",
+                "displayName": "Comment",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Notify",
+                "displayName": "Notify",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Trigger",
+                "displayName": "Trigger",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Search Result",
+                "displayName": "Search Result",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Id",
+                "displayName": "Id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Response",
+                "displayName": "Response",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1888,
+          224
+        ],
+        "id": "f6918bd9-df54-443d-85cc-dfb0ed5cbd0a",
+        "name": "Update row in Window Revival - Missed Calls & VMs1",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Set Contact Field",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set Search Field",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set Comment Field",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append record to Leads Logs": {
+        "main": [
+          []
+        ]
+      },
+      "Google Sheets Trigger": {
+        "main": [
+          [
+            {
+              "node": "Check if ID is not empty and response is empty",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Call '06. Missed Calls & VMs -SW'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Notify CSR": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call '06. Missed Calls & VMs -SW'": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create Contact": {
+        "main": [
+          [
+            {
+              "node": "Parse field after creating Contact",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse field after creating Contact": {
+        "main": [
+          [
+            {
+              "node": "Merge Contact Id and Input Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create Opportunity": {
+        "main": [
+          []
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge Contact Id and Input Fields": {
+        "main": [
+          [
+            {
+              "node": "Create Opportunity",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Raw Fields": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Contact Field": {
+        "main": [
+          [
+            {
+              "node": "Contact Wait ",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Search Field": {
+        "main": [
+          [
+            {
+              "node": "Search Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Contact Wait ": {
+        "main": [
+          [
+            {
+              "node": "Append record to Leads Logs",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Notify CSR",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Create Contact",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge Contact Id and Input Fields",
+              "type": "main",
+              "index": 1
+            },
+            {
+              "node": "Update row in Window Revival - Missed Calls & VMs",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search Wait": {
+        "main": [
+          [
+            {
+              "node": "Search by Email, Mobile, Phone",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search Contact": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search by Email, Mobile, Phone": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out": {
+        "main": [
+          [
+            {
+              "node": "Search Contact",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "If Search is True the send response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If Search is True the send response": {
+        "main": [
+          [
+            {
+              "node": "Update row in Window Revival - Missed Calls & VMs1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Update row in Window Revival - Missed Calls & VMs1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check if ID is not empty and response is empty": {
+        "main": [
+          [
+            {
+              "node": "Parse Raw Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update row in Window Revival - Missed Calls & VMs": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "Christine Kam",
+    "name": "Version d0334248",
+    "description": "",
+    "autosaved": false,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2025-12-31T10:46:11.277Z",
+        "id": 100,
+        "workflowId": "Uzlh3DdUzfoqEMye",
+        "versionId": "d0334248-939e-4286-9ce8-e54b1d52db75",
+        "event": "activated",
+        "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b"
+      }
+    ]
+  }
+}
