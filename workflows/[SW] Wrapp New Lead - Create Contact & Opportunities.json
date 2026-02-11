@@ -1,0 +1,1058 @@
+{
+  "updatedAt": "2026-02-03T06:45:01.179Z",
+  "createdAt": "2026-01-28T03:46:37.476Z",
+  "id": "eSdWCK7MPonSrTuzU7-wK",
+  "name": "[SW] Wrapp: New Lead - Create Contact & Opportunities",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        144
+      ],
+      "id": "4df51290-dd22-42a0-9491-1e5be7b45665",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code node (JavaScript) - Mock incoming NEW lead (no existing WRapp CRM record)\n\nreturn [\n  {\n    json: {\n      id: \"19a8faac253cf6ab\",\n      leadType: \"Hi Pages Lead\",\n      leadQualifier: \"Good\",\n\n      firstName: \"John\",\n      lastName: \"Doe\",\n\n      mobileNumber: \"0411 121 211\",\n      phoneNumber: \"1222 3545\",\n      emailAddress: \"my@email.com\",\n\n      address: \"1 Test Street\",\n      state: \"Gold Coast\",\n      suburb: \"Clear Island Waters\",\n      postalCode: \"4216\",\n\n      enquiry: \"I would like a long text to test the capacity of the fields, maybe around 100 characters long for validation.\",\n      quantity: \"2\",\n\n      IdLikeToGetMyProjectUnderway: \"Yes\",\n      howTheyHeardAboutUs: \"Google\",\n      referredBy: \"\",\n\n      channelId: \"discord\",\n      authorId: \"123456\",\n      authorName: \"John Doe\"\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        -128
+      ],
+      "id": "0c769077-7070-4ff0-8af4-3184cd52e1e6",
+      "name": "Code node to mimic incoming data (for testing inside the sub-workflow)",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -128
+      ],
+      "id": "dfe7f4a2-8124-4812-9aa7-682ed4287cce",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function / Code node\n// Build search candidates from email, mobile, phone\n\nconst candidates = [];\n\nconst clean = (v) => String(v ?? \"\").trim();\n\nconst normalizeAuNumber9 = (v) => {\n  let digits = clean(v).replace(/\\D/g, \"\"); // digits only\n  if (!digits) return \"\";\n\n  // Remove AU prefixes\n  if (digits.startsWith(\"61\")) digits = digits.slice(2);\n  if (digits.startsWith(\"0\")) digits = digits.slice(1);\n\n  // Keep last 9 digits\n  if (digits.length > 9) digits = digits.slice(-9);\n\n  return digits;\n};\n\n// ✅ Email candidate (use emailAddress)\nif (clean($json.emailAddress)) {\n  candidates.push({\n    q: clean($json.emailAddress),\n    by: \"email\"\n  });\n}\n\n// ✅ Mobile candidate\nconst mobile9 = normalizeAuNumber9($json.mobileNumber);\nif (mobile9) {\n  candidates.push({\n    q: mobile9,\n    by: \"mobile\"\n  });\n}\n\n// ✅ Phone candidate\nconst phone9 = normalizeAuNumber9($json.phoneNumber);\nif (phone9) {\n  candidates.push({\n    q: phone9,\n    by: \"phone\"\n  });\n}\n\nreturn [\n  {\n    json: {\n      ...$json,\n      candidates,\n      found: false\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        -128
+      ],
+      "id": "2a31202c-26f5-4dc3-959d-9f096f2fff4a",
+      "name": "Search by Email, Mobile, Phone"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "candidates",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        288,
+        -32
+      ],
+      "id": "dd9add20-d1e8-4011-89ab-3bd12fb7b499",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "https://wrapp2.windowrevival.com.au/api/search?q=86921&type=contact",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.candidates.q }}"
+            },
+            {
+              "name": "type",
+              "value": "contact"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          },
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        512,
+        -32
+      ],
+      "id": "33a04c0d-791b-444a-a11f-6b9215b53f21",
+      "name": "Search Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code node: Handle successful Wrapp search response\n\nconst status = $json.statusCode ?? null;\nconst body = $json.data ?? {};\n\n// Basic success check\nconst ok = status === 200 && typeof body === \"object\";\n\n// Extract API fields safely\nconst apiMessage = body?.data?.message ?? \"\";\nconst contactRaw = body?.data?.contact ?? null;\n\n// Parse contact list if needed\nlet contacts = [];\nif (typeof contactRaw === \"string\" && contactRaw.trim() !== \"\") {\n  try {\n    contacts = JSON.parse(contactRaw);\n  } catch {}\n} else if (Array.isArray(contactRaw)) {\n  contacts = contactRaw;\n}\n\n// Determine found\nconst found = Array.isArray(contacts) && contacts.length > 0;\n\n// Extract contact_id\nconst contact_id = found ? contacts[0]?.id ?? null : null;\n\nreturn [\n  {\n    json: {\n      ok,\n      found,\n      contact_id,\n      status,\n      message: found\n        ? `Contact found (id: ${contact_id})`\n        : \"No contact found. Proceed to create.\",\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        -32
+      ],
+      "id": "7e4fd7a1-8ec9-4e50-8128-6d2cb526196b",
+      "name": "Success handler "
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1ab2a24b-d655-40c5-88c3-1e79d143c2bf",
+              "leftValue": "={{ $json.found }}",
+              "rightValue": "success",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        960,
+        -32
+      ],
+      "id": "8e5e6965-d3d6-463d-b407-f02b2c69fbbf",
+      "name": "If Search is True the send response"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code node: Success handler + KEEP original lead fields\n// Pull original lead data from the node BEFORE Split Out (or from your mock node)\n\nconst lead = $('Search by Email, Mobile, Phone').first().json;  // <-- IMPORTANT\n// If your node name is different, replace it exactly.\n\nconst status = $json.statusCode ?? null;\nconst body = $json.data ?? {};\n\nconst ok = status === 200 && typeof body === \"object\";\n\n// Extract API fields safely\nconst apiMessage = body?.data?.message ?? \"\";\nconst contactRaw = body?.data?.contact ?? null;\n\n// Parse contact list if needed\nlet contacts = [];\nif (typeof contactRaw === \"string\" && contactRaw.trim() !== \"\") {\n  try { contacts = JSON.parse(contactRaw); } catch {}\n} else if (Array.isArray(contactRaw)) {\n  contacts = contactRaw;\n}\n\nconst found = Array.isArray(contacts) && contacts.length > 0;\nconst contact_id = found ? (contacts[0]?.id ?? null) : null;\n\nreturn [\n  {\n    json: {\n      ...lead,                 // ✅ keep ALL lead fields\n      ok,\n      found,\n      contact_id,\n      status,\n      message: found\n        ? `Contact found (id: ${contact_id})`\n        : \"No contact found. Proceed to create.\"\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        -32
+      ],
+      "id": "5955a4e4-3834-4652-aa85-9a9a660c0ebd",
+      "name": "Preparing fields in Creating Contact"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wrapp2.windowrevival.com.au/api/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Cookie",
+              "value": "ci_session=s1a9kdhillr449fag6g34mbbi2il2lip"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"first_name\" : \"{{ $json.firstName }}\",\n    \"last_name\" : \"{{ $json.lastName }}\",\n    \"email\" : \"{{ $json.emailAddress }}\",\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.address }}\",\n    \"suburb\" : 510,\n    \"state\" : 2,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"company\" : 0,\n    \"lead_source\" : 9,\n    \"job_title\" : \"\",\n    \"other_contact_details\" : \"{{ $json.enquiry }}\",\n    \"google_keyword\" : \"Google\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1408,
+        -32
+      ],
+      "id": "10bc078d-740e-4233-9e2e-9cfd5fab236b",
+      "name": "Create Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ca02b238-39f1-45e4-a174-be94a8e6cda3",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1856,
+        -32
+      ],
+      "id": "a430669b-7256-44c9-b870-b2ce3fd3393b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.data;\n\n// Find where valid JSON starts\nconst jsonStart = raw.indexOf('{');\nif (jsonStart === -1) {\n  throw new Error('No JSON found in response');\n}\n\n// Parse JSON\nconst parsed = JSON.parse(raw.slice(jsonStart));\n\n// Return ONLY the data object\nreturn [\n  {\n    json: parsed.data\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -32
+      ],
+      "id": "aef96151-fcf5-48ea-b3a5-683b13f60179",
+      "name": "Get Contact ID (Success Response)"
+    },
+    {
+      "parameters": {
+        "jsCode": "// clone raw data from earlier node\nconst raw = { ...$('Preparing fields in Creating Contact').first().json };\n\n// get contact id from success parser\nconst contactId =\n  $json?.data?.id ??\n  $json?.data?.data?.id ??\n  $json?.contact_id ??\n  null;\n\n// remove unwanted fields\ndelete raw.candidates;\ndelete raw.found;\ndelete raw.ok;\ndelete raw.status;\ndelete raw.message;\n\n// return cleaned payload\nreturn [\n  {\n    json: {\n      ...raw,\n      contact_id: contactId,\n    },\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        -32
+      ],
+      "id": "499fc18c-7883-4722-a0e9-cdb89f16ab82",
+      "name": "Clean Payload After Contact Create"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wrapp2.windowrevival.com.au/api/opportunities/create",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"contact_id\" : {{ $json.contact_id }},\n    \"lead_source\" : 9,\n    \"pipeline\" : 6,\n    \"product_interest\" : \"Repairs\",\n    \"description\" : \"{{ $json.enquiry }}\",\n    \"next_action\" : \"\",\n    \"action_date\" : \"\",\n    \"owner_id\" : 25,\n    \"status\" : 1,\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.address }}\",\n    \"suburb\" : 2,\n    \"state\" : 1,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"revenue\" : 0,\n    \"chance\" : 50,\n    \"call_result\" : 2,\n    \"contact_name\" : \"{{$json.firstName + ' ' + $json.lastName}}\",\n    \"email\" : \"{{ $json.emailAddress }}\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2304,
+        -32
+      ],
+      "id": "bf70d08c-1a8e-4843-8cfb-cb9c2ead908f",
+      "name": "Create Opportunities",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Search by Email, Mobile, Phone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code node to mimic incoming data (for testing inside the sub-workflow)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code node to mimic incoming data (for testing inside the sub-workflow)": {
+      "main": [
+        [
+          {
+            "node": "Search by Email, Mobile, Phone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search by Email, Mobile, Phone": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Search Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Contact": {
+      "main": [
+        [
+          {
+            "node": "Success handler ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success handler ": {
+      "main": [
+        [
+          {
+            "node": "If Search is True the send response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Search is True the send response": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Preparing fields in Creating Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparing fields in Creating Contact": {
+      "main": [
+        [
+          {
+            "node": "Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Contact": {
+      "main": [
+        [
+          {
+            "node": "Get Contact ID (Success Response)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Contact ID (Success Response)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Clean Payload After Contact Create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Payload After Contact Create": {
+      "main": [
+        [
+          {
+            "node": "Create Opportunities",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "0663969b-4d21-4a8d-858f-f2f1fd477f49",
+  "activeVersionId": "6771042b-0155-4d73-ac0b-0a4da3e49a6e",
+  "versionCounter": 132,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-01-28T03:46:37.483Z",
+      "createdAt": "2026-01-28T03:46:37.483Z",
+      "role": "workflow:owner",
+      "workflowId": "eSdWCK7MPonSrTuzU7-wK",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-02-03T06:43:00.000Z",
+    "createdAt": "2026-02-03T06:41:27.727Z",
+    "versionId": "6771042b-0155-4d73-ac0b-0a4da3e49a6e",
+    "workflowId": "eSdWCK7MPonSrTuzU7-wK",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -144,
+          144
+        ],
+        "id": "4df51290-dd22-42a0-9491-1e5be7b45665",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Code node (JavaScript) - Mock incoming NEW lead (no existing WRapp CRM record)\n\nreturn [\n  {\n    json: {\n      id: \"19a8faac253cf6ab\",\n      leadType: \"Hi Pages Lead\",\n      leadQualifier: \"Good\",\n\n      firstName: \"John\",\n      lastName: \"Doe\",\n\n      mobileNumber: \"0411 121 211\",\n      phoneNumber: \"1222 3545\",\n      emailAddress: \"my@email.com\",\n\n      address: \"1 Test Street\",\n      state: \"Gold Coast\",\n      suburb: \"Clear Island Waters\",\n      postalCode: \"4216\",\n\n      enquiry: \"I would like a long text to test the capacity of the fields, maybe around 100 characters long for validation.\",\n      quantity: \"2\",\n\n      IdLikeToGetMyProjectUnderway: \"Yes\",\n      howTheyHeardAboutUs: \"Google\",\n      referredBy: \"\",\n\n      channelId: \"discord\",\n      authorId: \"123456\",\n      authorName: \"John Doe\"\n    }\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -160,
+          -128
+        ],
+        "id": "0c769077-7070-4ff0-8af4-3184cd52e1e6",
+        "name": "Code node to mimic incoming data (for testing inside the sub-workflow)",
+        "disabled": true
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -384,
+          -128
+        ],
+        "id": "dfe7f4a2-8124-4812-9aa7-682ed4287cce",
+        "name": "When clicking ‘Execute workflow’",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Function / Code node\n// Build search candidates from email, mobile, phone\n\nconst candidates = [];\n\nconst clean = (v) => String(v ?? \"\").trim();\n\nconst normalizeAuNumber9 = (v) => {\n  let digits = clean(v).replace(/\\D/g, \"\"); // digits only\n  if (!digits) return \"\";\n\n  // Remove AU prefixes\n  if (digits.startsWith(\"61\")) digits = digits.slice(2);\n  if (digits.startsWith(\"0\")) digits = digits.slice(1);\n\n  // Keep last 9 digits\n  if (digits.length > 9) digits = digits.slice(-9);\n\n  return digits;\n};\n\n// ✅ Email candidate (use emailAddress)\nif (clean($json.emailAddress)) {\n  candidates.push({\n    q: clean($json.emailAddress),\n    by: \"email\"\n  });\n}\n\n// ✅ Mobile candidate\nconst mobile9 = normalizeAuNumber9($json.mobileNumber);\nif (mobile9) {\n  candidates.push({\n    q: mobile9,\n    by: \"mobile\"\n  });\n}\n\n// ✅ Phone candidate\nconst phone9 = normalizeAuNumber9($json.phoneNumber);\nif (phone9) {\n  candidates.push({\n    q: phone9,\n    by: \"phone\"\n  });\n}\n\nreturn [\n  {\n    json: {\n      ...$json,\n      candidates,\n      found: false\n    }\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          64,
+          -128
+        ],
+        "id": "2a31202c-26f5-4dc3-959d-9f096f2fff4a",
+        "name": "Search by Email, Mobile, Phone"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "candidates",
+          "include": "allOtherFields",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          288,
+          -32
+        ],
+        "id": "dd9add20-d1e8-4011-89ab-3bd12fb7b499",
+        "name": "Split Out"
+      },
+      {
+        "parameters": {
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/search?q=86921&type=contact",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "q",
+                "value": "={{ $json.candidates.q }}"
+              },
+              {
+                "name": "type",
+                "value": "contact"
+              }
+            ]
+          },
+          "options": {
+            "redirect": {
+              "redirect": {
+                "followRedirects": false
+              }
+            },
+            "response": {
+              "response": {
+                "fullResponse": true,
+                "neverError": true,
+                "responseFormat": "json"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          512,
+          -32
+        ],
+        "id": "33a04c0d-791b-444a-a11f-6b9215b53f21",
+        "name": "Search Contact",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Code node: Handle successful Wrapp search response\n\nconst status = $json.statusCode ?? null;\nconst body = $json.data ?? {};\n\n// Basic success check\nconst ok = status === 200 && typeof body === \"object\";\n\n// Extract API fields safely\nconst apiMessage = body?.data?.message ?? \"\";\nconst contactRaw = body?.data?.contact ?? null;\n\n// Parse contact list if needed\nlet contacts = [];\nif (typeof contactRaw === \"string\" && contactRaw.trim() !== \"\") {\n  try {\n    contacts = JSON.parse(contactRaw);\n  } catch {}\n} else if (Array.isArray(contactRaw)) {\n  contacts = contactRaw;\n}\n\n// Determine found\nconst found = Array.isArray(contacts) && contacts.length > 0;\n\n// Extract contact_id\nconst contact_id = found ? contacts[0]?.id ?? null : null;\n\nreturn [\n  {\n    json: {\n      ok,\n      found,\n      contact_id,\n      status,\n      message: found\n        ? `Contact found (id: ${contact_id})`\n        : \"No contact found. Proceed to create.\",\n    }\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          736,
+          -32
+        ],
+        "id": "7e4fd7a1-8ec9-4e50-8128-6d2cb526196b",
+        "name": "Success handler "
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "1ab2a24b-d655-40c5-88c3-1e79d143c2bf",
+                "leftValue": "={{ $json.found }}",
+                "rightValue": "success",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          960,
+          -32
+        ],
+        "id": "8e5e6965-d3d6-463d-b407-f02b2c69fbbf",
+        "name": "If Search is True the send response"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Code node: Success handler + KEEP original lead fields\n// Pull original lead data from the node BEFORE Split Out (or from your mock node)\n\nconst lead = $('Search by Email, Mobile, Phone').first().json;  // <-- IMPORTANT\n// If your node name is different, replace it exactly.\n\nconst status = $json.statusCode ?? null;\nconst body = $json.data ?? {};\n\nconst ok = status === 200 && typeof body === \"object\";\n\n// Extract API fields safely\nconst apiMessage = body?.data?.message ?? \"\";\nconst contactRaw = body?.data?.contact ?? null;\n\n// Parse contact list if needed\nlet contacts = [];\nif (typeof contactRaw === \"string\" && contactRaw.trim() !== \"\") {\n  try { contacts = JSON.parse(contactRaw); } catch {}\n} else if (Array.isArray(contactRaw)) {\n  contacts = contactRaw;\n}\n\nconst found = Array.isArray(contacts) && contacts.length > 0;\nconst contact_id = found ? (contacts[0]?.id ?? null) : null;\n\nreturn [\n  {\n    json: {\n      ...lead,                 // ✅ keep ALL lead fields\n      ok,\n      found,\n      contact_id,\n      status,\n      message: found\n        ? `Contact found (id: ${contact_id})`\n        : \"No contact found. Proceed to create.\"\n    }\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1184,
+          -32
+        ],
+        "id": "5955a4e4-3834-4652-aa85-9a9a660c0ebd",
+        "name": "Preparing fields in Creating Contact"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/contacts",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Accept",
+                "value": "application/json"
+              },
+              {
+                "name": "Cookie",
+                "value": "ci_session=s1a9kdhillr449fag6g34mbbi2il2lip"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n    \"first_name\" : \"{{ $json.firstName }}\",\n    \"last_name\" : \"{{ $json.lastName }}\",\n    \"email\" : \"{{ $json.emailAddress }}\",\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.address }}\",\n    \"suburb\" : 510,\n    \"state\" : 2,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"company\" : 0,\n    \"lead_source\" : 9,\n    \"job_title\" : \"\",\n    \"other_contact_details\" : \"{{ $json.enquiry }}\",\n    \"google_keyword\" : \"Google\"\n}",
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "text"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1408,
+          -32
+        ],
+        "id": "10bc078d-740e-4233-9e2e-9cfd5fab236b",
+        "name": "Create Contact",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "ca02b238-39f1-45e4-a174-be94a8e6cda3",
+                "leftValue": "={{ $json.success }}",
+                "rightValue": 200,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1856,
+          -32
+        ],
+        "id": "a430669b-7256-44c9-b870-b2ce3fd3393b",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "jsCode": "const raw = $json.data;\n\n// Find where valid JSON starts\nconst jsonStart = raw.indexOf('{');\nif (jsonStart === -1) {\n  throw new Error('No JSON found in response');\n}\n\n// Parse JSON\nconst parsed = JSON.parse(raw.slice(jsonStart));\n\n// Return ONLY the data object\nreturn [\n  {\n    json: parsed.data\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1632,
+          -32
+        ],
+        "id": "aef96151-fcf5-48ea-b3a5-683b13f60179",
+        "name": "Get Contact ID (Success Response)"
+      },
+      {
+        "parameters": {
+          "jsCode": "// clone raw data from earlier node\nconst raw = { ...$('Preparing fields in Creating Contact').first().json };\n\n// get contact id from success parser\nconst contactId =\n  $json?.data?.id ??\n  $json?.data?.data?.id ??\n  $json?.contact_id ??\n  null;\n\n// remove unwanted fields\ndelete raw.candidates;\ndelete raw.found;\ndelete raw.ok;\ndelete raw.status;\ndelete raw.message;\n\n// return cleaned payload\nreturn [\n  {\n    json: {\n      ...raw,\n      contact_id: contactId,\n    },\n  },\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2080,
+          -32
+        ],
+        "id": "499fc18c-7883-4722-a0e9-cdb89f16ab82",
+        "name": "Clean Payload After Contact Create"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/opportunities/create",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Accept",
+                "value": "application/json"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n    \"contact_id\" : {{ $json.contact_id }},\n    \"lead_source\" : 9,\n    \"pipeline\" : 6,\n    \"product_interest\" : \"Repairs\",\n    \"description\" : \"{{ $json.enquiry }}\",\n    \"next_action\" : \"\",\n    \"action_date\" : \"\",\n    \"owner_id\" : 25,\n    \"status\" : 1,\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.address }}\",\n    \"suburb\" : 2,\n    \"state\" : 1,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"revenue\" : 0,\n    \"chance\" : 50,\n    \"call_result\" : 2,\n    \"contact_name\" : \"{{$json.firstName + ' ' + $json.lastName}}\",\n    \"email\" : \"{{ $json.emailAddress }}\"\n}",
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "text"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          2304,
+          -32
+        ],
+        "id": "bf70d08c-1a8e-4843-8cfb-cb9c2ead908f",
+        "name": "Create Opportunities",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Search by Email, Mobile, Phone",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Code node to mimic incoming data (for testing inside the sub-workflow)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code node to mimic incoming data (for testing inside the sub-workflow)": {
+        "main": [
+          [
+            {
+              "node": "Search by Email, Mobile, Phone",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search by Email, Mobile, Phone": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out": {
+        "main": [
+          [
+            {
+              "node": "Search Contact",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search Contact": {
+        "main": [
+          [
+            {
+              "node": "Success handler ",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Success handler ": {
+        "main": [
+          [
+            {
+              "node": "If Search is True the send response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If Search is True the send response": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Preparing fields in Creating Contact",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Preparing fields in Creating Contact": {
+        "main": [
+          [
+            {
+              "node": "Create Contact",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create Contact": {
+        "main": [
+          [
+            {
+              "node": "Get Contact ID (Success Response)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Contact ID (Success Response)": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Clean Payload After Contact Create",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Clean Payload After Contact Create": {
+        "main": [
+          [
+            {
+              "node": "Create Opportunities",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Christine Kam",
+    "name": "Version 6771042b",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-02-03T06:43:00.475Z",
+        "id": 120,
+        "workflowId": "eSdWCK7MPonSrTuzU7-wK",
+        "versionId": "6771042b-0155-4d73-ac0b-0a4da3e49a6e",
+        "event": "activated",
+        "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b"
+      }
+    ]
+  }
+}
