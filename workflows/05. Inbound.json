@@ -1,0 +1,3116 @@
+{
+  "updatedAt": "2025-12-31T16:26:56.351Z",
+  "createdAt": "2025-12-08T09:45:25.572Z",
+  "id": "QPzU0F6BdQkepNN6",
+  "name": "05. Inbound",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        928,
+        -648
+      ],
+      "id": "78f5fd92-ab34-4db7-b29e-59451a378e81",
+      "name": "Wait",
+      "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Trigger }}",
+                    "rightValue": "Create Lead",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "3683f2c0-5aea-4a98-8e09-2d2bc78d4be1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create Lead"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "88954350-2dee-4517-af76-2e86fdaf2fa7",
+                    "leftValue": "={{ $json.Trigger }}",
+                    "rightValue": "Search",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Search"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4cb5c1df-0b7e-4075-b319-53e7120ade73",
+                    "leftValue": "={{ $json.Trigger }}",
+                    "rightValue": "Create Quote",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create Quote"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9b98f996-7e09-4ca8-a6ba-67e6169cc25b",
+                    "leftValue": "={{ $json.Trigger }}",
+                    "rightValue": "Create Comment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create Comment"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        480,
+        -488
+      ],
+      "id": "8df61139-5054-43f7-80d5-3c702acc9a3b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+          "mode": "list",
+          "cachedResultName": "Leads Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "raw",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.dateFormatted }}",
+            "Id": "={{ $json.googlesheet_id }}",
+            "Lead Type": "={{ $json.leadType }}",
+            "First Name": "={{ $json.contactFirstName }}",
+            "Last Name": "={{ $json.contactLastName }}",
+            "Mobile Number": "={{ $json.mobileNumber }}",
+            "Email Address": "={{ $json.email }}",
+            "Address": "={{ $json.streetAddress }}",
+            "State": "={{ $json.state }}",
+            "Postal Code": "={{ $json.postalCode }}",
+            "Suburb": "={{ $json.suburb }}",
+            "Phone Number": "={{ $json.phoneNumber }}",
+            "Enquiry": "={{ $json.enquiryDetails }}",
+            "How they heard about us": "={{ $json.howDidYouHearAboutUs }}",
+            "Referred By": "={{ $json.referredBy }}",
+            "Lead Qualifier": "={{ $json.leadQualifier }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Type",
+              "displayName": "Lead Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "State",
+              "displayName": "State",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Suburb",
+              "displayName": "Suburb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Postal Code",
+              "displayName": "Postal Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Enquiry",
+              "displayName": "Enquiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "I’d Like To Get My Project Underway",
+              "displayName": "I’d Like To Get My Project Underway",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "How they heard about us",
+              "displayName": "How they heard about us",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Qualifier",
+              "displayName": "Lead Qualifier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Referred By",
+              "displayName": "Referred By",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1152,
+        -384
+      ],
+      "id": "783e14ce-c140-4cf6-861b-ccc8f1c1bfe2",
+      "name": "Append record to Leads Logs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inbound Tab",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $json.googlesheet_id }}",
+            "Response": "={{ $json.message }}"
+          },
+          "matchingColumns": [
+            "Id"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CSR",
+              "displayName": "CSR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Contact",
+              "displayName": "Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notify",
+              "displayName": "Notify",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Trigger",
+              "displayName": "Trigger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Search Result",
+              "displayName": "Search Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Response",
+              "displayName": "Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1152,
+        -576
+      ],
+      "id": "eea65b4b-c6f7-47b3-a398-a328ebb999de",
+      "name": "Update row in Window Revival - Inbound Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9f506deb-0d5c-4e85-b61b-116d2a0b4101",
+              "leftValue": "={{ $json.Id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "195cd8fc-4f03-43ff-b3a9-bcad4795a351",
+              "leftValue": "={{ $json.Response }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        32,
+        -456
+      ],
+      "id": "1e153720-a207-4c4e-b83a-3f1c33301506",
+      "name": "Check if ID is not empty and response is empty"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n\n// ---- Helpers ----\n\nfunction inferHowDidYouHear(textLower) {\n  if (textLower.includes('hipages')) return 'HiPages Lead';\n  if (textLower.includes('facebook')) return 'Facebook';\n  if (textLower.includes('instagram')) return 'Instagram';\n  if (textLower.includes('youtube')) return 'Youtube';\n  if (textLower.includes('sdr website')) return 'SDR website';\n  if (textLower.includes('wr.net')) return 'WR.net Website';\n  if (textLower.includes('wr.com')) return 'WR.com website';\n  if (textLower.includes('real estate') || textLower.includes('property manager')) {\n    return 'Real Estate Property Managers';\n  }\n  if (textLower.includes('flyer')) return 'Flyers';\n  if (textLower.includes('sticker')) return 'Stickers';\n  if (textLower.includes('referral') || textLower.includes('referal')) return 'Referral';\n  if (textLower.includes('inbound')) return 'Inbound Lead';\n  return 'Google';\n}\n\nfunction normalizeProductInterest(raw) {\n  if (!raw) return 'Repairs';\n  const text = raw.toLowerCase();\n  if (text.includes('window painting')) return 'Window Painting';\n  if (text.includes('new screen')) return 'New Screen';\n  if (text.includes('glass replacement')) return 'Glass Replacement';\n  if (text.includes('repair')) return 'Repairs';\n  return 'Repairs';\n}\n\nfunction extractAfterLabel(text, label) {\n  const idx = text.indexOf(label);\n  if (idx === -1) return '';\n  const after = text.slice(idx + label.length);\n  return after.split('\\n')[0].trim();\n}\n\nfunction extractBetweenLabels(text, startLabel, endLabel) {\n  const startIdx = text.indexOf(startLabel);\n  if (startIdx === -1) return '';\n  const fromStart = text.slice(startIdx + startLabel.length);\n  if (!endLabel) return fromStart.trim();\n  const endIdx = fromStart.indexOf(endLabel);\n  return endIdx === -1 ? fromStart.trim() : fromStart.slice(0, endIdx).trim();\n}\n\nfunction parseAddress(addressRaw) {\n  if (!addressRaw) {\n    return {\n      streetAddress: null,\n      suburb: null,\n      postalCode: null,\n      state: null,\n      addressDescription: null,\n    };\n  }\n\n  let addr = addressRaw.replace(/\\s+/g, ' ').trim();\n  let streetAddress = null,\n    suburb = null,\n    postalCode = null,\n    state = null,\n    addressDescription = null;\n\n  const postMatch = addr.match(/(\\d{4})(?:\\b|$)/);\n  if (postMatch) {\n    postalCode = postMatch[1];\n    addr = addr.replace(postMatch[0], '').trim();\n  }\n\n  const stateMatch = addr.match(/\\b(QLD|NSW|VIC|WA|SA|TAS|ACT|NT)\\b/i);\n  if (stateMatch) {\n    state = stateMatch[1].toUpperCase();\n    addr = addr.replace(stateMatch[0], '').trim();\n  }\n\n  if (addr.includes(',')) {\n    const parts = addr.split(',').map(p => p.trim()).filter(Boolean);\n    if (/\\d/.test(parts[0])) {\n      streetAddress = parts[0];\n      suburb = parts[1] || null;\n      if (parts.length > 2) addressDescription = parts.slice(2).join(', ');\n    } else {\n      suburb = parts[0];\n      if (parts.length > 1) addressDescription = parts.slice(1).join(', ');\n    }\n  } else {\n    suburb = addr || null;\n  }\n\n  return { streetAddress, suburb, postalCode, state, addressDescription };\n}\n\nfunction formatNowBrisbane() {\n  const now = new Date();\n  const dateStr = now.toLocaleDateString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n  });\n\n  const timeStr = now.toLocaleTimeString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  });\n\n  return `${dateStr}, ${timeStr}`;\n}\n\nfunction formatAuPhone(raw) {\n  if (!raw) return null;\n  let digits = String(raw).replace(/\\D/g, '');\n  if (!digits) return null;\n  if (digits.length === 9 && digits.startsWith('4')) digits = '0' + digits;\n  if (digits.length === 10 && digits.startsWith('04'))\n    return `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7)}`;\n  if (digits.length === 10 && digits.startsWith('0'))\n    return `${digits.slice(0, 2)} ${digits.slice(2, 6)} ${digits.slice(6)}`;\n  return digits;\n}\n\nfunction splitContactName(fullName) {\n  if (!fullName) return { contactFirstName: null, contactLastName: null };\n\n  const cleaned = String(fullName).replace(/\\s+/g, ' ').trim();\n  if (!cleaned) return { contactFirstName: null, contactLastName: null };\n\n  const parts = cleaned.split(' ').filter(Boolean);\n\n  if (parts.length === 1) {\n    return { contactFirstName: parts[0], contactLastName: null };\n  }\n\n  return {\n    contactFirstName: parts[0],\n    contactLastName: parts.slice(1).join(' '),\n  };\n}\n\n// ---- Discord directory ----\nconst DISCORD_DIRECTORY = {\n  \"Jon Martinez\": \"438891298708127754\",\n  \"Ray Santa Agata\": \"335993132372066316\",\n  \"Don Puerto\": \"325664446103945217\",\n  \"Jenny Martinez\": \"741976774283493427\",\n  \"Larry Efe\": \"779992712253407252\",\n  \"Rod Penanueva\": \"878089515862999120\",\n  \"Brian Bustamante\": \"993685671262822440\",\n  \"Amie Tagabe\": \"1428522538723447076\",\n  \"Andrew Palencia\": \"1062615267303243817\",\n  \"Christine Kam\": \"534480983098130483\",\n};\n\nfunction resolveFullName(nameOrNull) {\n  const raw = (nameOrNull ?? '').toString().trim();\n  if (!raw) return null;\n\n  if (DISCORD_DIRECTORY[raw]) return raw;\n\n  const low = raw.toLowerCase();\n  const hit = Object.keys(DISCORD_DIRECTORY).find(full => {\n    const fullLow = full.toLowerCase();\n    return fullLow === low || fullLow.includes(low) || low.includes(fullLow);\n  });\n\n  return hit || raw;\n}\n\nfunction resolveDiscordId(fullNameOrNull) {\n  const n = resolveFullName(fullNameOrNull);\n  if (!n) return null;\n  return DISCORD_DIRECTORY[n] || null;\n}\n\n// ---- GLOBAL CSR (from previous node) ----\nconst CSR_VALUE = $input.first().json.CSR || null;\nconst CSR_FULL_NAME = resolveFullName(CSR_VALUE);\n\n// ✅ Normalize Search Result (empty sheet cell -> null)\nconst rawSearchResult = $input.first().json[\"Search Result\"];\nconst SEARCH_RESULT_VALUE =\n  rawSearchResult == null ||\n  (typeof rawSearchResult === \"string\" && rawSearchResult.trim() === \"\")\n    ? null\n    : rawSearchResult;\n\n// ---- Main mapping ----\n\nconst newItems = items.map((item) => {\n  const row = item.json;\n  const contactText = row.Contact || '';\n\n  // Contact name\n  const contactName = extractAfterLabel(contactText, 'Contact Name:');\n  let { contactFirstName, contactLastName } = splitContactName(contactName);\n  if (!contactFirstName) contactFirstName = 'no name';\n\n  // Other fields\n  const contactJobTitle = extractAfterLabel(contactText, 'Contact Job Title:');\n  const addressRaw = extractAfterLabel(contactText, 'Address:');\n  const email = extractAfterLabel(contactText, 'Email:');\n  const mobileRaw = extractAfterLabel(contactText, 'Mobile Number:');\n  const phoneRaw = extractAfterLabel(contactText, 'Phone Number:');\n  const referredByRaw = extractAfterLabel(contactText, 'Referred By:');\n\n  const enquiryDetails = extractBetweenLabels(\n    contactText,\n    'Enquiry Details:',\n    'How did you hear about us?'\n  );\n\n  const howDidRaw = extractBetweenLabels(\n    contactText,\n    'How did you hear about us?',\n    'Product Interest:'\n  );\n\n  const productRaw = extractBetweenLabels(\n    contactText,\n    'Product Interest:',\n    'Sales Pipeline:'\n  );\n\n  const salesPipelineFromText = extractAfterLabel(contactText, 'Sales Pipeline:');\n\n  // ✅ Force leadType to always be \"Inbound Lead\"\n  const leadType = \"Inbound Lead\";\n\n  const salesPipeline = salesPipelineFromText || null;\n\n  // ✅ Normalize Notify -> [{name, discordId}, ...] OR []\n  let notifyRaw = [];\n  if (Array.isArray(row.Notify)) {\n    notifyRaw = row.Notify.filter(Boolean).map(v => String(v).trim());\n  } else if (row.Notify) {\n    notifyRaw = [String(row.Notify).trim()];\n  }\n\n  notifyRaw = notifyRaw.filter(n => {\n    const low = String(n).toLowerCase().trim();\n    if (!low) return false;\n    if (low === 'please select' || low === 'please selected') return false;\n    if (low.startsWith('please select')) return false;\n    if (low.startsWith('please selected')) return false;\n    return true;\n  });\n\n  const notify = notifyRaw\n    .map(resolveFullName)\n    .filter(Boolean)\n    .map((name) => ({\n      name,\n      discordId: resolveDiscordId(name),\n    }));\n\n  const { streetAddress, suburb, postalCode, state, addressDescription } =\n    parseAddress(addressRaw);\n\n  return {\n    json: {\n      googlesheet_id: row.Id || null,\n\n      Trigger: row.Trigger || null,\n      Response: row.Response || null,\n\n      \"Search Result\": SEARCH_RESULT_VALUE,\n\n      dateFormatted: formatNowBrisbane(),\n\n      CSR: CSR_FULL_NAME,\n      CSR_discordId: resolveDiscordId(CSR_FULL_NAME),\n\n      leadQualifier: 'Good',\n      leadType,\n      howDidYouHearAboutUs: inferHowDidYouHear((howDidRaw || '').toLowerCase()),\n      referredBy: referredByRaw || null,\n\n      contactFirstName,\n      contactLastName,\n      contactJobTitle: contactJobTitle || null,\n\n      email: email || null,\n      mobileNumber: formatAuPhone(mobileRaw),\n      phoneNumber: formatAuPhone(phoneRaw),\n\n      streetAddress,\n      suburb,\n      state,\n      postalCode,\n      addressDescription,\n\n      enquiryDetails: enquiryDetails || null,\n      productInterest: normalizeProductInterest(productRaw),\n      salesPipeline,\n\n      notify,\n    }\n  };\n});\n\nreturn newItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        -456
+      ],
+      "id": "a9dd5c1d-dc26-4700-80dc-e0d1fcffb536",
+      "name": "Parse Raw Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3203c95f-95ed-4b41-b703-1d5f19d898fb",
+              "name": "googlesheet_id",
+              "value": "={{ $json.googlesheet_id }}",
+              "type": "string"
+            },
+            {
+              "id": "f1bb6ef4-06d1-4242-ac6d-8af15c89b400",
+              "name": "Trigger",
+              "value": "={{ $json.Trigger }}",
+              "type": "string"
+            },
+            {
+              "id": "18adb671-6bc4-426d-840a-7ee0eb6a697f",
+              "name": "dateFormatted",
+              "value": "={{ $json.dateFormatted }}",
+              "type": "string"
+            },
+            {
+              "id": "8045fedd-f4b1-4e17-a9f8-9119e3e3f137",
+              "name": "CSR",
+              "value": "={{ $json.CSR }}",
+              "type": "string"
+            },
+            {
+              "id": "5cec2cbc-e950-4af2-bfd5-18052991d4ac",
+              "name": "leadQualifier",
+              "value": "={{ $json.leadQualifier }}",
+              "type": "string"
+            },
+            {
+              "id": "d71a5640-a9d0-4345-a43c-303515ddd530",
+              "name": "leadType",
+              "value": "={{ $json.leadType }}",
+              "type": "string"
+            },
+            {
+              "id": "7b6effec-0ca1-4f29-8a8f-5485d7f0f53e",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "f652397d-44dd-4ff7-8839-d975257dfb95",
+              "name": "referredBy",
+              "value": "={{ $json.referredBy }}",
+              "type": "string"
+            },
+            {
+              "id": "76d817b6-3d04-4763-8171-b6cae5c3aaf6",
+              "name": "contactFirstName",
+              "value": "={{ $json.contactFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "4f81b673-6047-402d-b46d-2e7cf98dbf1d",
+              "name": "contactLastName",
+              "value": "={{ $json.contactLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "cbf2a14e-afca-465e-9aef-b8ef216a1ce3",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "07b1d49e-0245-4c8e-9f90-a3a807a4c045",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "7fbee649-a5dc-47e4-984e-001d467de09c",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "ee0cb72d-39bd-40ef-8f7f-c65debabf86a",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "a3b7cec5-c374-44e2-a468-3e5253e19e9b",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "8dd5dccb-17c3-4779-b417-cf95093bdeea",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "95c7c618-e7bc-402d-bac4-2c0e951ad5d2",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "0d7862c7-ffe3-48b3-ac70-61572ad18d84",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "699d0af4-2930-4bc6-8c20-98e7aeb95f5c",
+              "name": "addressDescription",
+              "value": "={{ $json.addressDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "facd5c93-3853-4c32-8937-9e5ba449fde9",
+              "name": "enquiryDetails",
+              "value": "={{ $json.enquiryDetails }}",
+              "type": "string"
+            },
+            {
+              "id": "acd09978-20b8-4b1d-ae3e-020af0988fb1",
+              "name": "productInterest",
+              "value": "={{ $json.productInterest }}",
+              "type": "string"
+            },
+            {
+              "id": "cad73bd1-81af-44fa-839a-11ed522fcb39",
+              "name": "salesPipeline",
+              "value": "={{ $json.salesPipeline }}",
+              "type": "string"
+            },
+            {
+              "id": "e9796e9f-da8e-4722-8b1f-e23d8cbb2ba2",
+              "name": "message",
+              "value": "✅ Lead has been successfully created",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -648
+      ],
+      "id": "e83f08ff-cc87-47c5-9093-b06f593bc127",
+      "name": "Set Create Contact"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"first_name\": \"{{$json.contactFirstName}}\",\n  \"last_name\": \"{{$json.contactLastName}}\",\n  \"email\": \"{{$json.email}}\",\n  \"home_phone\": \"\",\n  \"work_phone\": \"{{$json.phoneNumber}}\",\n  \"mobile\": \"{{$json.mobileNumber}}\",\n  \"street\": \"{{$json.streetAddress}}\",\n  \"suburb\": \"{{$json.suburb}}\",\n  \"state\": \"{{$json.state}}\",\n  \"postal\": \"{{$json.postalCode}}\",\n  \"longitude\": 0,\n  \"latitude\": 0,\n  \"company\": 0,\n  \"lead_source\": 9,\n  \"job_title\": \"{{$json.contactJobTitle}}\",\n  \"other_contact_details\": \"\",\n  \"google_keyword\": \"\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1152,
+        -864
+      ],
+      "id": "88c1af6a-e99d-42a8-8750-3569cf587dbb",
+      "name": "Create Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/opportunities/create",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"contact_id\" : \"{{ $json.contact_id }}\",\n    \"lead_source\" : 9,\n    \"pipeline\" : 53,\n    \"product_interest\" : \"{{ $json.productInterest }}\",\n    \"description\" : \". Goodbye.\",\n    \"next_action\" : \"\",\n    \"action_date\" : \"\",\n    \"owner_id\" : 25,\n    \"status\" : 1,\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.streetAddress }}\",\n    \"suburb\" : 2,\n    \"state\" : 1,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"revenue\" : 0,\n    \"chance\" : 50,\n    \"call_result\" : 2,\n    \"contact_name\" : \"{{ $json.contactFirstName }} {{ $json.contactLastName }}\",\n    \"email\" : \"{{ $json.email }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1824,
+        -792
+      ],
+      "id": "ca6921de-004b-4877-a34b-2f6e0aa5e853",
+      "name": "Create Opportunity",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n// Parses: $json.data (JSON string)\n// Outputs: status, success, contact_id\n\nreturn items.map((item) => {\n  const raw = item.json.data;\n\n  if (typeof raw !== 'string' || !raw.trim()) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: 'Missing or invalid \"data\" field (expected JSON string).',\n      },\n    };\n  }\n\n  try {\n    const parsed = JSON.parse(raw);\n\n    return {\n      json: {\n        status: parsed?.status ?? null,\n        success: parsed?.data?.success ?? null,\n        contact_id: parsed?.data?.data?.id ?? null,\n      },\n    };\n  } catch (err) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: `Failed to parse JSON in \"data\": ${err.message}`,\n      },\n    };\n  }\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1376,
+        -864
+      ],
+      "id": "612658a7-3009-4f98-8d9b-b267edbeca4c",
+      "name": "Parse field after creating Contact"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1600,
+        -792
+      ],
+      "id": "c94f3ea2-3d70-473a-803b-bdec65720c33",
+      "name": "Merge Contact Id and Input Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+              "name": "googlesheet_id",
+              "value": "={{ $json.googlesheet_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+              "name": "dateFormatted",
+              "value": "={{ $json.dateFormatted }}",
+              "type": "string"
+            },
+            {
+              "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+              "name": "CSR",
+              "value": "={{ $json.CSR }}",
+              "type": "string"
+            },
+            {
+              "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+              "name": "leadQualifier",
+              "value": "={{ $json.leadQualifier }}",
+              "type": "string"
+            },
+            {
+              "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+              "name": "leadType",
+              "value": "={{ $json.leadType }}",
+              "type": "string"
+            },
+            {
+              "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+              "name": "referredBy",
+              "value": "={{ $json.referredBy }}",
+              "type": "string"
+            },
+            {
+              "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+              "name": "contactFirstName",
+              "value": "={{ $json.contactFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+              "name": "contactLastName",
+              "value": "={{ $json.contactLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+              "name": "contactJobTitle",
+              "value": "={{ $json.contactJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+              "name": "addressDescription",
+              "value": "={{ $json.addressDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+              "name": "enquiryDetails",
+              "value": "={{ $json.enquiryDetails }}",
+              "type": "string"
+            },
+            {
+              "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+              "name": "productInterest",
+              "value": "={{ $json.productInterest }}",
+              "type": "string"
+            },
+            {
+              "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+              "name": "salesPipeline",
+              "value": "={{ $json.salesPipeline }}",
+              "type": "string"
+            },
+            {
+              "id": "557e23c1-784c-4a9b-9039-3fd37bbe9abc",
+              "name": "CSR_discordId",
+              "value": "={{ $json.CSR_discordId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -192
+      ],
+      "id": "8613db06-f397-4003-aa67-8150b1531b82",
+      "name": "Set Search Field"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        928,
+        -192
+      ],
+      "id": "0de5bf8e-e612-4ed2-9f6a-dea8b0cbee79",
+      "name": "Search Wait",
+      "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+    },
+    {
+      "parameters": {
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/search?q=86921&type=contact",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.candidates.q }}"
+            },
+            {
+              "name": "type",
+              "value": "contact"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1600,
+        -192
+      ],
+      "id": "0b18fd64-9626-496c-ac00-9575e6d5ec72",
+      "name": "Search Contact",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function node\n\nconst candidates = [];\n\nconst clean = (v) => String(v ?? \"\").trim();\n\nconst normalizeAuNumber9 = (v) => {\n  let digits = clean(v).replace(/\\D/g, \"\"); // keep digits only\n  if (!digits) return \"\";\n\n  // Remove common AU prefixes\n  if (digits.startsWith(\"61\")) digits = digits.slice(2); // +61 / 61\n  if (digits.startsWith(\"0\")) digits = digits.slice(1);  // 04.. or 02.. etc\n\n  // Force to last 9 digits (mobile/landline after removing 0 is typically 9 digits)\n  if (digits.length > 9) digits = digits.slice(-9);\n\n  return digits;\n};\n\n// Email candidate (as-is)\nif (clean($json.email)) {\n  candidates.push({ q: clean($json.email), by: \"email\" });\n}\n\n// Mobile candidate (normalized to 9 digits)\nconst mobile9 = normalizeAuNumber9($json.mobileNumber);\nif (mobile9) {\n  candidates.push({ q: mobile9, by: \"mobile\" });\n}\n\n// Phone candidate (normalized to 9 digits)\nconst phone9 = normalizeAuNumber9($json.phoneNumber);\nif (phone9) {\n  candidates.push({ q: phone9, by: \"phone\" });\n}\n\nreturn [{ ...$json, candidates, found: false }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        -192
+      ],
+      "id": "768c9f3c-2cb5-4d78-bb49-3bf28e35100c",
+      "name": "Search by Email, Mobile, Phone"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1ab2a24b-d655-40c5-88c3-1e79d143c2bf",
+              "leftValue": "={{ $json.found }}",
+              "rightValue": "success",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2048,
+        -192
+      ],
+      "id": "b34503da-e7f9-4c5e-9d34-e9bc9982867d",
+      "name": "If Search is True the send response"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inbound Tab",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $json.id }}",
+            "Response": "={{ $json.message }}"
+          },
+          "matchingColumns": [
+            "Id"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CSR",
+              "displayName": "CSR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Contact",
+              "displayName": "Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notify",
+              "displayName": "Notify",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Trigger",
+              "displayName": "Trigger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Search Result",
+              "displayName": "Search Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Response",
+              "displayName": "Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2272,
+        -192
+      ],
+      "id": "23f2ca27-cc83-468d-9e1f-6eed1ae9f452",
+      "name": "Update row in Window Revival - Inbound Tab1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "candidates",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "googlesheet_id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        -192
+      ],
+      "id": "6d376f20-b010-465d-9d09-6d9bbc1123a5",
+      "name": "Set Candidate for Search"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function node (place AFTER HTTP Request)\n//\n// Output only:\n// - id          (from Split Out -> googlesheet_id)\n// - status\n// - found\n// - contact_id  (from API contact[0].id when found)\n// - message     (2 lines when found)\n//\n// Removes original `data` and does not include `parsed`.\n\nlet parsed;\ntry {\n  parsed = typeof $json.data === \"string\" ? JSON.parse($json.data) : ($json.data ?? {});\n} catch (e) {\n  parsed = {};\n}\n\nconst status = parsed?.status ?? null;\n\nconst apiMessage = parsed?.data?.message ?? null;     // e.g. \"Data not found\"\nconst apiContactRaw = parsed?.data?.contact ?? null;  // e.g. \"[{ \\\"id\\\": 86940, ...}]\"\n\n// Parse contact array if present (it is a JSON string in your payload)\nlet contactArr = [];\nif (typeof apiContactRaw === \"string\" && apiContactRaw.trim() !== \"\") {\n  try {\n    contactArr = JSON.parse(apiContactRaw);\n  } catch (e) {\n    contactArr = [];\n  }\n}\n\n// Determine found:\n// Prefer actual contact data; fallback to message check\nconst found = (Array.isArray(contactArr) && contactArr.length > 0)\n  ? true\n  : !(typeof apiMessage === \"string\" && apiMessage.toLowerCase().includes(\"data not found\"));\n\n// Extract contact_id if found\nconst contact_id = (found && Array.isArray(contactArr) && contactArr[0]?.id != null)\n  ? contactArr[0].id\n  : null;\n\n// 2-line message when found\nconst message = found\n  ? `Contact found\\ncontact_id: ${contact_id}`\n  : \"No contact found (checked email, mobile, and phone).\";\n\n// Pull id from the \"Split Out\" node\nconst id = $('Set Candidate for Search').first().json.googlesheet_id ?? null;\n\nreturn [{\n  id,\n  status,\n  found,\n  contact_id,\n  message,\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1824,
+        -192
+      ],
+      "id": "d36c1333-76ec-4a0a-b80c-99631a7eac67",
+      "name": "Parse Search Fields"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inbound Tab",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        -456
+      ],
+      "id": "da60a4ff-8f22-4feb-80d0-b8e83645662e",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "X6hUNZyYXuyFC9wd",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Append record to Leads Logs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Contact",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Contact Id and Input Fields",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Update row in Window Revival - Inbound Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Set Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Search Field",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        []
+      ]
+    },
+    "Append record to Leads Logs": {
+      "main": [
+        []
+      ]
+    },
+    "Check if ID is not empty and response is empty": {
+      "main": [
+        [
+          {
+            "node": "Parse Raw Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Raw Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Create Contact": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Contact": {
+      "main": [
+        [
+          {
+            "node": "Parse field after creating Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse field after creating Contact": {
+      "main": [
+        [
+          {
+            "node": "Merge Contact Id and Input Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Contact Id and Input Fields": {
+      "main": [
+        [
+          {
+            "node": "Create Opportunity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Field": {
+      "main": [
+        [
+          {
+            "node": "Search Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Wait": {
+      "main": [
+        [
+          {
+            "node": "Search by Email, Mobile, Phone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Contact": {
+      "main": [
+        [
+          {
+            "node": "Parse Search Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search by Email, Mobile, Phone": {
+      "main": [
+        [
+          {
+            "node": "Set Candidate for Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Search is True the send response": {
+      "main": [
+        [
+          {
+            "node": "Update row in Window Revival - Inbound Tab1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in Window Revival - Inbound Tab1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Candidate for Search": {
+      "main": [
+        [
+          {
+            "node": "Search Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Search Fields": {
+      "main": [
+        [
+          {
+            "node": "If Search is True the send response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Check if ID is not empty and response is empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "all",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "staticData": {
+    "node:Google Sheets Trigger": {
+      "documentId": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+      "sheetId": 0,
+      "lastRevision": 1117,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y&revision=1117&exportFormat=xlsx"
+    },
+    "node:Google Sheets Trigger1": {
+      "documentId": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+      "sheetId": 0,
+      "lastRevision": 1117,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y&revision=1117&exportFormat=xlsx"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "c6fcd563-e157-4f00-9f59-85630c2f75ed",
+  "activeVersionId": "273637cf-5c47-4faa-b9f5-4d99d52eae8b",
+  "versionCounter": 196,
+  "triggerCount": 2,
+  "shared": [
+    {
+      "updatedAt": "2025-12-08T09:45:25.579Z",
+      "createdAt": "2025-12-08T09:45:25.579Z",
+      "role": "workflow:owner",
+      "workflowId": "QPzU0F6BdQkepNN6",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-11-25T13:05:18.454Z",
+      "createdAt": "2025-11-25T13:05:18.454Z",
+      "id": "xn6seEX74pkTOLqC",
+      "name": "@lead"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2025-12-31T16:25:51.000Z",
+    "createdAt": "2025-12-31T16:25:32.128Z",
+    "versionId": "273637cf-5c47-4faa-b9f5-4d99d52eae8b",
+    "workflowId": "QPzU0F6BdQkepNN6",
+    "nodes": [
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "documentId": {
+            "__rl": true,
+            "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+            "mode": "list",
+            "cachedResultName": "Window Revival - System",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Inbound Tab",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=0"
+          },
+          "options": {
+            "columnsToWatch": [
+              "Trigger"
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.googleSheetsTrigger",
+        "typeVersion": 1,
+        "position": [
+          -112,
+          -672
+        ],
+        "id": "30c367e5-5fec-48c8-9191-a957e4845a59",
+        "name": "Google Sheets Trigger",
+        "credentials": {
+          "googleSheetsTriggerOAuth2Api": {
+            "id": "X6hUNZyYXuyFC9wd",
+            "name": "Google Sheets Trigger account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1024,
+          -656
+        ],
+        "id": "78f5fd92-ab34-4db7-b29e-59451a378e81",
+        "name": "Wait",
+        "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.Trigger }}",
+                      "rightValue": "Create Lead",
+                      "operator": {
+                        "type": "string",
+                        "operation": "contains"
+                      },
+                      "id": "3683f2c0-5aea-4a98-8e09-2d2bc78d4be1"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Create Lead"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "88954350-2dee-4517-af76-2e86fdaf2fa7",
+                      "leftValue": "={{ $json.Trigger }}",
+                      "rightValue": "Search",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Search"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "4cb5c1df-0b7e-4075-b319-53e7120ade73",
+                      "leftValue": "={{ $json.Trigger }}",
+                      "rightValue": "Create Quote",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Create Quote"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "9b98f996-7e09-4ca8-a6ba-67e6169cc25b",
+                      "leftValue": "={{ $json.Trigger }}",
+                      "rightValue": "Create Comment",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Create Comment"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          576,
+          -496
+        ],
+        "id": "8df61139-5054-43f7-80d5-3c702acc9a3b",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+            "mode": "list",
+            "cachedResultName": "Leads Logs",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "raw",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Timestamp": "={{ $json.dateFormatted }}",
+              "Id": "={{ $json.googlesheet_id }}",
+              "Lead Type": "={{ $json.leadType }}",
+              "First Name": "={{ $json.contactFirstName }}",
+              "Last Name": "={{ $json.contactLastName }}",
+              "Mobile Number": "={{ $json.mobileNumber }}",
+              "Email Address": "={{ $json.email }}",
+              "Address": "={{ $json.streetAddress }}",
+              "State": "={{ $json.state }}",
+              "Postal Code": "={{ $json.postalCode }}",
+              "Suburb": "={{ $json.suburb }}",
+              "Phone Number": "={{ $json.phoneNumber }}",
+              "Enquiry": "={{ $json.enquiryDetails }}",
+              "How they heard about us": "={{ $json.howDidYouHearAboutUs }}",
+              "Referred By": "={{ $json.referredBy }}",
+              "Lead Qualifier": "={{ $json.leadQualifier }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Timestamp",
+                "displayName": "Timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Id",
+                "displayName": "Id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Lead Type",
+                "displayName": "Lead Type",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "First Name",
+                "displayName": "First Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Last Name",
+                "displayName": "Last Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Mobile Number",
+                "displayName": "Mobile Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Phone Number",
+                "displayName": "Phone Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Email Address",
+                "displayName": "Email Address",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Address",
+                "displayName": "Address",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "State",
+                "displayName": "State",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Suburb",
+                "displayName": "Suburb",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Postal Code",
+                "displayName": "Postal Code",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Enquiry",
+                "displayName": "Enquiry",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Quantity",
+                "displayName": "Quantity",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "I’d Like To Get My Project Underway",
+                "displayName": "I’d Like To Get My Project Underway",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "How they heard about us",
+                "displayName": "How they heard about us",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Lead Qualifier",
+                "displayName": "Lead Qualifier",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Referred By",
+                "displayName": "Referred By",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1248,
+          -384
+        ],
+        "id": "783e14ce-c140-4cf6-861b-ccc8f1c1bfe2",
+        "name": "Append record to Leads Logs",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+            "mode": "list",
+            "cachedResultName": "Window Revival - System",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Inbound Tab",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Id": "={{ $json.googlesheet_id }}",
+              "Response": "={{ $json.message }}"
+            },
+            "matchingColumns": [
+              "Id"
+            ],
+            "schema": [
+              {
+                "id": "Date",
+                "displayName": "Date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "CSR",
+                "displayName": "CSR",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Contact",
+                "displayName": "Contact",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Comment",
+                "displayName": "Comment",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Notify",
+                "displayName": "Notify",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Trigger",
+                "displayName": "Trigger",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Search Result",
+                "displayName": "Search Result",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Id",
+                "displayName": "Id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Response",
+                "displayName": "Response",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1248,
+          -592
+        ],
+        "id": "eea65b4b-c6f7-47b3-a398-a328ebb999de",
+        "name": "Update row in Window Revival - Inbound Tab",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "9f506deb-0d5c-4e85-b61b-116d2a0b4101",
+                "leftValue": "={{ $json.Id }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "195cd8fc-4f03-43ff-b3a9-bcad4795a351",
+                "leftValue": "={{ $json.Response }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          128,
+          -464
+        ],
+        "id": "1e153720-a207-4c4e-b83a-3f1c33301506",
+        "name": "Check if ID is not empty and response is empty"
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Code node (JavaScript)\n\n// ---- Helpers ----\n\nfunction inferHowDidYouHear(textLower) {\n  if (textLower.includes('hipages')) return 'HiPages Lead';\n  if (textLower.includes('facebook')) return 'Facebook';\n  if (textLower.includes('instagram')) return 'Instagram';\n  if (textLower.includes('youtube')) return 'Youtube';\n  if (textLower.includes('sdr website')) return 'SDR website';\n  if (textLower.includes('wr.net')) return 'WR.net Website';\n  if (textLower.includes('wr.com')) return 'WR.com website';\n  if (textLower.includes('real estate') || textLower.includes('property manager')) {\n    return 'Real Estate Property Managers';\n  }\n  if (textLower.includes('flyer')) return 'Flyers';\n  if (textLower.includes('sticker')) return 'Stickers';\n  if (textLower.includes('referral') || textLower.includes('referal')) return 'Referral';\n  if (textLower.includes('inbound')) return 'Inbound Lead';\n  return 'Google';\n}\n\nfunction normalizeProductInterest(raw) {\n  if (!raw) return 'Repairs';\n  const text = raw.toLowerCase();\n  if (text.includes('window painting')) return 'Window Painting';\n  if (text.includes('new screen')) return 'New Screen';\n  if (text.includes('glass replacement')) return 'Glass Replacement';\n  if (text.includes('repair')) return 'Repairs';\n  return 'Repairs';\n}\n\nfunction extractAfterLabel(text, label) {\n  const idx = text.indexOf(label);\n  if (idx === -1) return '';\n  const after = text.slice(idx + label.length);\n  return after.split('\\n')[0].trim();\n}\n\nfunction extractBetweenLabels(text, startLabel, endLabel) {\n  const startIdx = text.indexOf(startLabel);\n  if (startIdx === -1) return '';\n  const fromStart = text.slice(startIdx + startLabel.length);\n  if (!endLabel) return fromStart.trim();\n  const endIdx = fromStart.indexOf(endLabel);\n  return endIdx === -1 ? fromStart.trim() : fromStart.slice(0, endIdx).trim();\n}\n\nfunction parseAddress(addressRaw) {\n  if (!addressRaw) {\n    return {\n      streetAddress: null,\n      suburb: null,\n      postalCode: null,\n      state: null,\n      addressDescription: null,\n    };\n  }\n\n  let addr = addressRaw.replace(/\\s+/g, ' ').trim();\n  let streetAddress = null,\n    suburb = null,\n    postalCode = null,\n    state = null,\n    addressDescription = null;\n\n  const postMatch = addr.match(/(\\d{4})(?:\\b|$)/);\n  if (postMatch) {\n    postalCode = postMatch[1];\n    addr = addr.replace(postMatch[0], '').trim();\n  }\n\n  const stateMatch = addr.match(/\\b(QLD|NSW|VIC|WA|SA|TAS|ACT|NT)\\b/i);\n  if (stateMatch) {\n    state = stateMatch[1].toUpperCase();\n    addr = addr.replace(stateMatch[0], '').trim();\n  }\n\n  if (addr.includes(',')) {\n    const parts = addr.split(',').map(p => p.trim()).filter(Boolean);\n    if (/\\d/.test(parts[0])) {\n      streetAddress = parts[0];\n      suburb = parts[1] || null;\n      if (parts.length > 2) addressDescription = parts.slice(2).join(', ');\n    } else {\n      suburb = parts[0];\n      if (parts.length > 1) addressDescription = parts.slice(1).join(', ');\n    }\n  } else {\n    suburb = addr || null;\n  }\n\n  return { streetAddress, suburb, postalCode, state, addressDescription };\n}\n\nfunction formatNowBrisbane() {\n  const now = new Date();\n  const dateStr = now.toLocaleDateString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric',\n  });\n\n  const timeStr = now.toLocaleTimeString('en-AU', {\n    timeZone: 'Australia/Brisbane',\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false,\n  });\n\n  return `${dateStr}, ${timeStr}`;\n}\n\nfunction formatAuPhone(raw) {\n  if (!raw) return null;\n  let digits = String(raw).replace(/\\D/g, '');\n  if (!digits) return null;\n  if (digits.length === 9 && digits.startsWith('4')) digits = '0' + digits;\n  if (digits.length === 10 && digits.startsWith('04'))\n    return `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7)}`;\n  if (digits.length === 10 && digits.startsWith('0'))\n    return `${digits.slice(0, 2)} ${digits.slice(2, 6)} ${digits.slice(6)}`;\n  return digits;\n}\n\nfunction splitContactName(fullName) {\n  if (!fullName) return { contactFirstName: null, contactLastName: null };\n\n  const cleaned = String(fullName).replace(/\\s+/g, ' ').trim();\n  if (!cleaned) return { contactFirstName: null, contactLastName: null };\n\n  const parts = cleaned.split(' ').filter(Boolean);\n\n  if (parts.length === 1) {\n    return { contactFirstName: parts[0], contactLastName: null };\n  }\n\n  return {\n    contactFirstName: parts[0],\n    contactLastName: parts.slice(1).join(' '),\n  };\n}\n\n// ---- Discord directory ----\nconst DISCORD_DIRECTORY = {\n  \"Jon Martinez\": \"438891298708127754\",\n  \"Ray Santa Agata\": \"335993132372066316\",\n  \"Don Puerto\": \"325664446103945217\",\n  \"Jenny Martinez\": \"741976774283493427\",\n  \"Larry Efe\": \"779992712253407252\",\n  \"Rod Penanueva\": \"878089515862999120\",\n  \"Brian Bustamante\": \"993685671262822440\",\n  \"Amie Tagabe\": \"1428522538723447076\",\n  \"Andrew Palencia\": \"1062615267303243817\",\n  \"Christine Kam\": \"534480983098130483\",\n};\n\nfunction resolveFullName(nameOrNull) {\n  const raw = (nameOrNull ?? '').toString().trim();\n  if (!raw) return null;\n\n  if (DISCORD_DIRECTORY[raw]) return raw;\n\n  const low = raw.toLowerCase();\n  const hit = Object.keys(DISCORD_DIRECTORY).find(full => {\n    const fullLow = full.toLowerCase();\n    return fullLow === low || fullLow.includes(low) || low.includes(fullLow);\n  });\n\n  return hit || raw;\n}\n\nfunction resolveDiscordId(fullNameOrNull) {\n  const n = resolveFullName(fullNameOrNull);\n  if (!n) return null;\n  return DISCORD_DIRECTORY[n] || null;\n}\n\n// ---- GLOBAL CSR (from previous node) ----\nconst CSR_VALUE = $input.first().json.CSR || null;\nconst CSR_FULL_NAME = resolveFullName(CSR_VALUE);\n\n// ✅ Normalize Search Result (empty sheet cell -> null)\nconst rawSearchResult = $input.first().json[\"Search Result\"];\nconst SEARCH_RESULT_VALUE =\n  rawSearchResult == null ||\n  (typeof rawSearchResult === \"string\" && rawSearchResult.trim() === \"\")\n    ? null\n    : rawSearchResult;\n\n// ---- Main mapping ----\n\nconst newItems = items.map((item) => {\n  const row = item.json;\n  const contactText = row.Contact || '';\n\n  // Contact name\n  const contactName = extractAfterLabel(contactText, 'Contact Name:');\n  let { contactFirstName, contactLastName } = splitContactName(contactName);\n  if (!contactFirstName) contactFirstName = 'no name';\n\n  // Other fields\n  const contactJobTitle = extractAfterLabel(contactText, 'Contact Job Title:');\n  const addressRaw = extractAfterLabel(contactText, 'Address:');\n  const email = extractAfterLabel(contactText, 'Email:');\n  const mobileRaw = extractAfterLabel(contactText, 'Mobile Number:');\n  const phoneRaw = extractAfterLabel(contactText, 'Phone Number:');\n  const referredByRaw = extractAfterLabel(contactText, 'Referred By:');\n\n  const enquiryDetails = extractBetweenLabels(\n    contactText,\n    'Enquiry Details:',\n    'How did you hear about us?'\n  );\n\n  const howDidRaw = extractBetweenLabels(\n    contactText,\n    'How did you hear about us?',\n    'Product Interest:'\n  );\n\n  const productRaw = extractBetweenLabels(\n    contactText,\n    'Product Interest:',\n    'Sales Pipeline:'\n  );\n\n  const salesPipelineFromText = extractAfterLabel(contactText, 'Sales Pipeline:');\n\n  // ✅ Force leadType to always be \"Inbound Lead\"\n  const leadType = \"Inbound Lead\";\n\n  const salesPipeline = salesPipelineFromText || null;\n\n  // ✅ Normalize Notify -> [{name, discordId}, ...] OR []\n  let notifyRaw = [];\n  if (Array.isArray(row.Notify)) {\n    notifyRaw = row.Notify.filter(Boolean).map(v => String(v).trim());\n  } else if (row.Notify) {\n    notifyRaw = [String(row.Notify).trim()];\n  }\n\n  notifyRaw = notifyRaw.filter(n => {\n    const low = String(n).toLowerCase().trim();\n    if (!low) return false;\n    if (low === 'please select' || low === 'please selected') return false;\n    if (low.startsWith('please select')) return false;\n    if (low.startsWith('please selected')) return false;\n    return true;\n  });\n\n  const notify = notifyRaw\n    .map(resolveFullName)\n    .filter(Boolean)\n    .map((name) => ({\n      name,\n      discordId: resolveDiscordId(name),\n    }));\n\n  const { streetAddress, suburb, postalCode, state, addressDescription } =\n    parseAddress(addressRaw);\n\n  return {\n    json: {\n      googlesheet_id: row.Id || null,\n\n      Trigger: row.Trigger || null,\n      Response: row.Response || null,\n\n      \"Search Result\": SEARCH_RESULT_VALUE,\n\n      dateFormatted: formatNowBrisbane(),\n\n      CSR: CSR_FULL_NAME,\n      CSR_discordId: resolveDiscordId(CSR_FULL_NAME),\n\n      leadQualifier: 'Good',\n      leadType,\n      howDidYouHearAboutUs: inferHowDidYouHear((howDidRaw || '').toLowerCase()),\n      referredBy: referredByRaw || null,\n\n      contactFirstName,\n      contactLastName,\n      contactJobTitle: contactJobTitle || null,\n\n      email: email || null,\n      mobileNumber: formatAuPhone(mobileRaw),\n      phoneNumber: formatAuPhone(phoneRaw),\n\n      streetAddress,\n      suburb,\n      state,\n      postalCode,\n      addressDescription,\n\n      enquiryDetails: enquiryDetails || null,\n      productInterest: normalizeProductInterest(productRaw),\n      salesPipeline,\n\n      notify,\n    }\n  };\n});\n\nreturn newItems;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          352,
+          -464
+        ],
+        "id": "a9dd5c1d-dc26-4700-80dc-e0d1fcffb536",
+        "name": "Parse Raw Fields"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3203c95f-95ed-4b41-b703-1d5f19d898fb",
+                "name": "googlesheet_id",
+                "value": "={{ $json.googlesheet_id }}",
+                "type": "string"
+              },
+              {
+                "id": "f1bb6ef4-06d1-4242-ac6d-8af15c89b400",
+                "name": "Trigger",
+                "value": "={{ $json.Trigger }}",
+                "type": "string"
+              },
+              {
+                "id": "18adb671-6bc4-426d-840a-7ee0eb6a697f",
+                "name": "dateFormatted",
+                "value": "={{ $json.dateFormatted }}",
+                "type": "string"
+              },
+              {
+                "id": "8045fedd-f4b1-4e17-a9f8-9119e3e3f137",
+                "name": "CSR",
+                "value": "={{ $json.CSR }}",
+                "type": "string"
+              },
+              {
+                "id": "5cec2cbc-e950-4af2-bfd5-18052991d4ac",
+                "name": "leadQualifier",
+                "value": "={{ $json.leadQualifier }}",
+                "type": "string"
+              },
+              {
+                "id": "d71a5640-a9d0-4345-a43c-303515ddd530",
+                "name": "leadType",
+                "value": "={{ $json.leadType }}",
+                "type": "string"
+              },
+              {
+                "id": "7b6effec-0ca1-4f29-8a8f-5485d7f0f53e",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "f652397d-44dd-4ff7-8839-d975257dfb95",
+                "name": "referredBy",
+                "value": "={{ $json.referredBy }}",
+                "type": "string"
+              },
+              {
+                "id": "76d817b6-3d04-4763-8171-b6cae5c3aaf6",
+                "name": "contactFirstName",
+                "value": "={{ $json.contactFirstName }}",
+                "type": "string"
+              },
+              {
+                "id": "4f81b673-6047-402d-b46d-2e7cf98dbf1d",
+                "name": "contactLastName",
+                "value": "={{ $json.contactLastName }}",
+                "type": "string"
+              },
+              {
+                "id": "cbf2a14e-afca-465e-9aef-b8ef216a1ce3",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "07b1d49e-0245-4c8e-9f90-a3a807a4c045",
+                "name": "email",
+                "value": "={{ $json.email }}",
+                "type": "string"
+              },
+              {
+                "id": "7fbee649-a5dc-47e4-984e-001d467de09c",
+                "name": "mobileNumber",
+                "value": "={{ $json.mobileNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "ee0cb72d-39bd-40ef-8f7f-c65debabf86a",
+                "name": "phoneNumber",
+                "value": "={{ $json.phoneNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "a3b7cec5-c374-44e2-a468-3e5253e19e9b",
+                "name": "streetAddress",
+                "value": "={{ $json.streetAddress }}",
+                "type": "string"
+              },
+              {
+                "id": "8dd5dccb-17c3-4779-b417-cf95093bdeea",
+                "name": "suburb",
+                "value": "={{ $json.suburb }}",
+                "type": "string"
+              },
+              {
+                "id": "95c7c618-e7bc-402d-bac4-2c0e951ad5d2",
+                "name": "state",
+                "value": "={{ $json.state }}",
+                "type": "string"
+              },
+              {
+                "id": "0d7862c7-ffe3-48b3-ac70-61572ad18d84",
+                "name": "postalCode",
+                "value": "={{ $json.postalCode }}",
+                "type": "string"
+              },
+              {
+                "id": "699d0af4-2930-4bc6-8c20-98e7aeb95f5c",
+                "name": "addressDescription",
+                "value": "={{ $json.addressDescription }}",
+                "type": "string"
+              },
+              {
+                "id": "facd5c93-3853-4c32-8937-9e5ba449fde9",
+                "name": "enquiryDetails",
+                "value": "={{ $json.enquiryDetails }}",
+                "type": "string"
+              },
+              {
+                "id": "acd09978-20b8-4b1d-ae3e-020af0988fb1",
+                "name": "productInterest",
+                "value": "={{ $json.productInterest }}",
+                "type": "string"
+              },
+              {
+                "id": "cad73bd1-81af-44fa-839a-11ed522fcb39",
+                "name": "salesPipeline",
+                "value": "={{ $json.salesPipeline }}",
+                "type": "string"
+              },
+              {
+                "id": "e9796e9f-da8e-4722-8b1f-e23d8cbb2ba2",
+                "name": "message",
+                "value": "✅ Lead has been successfully created",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          800,
+          -656
+        ],
+        "id": "e83f08ff-cc87-47c5-9093-b06f593bc127",
+        "name": "Set Create Contact"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/contacts",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"first_name\": \"{{$json.contactFirstName}}\",\n  \"last_name\": \"{{$json.contactLastName}}\",\n  \"email\": \"{{$json.email}}\",\n  \"home_phone\": \"\",\n  \"work_phone\": \"{{$json.phoneNumber}}\",\n  \"mobile\": \"{{$json.mobileNumber}}\",\n  \"street\": \"{{$json.streetAddress}}\",\n  \"suburb\": \"{{$json.suburb}}\",\n  \"state\": \"{{$json.state}}\",\n  \"postal\": \"{{$json.postalCode}}\",\n  \"longitude\": 0,\n  \"latitude\": 0,\n  \"company\": 0,\n  \"lead_source\": 9,\n  \"job_title\": \"{{$json.contactJobTitle}}\",\n  \"other_contact_details\": \"\",\n  \"google_keyword\": \"\"\n}\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1248,
+          -864
+        ],
+        "id": "88c1af6a-e99d-42a8-8750-3569cf587dbb",
+        "name": "Create Contact",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/opportunities/create",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n    \"contact_id\" : \"{{ $json.contact_id }}\",\n    \"lead_source\" : 9,\n    \"pipeline\" : 53,\n    \"product_interest\" : \"{{ $json.productInterest }}\",\n    \"description\" : \". Goodbye.\",\n    \"next_action\" : \"\",\n    \"action_date\" : \"\",\n    \"owner_id\" : 25,\n    \"status\" : 1,\n    \"home_phone\" : \"\",\n    \"work_phone\" : \"{{ $json.phoneNumber }}\",\n    \"mobile\" : \"{{ $json.mobileNumber }}\",\n    \"street\" : \"{{ $json.streetAddress }}\",\n    \"suburb\" : 2,\n    \"state\" : 1,\n    \"postal\" : \"{{ $json.postalCode }}\",\n    \"longitude\" : 0,\n    \"latitude\" : 0,\n    \"revenue\" : 0,\n    \"chance\" : 50,\n    \"call_result\" : 2,\n    \"contact_name\" : \"{{ $json.contactFirstName }} {{ $json.contactLastName }}\",\n    \"email\" : \"{{ $json.email }}\"\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1920,
+          -800
+        ],
+        "id": "ca6921de-004b-4877-a34b-2f6e0aa5e853",
+        "name": "Create Opportunity",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Code node (JavaScript)\n// Parses: $json.data (JSON string)\n// Outputs: status, success, contact_id\n\nreturn items.map((item) => {\n  const raw = item.json.data;\n\n  if (typeof raw !== 'string' || !raw.trim()) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: 'Missing or invalid \"data\" field (expected JSON string).',\n      },\n    };\n  }\n\n  try {\n    const parsed = JSON.parse(raw);\n\n    return {\n      json: {\n        status: parsed?.status ?? null,\n        success: parsed?.data?.success ?? null,\n        contact_id: parsed?.data?.data?.id ?? null,\n      },\n    };\n  } catch (err) {\n    return {\n      json: {\n        status: null,\n        success: null,\n        contact_id: null,\n        error: `Failed to parse JSON in \"data\": ${err.message}`,\n      },\n    };\n  }\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1472,
+          -864
+        ],
+        "id": "612658a7-3009-4f98-8d9b-b267edbeca4c",
+        "name": "Parse field after creating Contact"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          1696,
+          -800
+        ],
+        "id": "c94f3ea2-3d70-473a-803b-bdec65720c33",
+        "name": "Merge Contact Id and Input Fields"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "59adbec5-db26-4f63-a0b9-9e26a82224b5",
+                "name": "googlesheet_id",
+                "value": "={{ $json.googlesheet_id }}",
+                "type": "string"
+              },
+              {
+                "id": "c6c5a506-8b8b-4777-a044-ec7dc2e18887",
+                "name": "dateFormatted",
+                "value": "={{ $json.dateFormatted }}",
+                "type": "string"
+              },
+              {
+                "id": "fe7d8d6f-566e-47f7-813c-7165089b19be",
+                "name": "CSR",
+                "value": "={{ $json.CSR }}",
+                "type": "string"
+              },
+              {
+                "id": "07ee6b02-8194-4275-bfee-605ae81ae1a2",
+                "name": "leadQualifier",
+                "value": "={{ $json.leadQualifier }}",
+                "type": "string"
+              },
+              {
+                "id": "5538566c-4ad0-4f0c-bcf9-1a6b44f37bdc",
+                "name": "leadType",
+                "value": "={{ $json.leadType }}",
+                "type": "string"
+              },
+              {
+                "id": "11f33080-5708-41e4-8b66-cec3f831015c",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "f7b8e0c7-da31-42a8-95ea-8f8ef88411d5",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "6fcf929f-9e5b-4bd3-8235-9496161f4ea2",
+                "name": "referredBy",
+                "value": "={{ $json.referredBy }}",
+                "type": "string"
+              },
+              {
+                "id": "8c3db34c-7567-4f16-8298-eb91114a7ea5",
+                "name": "contactFirstName",
+                "value": "={{ $json.contactFirstName }}",
+                "type": "string"
+              },
+              {
+                "id": "f5de3546-f95c-4edb-af7c-6aa82c928850",
+                "name": "contactLastName",
+                "value": "={{ $json.contactLastName }}",
+                "type": "string"
+              },
+              {
+                "id": "d6069e98-9d49-44bf-b340-03da644d6431",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "d99a5047-a02b-454d-aba5-15fbd5dcc66e",
+                "name": "contactJobTitle",
+                "value": "={{ $json.contactJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "9a311519-a398-4019-a076-a4bf76c94a98",
+                "name": "email",
+                "value": "={{ $json.email }}",
+                "type": "string"
+              },
+              {
+                "id": "83857910-225c-458f-a9fd-00833f52e6c1",
+                "name": "mobileNumber",
+                "value": "={{ $json.mobileNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "9178467c-031b-4b6b-8809-92c50e0ed445",
+                "name": "phoneNumber",
+                "value": "={{ $json.phoneNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "4f3e6efc-4022-4962-9d85-d4710ff9597a",
+                "name": "streetAddress",
+                "value": "={{ $json.streetAddress }}",
+                "type": "string"
+              },
+              {
+                "id": "d768906e-a64a-456d-a3b5-7a98393b556f",
+                "name": "suburb",
+                "value": "={{ $json.suburb }}",
+                "type": "string"
+              },
+              {
+                "id": "d32b6003-08be-4136-8d9e-6a952c2b062c",
+                "name": "state",
+                "value": "={{ $json.state }}",
+                "type": "string"
+              },
+              {
+                "id": "f29ed6cd-4089-43ed-b1d5-2f11e611a2b2",
+                "name": "postalCode",
+                "value": "={{ $json.postalCode }}",
+                "type": "string"
+              },
+              {
+                "id": "eae9cd2b-09ab-489d-a702-b1f87ebf43a3",
+                "name": "addressDescription",
+                "value": "={{ $json.addressDescription }}",
+                "type": "string"
+              },
+              {
+                "id": "21998ff1-878e-4a47-941c-59a9778b660e",
+                "name": "enquiryDetails",
+                "value": "={{ $json.enquiryDetails }}",
+                "type": "string"
+              },
+              {
+                "id": "f7a7c1c3-89c5-488d-bb77-524d6a9e284c",
+                "name": "productInterest",
+                "value": "={{ $json.productInterest }}",
+                "type": "string"
+              },
+              {
+                "id": "21e78e3f-9fff-41e1-8aa4-15b620a90c5b",
+                "name": "salesPipeline",
+                "value": "={{ $json.salesPipeline }}",
+                "type": "string"
+              },
+              {
+                "id": "557e23c1-784c-4a9b-9039-3fd37bbe9abc",
+                "name": "CSR_discordId",
+                "value": "={{ $json.CSR_discordId }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          800,
+          -192
+        ],
+        "id": "8613db06-f397-4003-aa67-8150b1531b82",
+        "name": "Set Search Field"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1024,
+          -192
+        ],
+        "id": "0de5bf8e-e612-4ed2-9f6a-dea8b0cbee79",
+        "name": "Search Wait",
+        "webhookId": "b33ccb21-652d-4bff-8230-7571030ab97c"
+      },
+      {
+        "parameters": {
+          "url": "https://wrapp2-testing.windowrevival.com.au/api/search?q=86921&type=contact",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "q",
+                "value": "={{ $json.candidates.q }}"
+              },
+              {
+                "name": "type",
+                "value": "contact"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1696,
+          -192
+        ],
+        "id": "0b18fd64-9626-496c-ac00-9575e6d5ec72",
+        "name": "Search Contact",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "UTs7Hb7x8Xe72hTe",
+            "name": "WR: Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Function node\n\nconst candidates = [];\n\nconst clean = (v) => String(v ?? \"\").trim();\n\nconst normalizeAuNumber9 = (v) => {\n  let digits = clean(v).replace(/\\D/g, \"\"); // keep digits only\n  if (!digits) return \"\";\n\n  // Remove common AU prefixes\n  if (digits.startsWith(\"61\")) digits = digits.slice(2); // +61 / 61\n  if (digits.startsWith(\"0\")) digits = digits.slice(1);  // 04.. or 02.. etc\n\n  // Force to last 9 digits (mobile/landline after removing 0 is typically 9 digits)\n  if (digits.length > 9) digits = digits.slice(-9);\n\n  return digits;\n};\n\n// Email candidate (as-is)\nif (clean($json.email)) {\n  candidates.push({ q: clean($json.email), by: \"email\" });\n}\n\n// Mobile candidate (normalized to 9 digits)\nconst mobile9 = normalizeAuNumber9($json.mobileNumber);\nif (mobile9) {\n  candidates.push({ q: mobile9, by: \"mobile\" });\n}\n\n// Phone candidate (normalized to 9 digits)\nconst phone9 = normalizeAuNumber9($json.phoneNumber);\nif (phone9) {\n  candidates.push({ q: phone9, by: \"phone\" });\n}\n\nreturn [{ ...$json, candidates, found: false }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1248,
+          -192
+        ],
+        "id": "768c9f3c-2cb5-4d78-bb49-3bf28e35100c",
+        "name": "Search by Email, Mobile, Phone"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "1ab2a24b-d655-40c5-88c3-1e79d143c2bf",
+                "leftValue": "={{ $json.found }}",
+                "rightValue": "success",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          2144,
+          -192
+        ],
+        "id": "b34503da-e7f9-4c5e-9d34-e9bc9982867d",
+        "name": "If Search is True the send response"
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+            "mode": "list",
+            "cachedResultName": "Window Revival - System",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Inbound Tab",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Id": "={{ $json.id }}",
+              "Response": "={{ $json.message }}"
+            },
+            "matchingColumns": [
+              "Id"
+            ],
+            "schema": [
+              {
+                "id": "Date",
+                "displayName": "Date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "CSR",
+                "displayName": "CSR",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Contact",
+                "displayName": "Contact",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Comment",
+                "displayName": "Comment",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Notify",
+                "displayName": "Notify",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Trigger",
+                "displayName": "Trigger",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Search Result",
+                "displayName": "Search Result",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "Id",
+                "displayName": "Id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Response",
+                "displayName": "Response",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          2368,
+          -192
+        ],
+        "id": "23f2ca27-cc83-468d-9e1f-6eed1ae9f452",
+        "name": "Update row in Window Revival - Inbound Tab1",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "candidates",
+          "include": "selectedOtherFields",
+          "fieldsToInclude": "googlesheet_id",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          1472,
+          -192
+        ],
+        "id": "6d376f20-b010-465d-9d09-6d9bbc1123a5",
+        "name": "Set Candidate for Search"
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Function node (place AFTER HTTP Request)\n//\n// Output only:\n// - id          (from Split Out -> googlesheet_id)\n// - status\n// - found\n// - contact_id  (from API contact[0].id when found)\n// - message     (2 lines when found)\n//\n// Removes original `data` and does not include `parsed`.\n\nlet parsed;\ntry {\n  parsed = typeof $json.data === \"string\" ? JSON.parse($json.data) : ($json.data ?? {});\n} catch (e) {\n  parsed = {};\n}\n\nconst status = parsed?.status ?? null;\n\nconst apiMessage = parsed?.data?.message ?? null;     // e.g. \"Data not found\"\nconst apiContactRaw = parsed?.data?.contact ?? null;  // e.g. \"[{ \\\"id\\\": 86940, ...}]\"\n\n// Parse contact array if present (it is a JSON string in your payload)\nlet contactArr = [];\nif (typeof apiContactRaw === \"string\" && apiContactRaw.trim() !== \"\") {\n  try {\n    contactArr = JSON.parse(apiContactRaw);\n  } catch (e) {\n    contactArr = [];\n  }\n}\n\n// Determine found:\n// Prefer actual contact data; fallback to message check\nconst found = (Array.isArray(contactArr) && contactArr.length > 0)\n  ? true\n  : !(typeof apiMessage === \"string\" && apiMessage.toLowerCase().includes(\"data not found\"));\n\n// Extract contact_id if found\nconst contact_id = (found && Array.isArray(contactArr) && contactArr[0]?.id != null)\n  ? contactArr[0].id\n  : null;\n\n// 2-line message when found\nconst message = found\n  ? `Contact found\\ncontact_id: ${contact_id}`\n  : \"No contact found (checked email, mobile, and phone).\";\n\n// Pull id from the \"Split Out\" node\nconst id = $('Set Candidate for Search').first().json.googlesheet_id ?? null;\n\nreturn [{\n  id,\n  status,\n  found,\n  contact_id,\n  message,\n}];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1920,
+          -192
+        ],
+        "id": "d36c1333-76ec-4a0a-b80c-99631a7eac67",
+        "name": "Parse Search Fields"
+      },
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "documentId": {
+            "__rl": true,
+            "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+            "mode": "list",
+            "cachedResultName": "Window Revival - System",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Inbound Tab",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheetsTrigger",
+        "typeVersion": 1,
+        "position": [
+          -192,
+          -320
+        ],
+        "id": "da60a4ff-8f22-4feb-80d0-b8e83645662e",
+        "name": "Google Sheets Trigger1",
+        "credentials": {
+          "googleSheetsTriggerOAuth2Api": {
+            "id": "X6hUNZyYXuyFC9wd",
+            "name": "Google Sheets Trigger account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Google Sheets Trigger": {
+        "main": [
+          []
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Append record to Leads Logs",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Create Contact",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge Contact Id and Input Fields",
+              "type": "main",
+              "index": 1
+            },
+            {
+              "node": "Update row in Window Revival - Inbound Tab",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Set Create Contact",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Set Search Field",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [],
+          []
+        ]
+      },
+      "Append record to Leads Logs": {
+        "main": [
+          []
+        ]
+      },
+      "Check if ID is not empty and response is empty": {
+        "main": [
+          [
+            {
+              "node": "Parse Raw Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Raw Fields": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Create Contact": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create Contact": {
+        "main": [
+          [
+            {
+              "node": "Parse field after creating Contact",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse field after creating Contact": {
+        "main": [
+          [
+            {
+              "node": "Merge Contact Id and Input Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge Contact Id and Input Fields": {
+        "main": [
+          [
+            {
+              "node": "Create Opportunity",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Search Field": {
+        "main": [
+          [
+            {
+              "node": "Search Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search Wait": {
+        "main": [
+          [
+            {
+              "node": "Search by Email, Mobile, Phone",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search Contact": {
+        "main": [
+          [
+            {
+              "node": "Parse Search Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Search by Email, Mobile, Phone": {
+        "main": [
+          [
+            {
+              "node": "Set Candidate for Search",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If Search is True the send response": {
+        "main": [
+          [
+            {
+              "node": "Update row in Window Revival - Inbound Tab1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Update row in Window Revival - Inbound Tab1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Candidate for Search": {
+        "main": [
+          [
+            {
+              "node": "Search Contact",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Search Fields": {
+        "main": [
+          [
+            {
+              "node": "If Search is True the send response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Sheets Trigger1": {
+        "main": [
+          [
+            {
+              "node": "Check if ID is not empty and response is empty",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Christine Kam",
+    "name": "Version 273637cf",
+    "description": "",
+    "autosaved": false,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2025-12-31T16:25:51.714Z",
+        "id": 103,
+        "workflowId": "QPzU0F6BdQkepNN6",
+        "versionId": "273637cf-5c47-4faa-b9f5-4d99d52eae8b",
+        "event": "activated",
+        "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b"
+      }
+    ]
+  }
+}
