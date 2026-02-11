@@ -1,0 +1,1527 @@
+{
+  "updatedAt": "2025-12-11T02:27:32.638Z",
+  "createdAt": "2025-12-03T12:29:02.510Z",
+  "id": "LBFkzwXsupw3PIzv",
+  "name": "05 Facebook Chat Messenger",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "DP: Facebook Credentials\nClient ID:\n705578682586438\n\nUser Id\n25413663644921390\n\nPage ID\n109068850509624\n\nSystem Token\nEAAKBuFa8lUYBQFJTZBogPqpdcpZAougTMbjN92TMpqjtcgxqbOYfbQNlncKkiRNNWZBhlajr84a1rzeVu7ZAzeC4sQTZAuu111snuw4r2UzDlpM53v2UbhIguh2gH2Gna9x3afE18FZCY5YPRW5tBDTBXXbx6DnRZAIQlUJAAQhby4InmeFro99EKjsZBmymWZBMw0QZDZD\n\nUser Token\nEAAKBuFa8lUYBQOUO5cPZCuWOrfozkKTQaD5hEISS4nXLGZBljsxsAU8iBwZBh8lNH40ikXNiyQUczr3PUKYGWl1wCZAKzJNY3Mge1dnqIDDvUmzTkgDZCk0iZBLKToOJNtVaZAPkjbGPpOM0Y90BtcKVXoXU5wLWeE7cpEgrMgP6vGJD86Yrwcs3N5N3SR1XIdhtlemqexZBkdLf\n\nAccess Token\nEAAKBuFa8lUYBQBF87AopcZB7gGjQ5k8ZACo1dZC6TCdWZAzPibqabUHpYQPgT7ZArTIBdqcxcZAdRw7VNzNZCwnDCC7drKZA2wzZBj6ohgDxnnIL5dAR9decoWEHUbSZBdof72iHw6WV8zsUeB9eInZCeqqMozhVY981v2SVogvZC58yg3uh5CkOT7xV19S2XUM1yMRjZBVAUEzMdCIRXupucYRYZD\n\nMessenger Token\nEAAKBuFa8lUYBQPGu1LkOQh7JPmvNVCP3UEv4deXWgJICN6SgPwTTZARmzmDKSuJkaTSC4EsVaUdBs8SG5e4C0gaonKR504BuUucMgMb9damrwNj2N7d2BDZCKH7eNZAEnzK2XFZBd2oXZBqMRH7nOh7sgp7Qzxs07ElLouY7mEfysmPIp2gKlmsU9q1hHDUXCxM2iZCgZA2ZCZB0NnX4HfEjDsuVh",
+        "height": 464,
+        "width": 656
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1744,
+        1536
+      ],
+      "typeVersion": 1,
+      "id": "d4eaa7a4-f8bf-43ea-a967-c762e04331f4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "path": "ba55ce84-7287-43ff-b4bd-53bbe304e5a2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1072,
+        32
+      ],
+      "id": "3b6cbc33-535f-45fb-b8a8-60c4d5d3521c",
+      "name": "Webhook",
+      "webhookId": "ba55ce84-7287-43ff-b4bd-53bbe304e5a2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "214551af-5371-4a90-8d36-867d5574ac66",
+              "leftValue": "={{ $json.query[\"hub.verify_token\"] }}",
+              "rightValue": "donpuerto",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -848,
+        -64
+      ],
+      "id": "92299491-cddb-478c-8f12-ea35c6f63665",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=ok",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -848,
+        128
+      ],
+      "id": "f1cd6e77-dbd1-451f-99cf-40af62cd6c5b",
+      "name": "Messenger rule to response with 200 status"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -400,
+        352
+      ],
+      "id": "03907eb0-507b-4f44-84dc-a8de099f2f32",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query[\"hub.challenge\"] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -624,
+        -64
+      ],
+      "id": "7528a7a2-956f-4d89-864a-869c372fddbc",
+      "name": "Authentication Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v21.0/me/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "message",
+              "value": "={\n \"text\": \"{{ $json.output.replace(/[\\r\\n]+/g, ' ').slice(0, 1500) }}\"\n}"
+            },
+            {
+              "name": "recipient",
+              "value": "={\n\"id\": {{ $('Messenger rule to response with 200 status').item.json.body.entry[0].messaging[0].sender.id }}\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        928,
+        128
+      ],
+      "id": "8cad30ee-7f65-4a81-ac1d-beebc384f8f2",
+      "name": "Messenger Reply",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "WqlZqTXsQ9xf3P0p",
+          "name": "DP: Facebook Messenger Token"
+        },
+        "httpBearerAuth": {
+          "id": "rHzGP8ha89XweYzM",
+          "name": "FB: Messenger Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Messenger rule to response with 200 status').item.json.body.entry[0].messaging[0].sender.id }}",
+        "tableName": "n8n_messenger_histories"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -272,
+        352
+      ],
+      "id": "3e95e414-40c3-4f32-8251-ab48a1d5c607",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "AdEjoClfmYCcwIyw",
+          "name": "WR: Postgres Chat Memory Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        560
+      ],
+      "id": "791ae6d7-7e5b-43d9-833c-c127bc590679",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "“Supabase Vector Store containing all information about the SERVICES WE OFFER, including Automation Services, CRM Services, Development Services, Database Services, and Lead Generation Services — with full descriptions of each service and all supported apps such as n8n, Make, Zapier, GoHighLevel, Odoo, WooCommerce CRM, Monday.com, Supabase, Laravel, Vue/Nuxt, Shadcn, Tailwind, Next.js, and React Native.”\n\nThis is the description you paste into:\n\n🔹 Automation Services Vector Store",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        352
+      ],
+      "id": "1b488035-6f7a-45e2-8b57-2c477dee283e",
+      "name": "Services Tool",
+      "credentials": {
+        "supabaseApi": {
+          "id": "DEaO1fBaQ4zTRzHk",
+          "name": "WR: Supabase Account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        144,
+        352
+      ],
+      "id": "08a630ba-892e-4a2a-9aa9-cdda343c6717",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1fN-cZnBy-rcFpfaq-N0R8DwyQUcDkXsZDH8tFAaQ0as",
+          "mode": "list",
+          "cachedResultName": "TERMS & CONDITIONS",
+          "cachedResultUrl": "https://docs.google.com/document/d/1fN-cZnBy-rcFpfaq-N0R8DwyQUcDkXsZDH8tFAaQ0as/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1072,
+        768
+      ],
+      "id": "3d84d82d-fdd5-4b42-8a2d-4e419977fa4a",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "z5YQfG6e3Bj98mzu",
+          "name": "DP: Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        -816,
+        768
+      ],
+      "id": "603190c2-e2a0-4858-9844-7e90447d080a",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "DEaO1fBaQ4zTRzHk",
+          "name": "WR: Supabase Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -848,
+        992
+      ],
+      "id": "22791189-b725-42d6-b25b-77f7c11b102e",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -720,
+        992
+      ],
+      "id": "d06a706d-eff6-4c96-ac84-4b5c44976e37",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        1200
+      ],
+      "id": "b2cfa7af-af1b-4312-b27a-75c9eec0342f",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "jsCode": "// items = array of incoming items from previous node\nconst result = [];\n\nfor (const item of items) {\n  const body = item.json.body;\n  const entry = body?.entry?.[0];\n  const messaging = entry?.messaging?.[0];\n\n  // 1. Get the text (if any)\n  const text = messaging?.message?.text;\n\n  // 2. OPTIONAL: avoid double-fire by checking sender vs page id\n  //    - entry.id = page ID\n  //    - messaging.sender.id = user ID when user sends the message\n  const senderId   = messaging?.sender?.id;\n  const pageId     = entry?.id;\n  const isFromUser = senderId && pageId && senderId !== pageId;\n\n  // Only keep items that:\n  //  - have a non-empty text message\n  //  - AND come from the user (not the page itself)\n  if (text && text.trim() !== '' && isFromUser) {\n    result.push({\n      json: {\n        ...item.json,\n        // Clean field for the AI Agent to use\n        userMessage: text,\n      },\n    });\n  }\n}\n\n// IMPORTANT:\n// - If result.length == 0, this node returns []\n//   => AI Agent will NOT execute.\nreturn result;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -624,
+        128
+      ],
+      "id": "9396c359-1eef-4e7e-a764-ad6e50f237cc",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.userMessage }}\n",
+        "options": {
+          "systemMessage": "=You are the E-Connect Digital Marketing AI Assistant, replying in a short, simple, friendly Messenger tone with light emojis.\n\nYou assist with:\nAutomation · CRM · Web/App Dev · Supabase/Laravel · Lead Generation · Consultations\n\nNever over-explain. Keep answers short.\n\nTOOLS\n\n• Supabase Services Tool – retrieves service details and pricing\n• Think Tool – ALWAYS use before choosing any tool\n\nINSTRUCTIONS\n1. GREETING RULE (MANDATORY)\n\nFor “hi”, “hello”, “kumusta”, “unsa man”, etc.:\n\n→ Do NOT use tools\n→ Must reply EXACTLY:\n\nHey! 👋 How can I help you today?\n\n\nNo company details.\nNo list.\nNo extras.\n\n2. LANGUAGE DETECTION\n\nTagalog → reply in Taglish\nCebuano/Bisaya → reply in Bisaya + English\nEnglish → reply in English\nMixed → mirror the style\n\n3. WHEN USER ASKS ABOUT THE COMPANY\n\nONLY then show this short version:\n\nE-Connect Digital Marketing Services helps businesses with automation, CRM setup, web/app development, backend systems, and lead generation.\n\nFounded by Don Puerto – a Computer Engineer, full-stack developer, and AI automation specialist based in Davao City.\nContact: 0976 093 8376\n\n\nNo long details.\nNo bullets.\nNo pricing.\n\n4. WHEN USER ASKS “WHAT SERVICES DO YOU OFFER?”\n\nKeep it short and clean:\n\nWe offer automation (n8n, Make, Zapier), CRM setup, web/app development, Supabase & Laravel backend, and lead generation for Facebook, TikTok, Google, and LinkedIn.\nWhich service do you want to know more about? 😊\n\n\nNo additional content unless requested.\n\n5. WHEN USER ASKS “HOW MUCH?” / PRICE / COST / MAGKANO / PILA\n\nDo NOT give prices immediately.\nFirst ask:\n\nSure 😊 Which service do you want pricing for?\n\n\nAfter the user answers:\n\nUse Think Tool\n\nPull ONLY the price for that specific service from Supabase Services Tool\n\nGive a short price response, nothing long\n\nThen end the conversation by sending form + calendar:\n\nYou can book a quick call here:\nhttps://calendar.google.com/econnect-sample-link\n\nOr send your project details here:\nhttps://forms.gle/econnect-sample-intake\n\n\nAfter this, do not continue unless user restarts the topic.\n\n6. WHEN USER ASKS ABOUT A SPECIFIC SERVICE\n\n→ Use Think Tool\n→ Use Supabase Services Tool\n→ Give a very short explanation (1–2 lines max)\n→ If user wants pricing → follow pricing rule above\n\nNEVER give long descriptions.\nNEVER send large feature lists unless user specifically asks “explain more.”\n\n7. END-CONVERSATION RULE\n\nOnce a quote or pricing is given:\n\n→ Always send calendar link + form\n→ Keep it short\n→ Stop extending conversation\n\n8. STYLE RULES\n\n• Keep replies short\n• Use simple words\n• No long paragraphs\n• Avoid technical jargon unless user asks\n• Light emojis only\n• Messenger-friendly spacing\n• Never overwhelm the user\n\nGENERAL RULES\n\n✔ Do NOT use tools for greetings\n✔ Never hallucinate\n✔ If unsure → say you will check\n✔ Keep messages under 1500 characters\n✔ Ask clarifying questions only when needed\n✔ Always use Think Tool first before pulling any tool"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -32,
+        128
+      ],
+      "id": "3226c96f-ae33-4d68-ac2e-bb1fa587e3f6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "“Supabase Vector Store containing all PRICING and QUOTATION details for every service we offer, including automation pricing, CRM pricing, development pricing, database/backend pricing, and lead generation pricing — with updated 2025 standard market rates.”\n\nThis description ensures the AI agent knows:\n\n➡️ This store is ONLY for pricing\n➡️ Do NOT retrieve service descriptions here",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        272,
+        352
+      ],
+      "id": "f8f47731-e321-4c04-bbbe-ec8eb582bd4e",
+      "name": "Quote  Tool",
+      "credentials": {
+        "supabaseApi": {
+          "id": "DEaO1fBaQ4zTRzHk",
+          "name": "WR: Supabase Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        560
+      ],
+      "id": "c6b0a880-4ca8-4fcb-8285-9cd3d98bed2f",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "“Supabase Vector Store containing all TERMS, CONDITIONS, and INTERNAL POLICIES of E-Connect Digital Marketing Services, including payment terms, warranty, liability, data access rules, security notes, customer satisfaction policy, data privacy policy, employee conduct, health & safety guidelines, and sustainability policies.”\n\nThis allows your agent to answer:\n\n“What is your refund policy?”\n\n“What are your payment rules?”\n\n“Do you offer warranties?”\n\n“What is your data privacy policy?”",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        352
+      ],
+      "id": "6dc90b14-5bb3-480d-9fa2-7ccfd1703c03",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "DEaO1fBaQ4zTRzHk",
+          "name": "WR: Supabase Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        640,
+        560
+      ],
+      "id": "910e164b-7c1b-4445-a2f6-26fe984b798a",
+      "name": "Embeddings OpenAI3",
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Messenger rule to response with 200 status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Authentication Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Messenger rule to response with 200 status": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Messenger Reply": {
+      "main": [
+        []
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Services Tool",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Services Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Messenger Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quote  Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Quote  Tool",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI3": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "staticData": {
+    "node:Facebook Trigger": {
+      "verifyToken": "4c277011-7933-4f81-8683-39c248bd3537"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1127913.hstgr.cloud",
+            "user-agent": "facebookexternalua",
+            "content-length": "278",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "facebook-api-version": "v24.0",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.srv1127913.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "6384036d3c25",
+            "x-hub-signature": "sha1=205ea6e5dbba453e5a8688d12f0988033bd3e094",
+            "x-hub-signature-256": "sha256=f63f466bab2b5a9ccc5cbf7bc8dc25bffbfc7c7c5137c33299be7f80b8706466",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "object": "page",
+            "entry": [
+              {
+                "time": 1765341933683,
+                "id": "109068850509624",
+                "messaging": [
+                  {
+                    "sender": {
+                      "id": "25268087056216400"
+                    },
+                    "recipient": {
+                      "id": "109068850509624"
+                    },
+                    "timestamp": 1765341932937,
+                    "read": {
+                      "watermark": 1765341932216
+                    }
+                  }
+                ],
+                "hop_context": {
+                  "app_id": 705578682586438,
+                  "metadata": ""
+                }
+              }
+            ]
+          },
+          "webhookUrl": "https://n8n.srv1127913.hstgr.cloud/webhook/ba55ce84-7287-43ff-b4bd-53bbe304e5a2",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0,
+          "input": 1
+        }
+      }
+    ]
+  },
+  "versionId": "9736aa19-5058-4153-83e7-69d20ec34f82",
+  "activeVersionId": "9736aa19-5058-4153-83e7-69d20ec34f82",
+  "versionCounter": 294,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-12-03T12:29:02.516Z",
+      "createdAt": "2025-12-03T12:29:02.516Z",
+      "role": "workflow:owner",
+      "workflowId": "LBFkzwXsupw3PIzv",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2025-12-11T02:27:32.639Z",
+    "createdAt": "2025-12-11T02:27:32.639Z",
+    "versionId": "9736aa19-5058-4153-83e7-69d20ec34f82",
+    "workflowId": "LBFkzwXsupw3PIzv",
+    "nodes": [
+      {
+        "parameters": {
+          "content": "DP: Facebook Credentials\nClient ID:\n705578682586438\n\nUser Id\n25413663644921390\n\nPage ID\n109068850509624\n\nSystem Token\nEAAKBuFa8lUYBQFJTZBogPqpdcpZAougTMbjN92TMpqjtcgxqbOYfbQNlncKkiRNNWZBhlajr84a1rzeVu7ZAzeC4sQTZAuu111snuw4r2UzDlpM53v2UbhIguh2gH2Gna9x3afE18FZCY5YPRW5tBDTBXXbx6DnRZAIQlUJAAQhby4InmeFro99EKjsZBmymWZBMw0QZDZD\n\nUser Token\nEAAKBuFa8lUYBQOUO5cPZCuWOrfozkKTQaD5hEISS4nXLGZBljsxsAU8iBwZBh8lNH40ikXNiyQUczr3PUKYGWl1wCZAKzJNY3Mge1dnqIDDvUmzTkgDZCk0iZBLKToOJNtVaZAPkjbGPpOM0Y90BtcKVXoXU5wLWeE7cpEgrMgP6vGJD86Yrwcs3N5N3SR1XIdhtlemqexZBkdLf\n\nAccess Token\nEAAKBuFa8lUYBQBF87AopcZB7gGjQ5k8ZACo1dZC6TCdWZAzPibqabUHpYQPgT7ZArTIBdqcxcZAdRw7VNzNZCwnDCC7drKZA2wzZBj6ohgDxnnIL5dAR9decoWEHUbSZBdof72iHw6WV8zsUeB9eInZCeqqMozhVY981v2SVogvZC58yg3uh5CkOT7xV19S2XUM1yMRjZBVAUEzMdCIRXupucYRYZD\n\nMessenger Token\nEAAKBuFa8lUYBQPGu1LkOQh7JPmvNVCP3UEv4deXWgJICN6SgPwTTZARmzmDKSuJkaTSC4EsVaUdBs8SG5e4C0gaonKR504BuUucMgMb9damrwNj2N7d2BDZCKH7eNZAEnzK2XFZBd2oXZBqMRH7nOh7sgp7Qzxs07ElLouY7mEfysmPIp2gKlmsU9q1hHDUXCxM2iZCgZA2ZCZB0NnX4HfEjDsuVh",
+          "height": 464,
+          "width": 656
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -1744,
+          1536
+        ],
+        "typeVersion": 1,
+        "id": "d4eaa7a4-f8bf-43ea-a967-c762e04331f4",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "multipleMethods": true,
+          "path": "ba55ce84-7287-43ff-b4bd-53bbe304e5a2",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -1072,
+          32
+        ],
+        "id": "3b6cbc33-535f-45fb-b8a8-60c4d5d3521c",
+        "name": "Webhook",
+        "webhookId": "ba55ce84-7287-43ff-b4bd-53bbe304e5a2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "214551af-5371-4a90-8d36-867d5574ac66",
+                "leftValue": "={{ $json.query[\"hub.verify_token\"] }}",
+                "rightValue": "donpuerto",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -848,
+          -64
+        ],
+        "id": "92299491-cddb-478c-8f12-ea35c6f63665",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "=ok",
+          "options": {
+            "responseCode": 200
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          -848,
+          128
+        ],
+        "id": "f1cd6e77-dbd1-451f-99cf-40af62cd6c5b",
+        "name": "Messenger rule to response with 200 status"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-5-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-5-mini"
+          },
+          "builtInTools": {},
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.3,
+        "position": [
+          -400,
+          352
+        ],
+        "id": "03907eb0-507b-4f44-84dc-a8de099f2f32",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "oQQrCQWqdo1CuRzx",
+            "name": "WRai: OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "={{ $json.query[\"hub.challenge\"] }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          -624,
+          -64
+        ],
+        "id": "7528a7a2-956f-4d89-864a-869c372fddbc",
+        "name": "Authentication Response"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://graph.facebook.com/v21.0/me/messages",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "message",
+                "value": "={\n \"text\": \"{{ $json.output.replace(/[\\r\\n]+/g, ' ').slice(0, 1500) }}\"\n}"
+              },
+              {
+                "name": "recipient",
+                "value": "={\n\"id\": {{ $('Messenger rule to response with 200 status').item.json.body.entry[0].messaging[0].sender.id }}\n}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          928,
+          128
+        ],
+        "id": "8cad30ee-7f65-4a81-ac1d-beebc384f8f2",
+        "name": "Messenger Reply",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "WqlZqTXsQ9xf3P0p",
+            "name": "DP: Facebook Messenger Token"
+          },
+          "httpBearerAuth": {
+            "id": "rHzGP8ha89XweYzM",
+            "name": "FB: Messenger Bearer Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('Messenger rule to response with 200 status').item.json.body.entry[0].messaging[0].sender.id }}",
+          "tableName": "n8n_messenger_histories"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          -272,
+          352
+        ],
+        "id": "3e95e414-40c3-4f32-8251-ab48a1d5c607",
+        "name": "Postgres Chat Memory",
+        "credentials": {
+          "postgres": {
+            "id": "AdEjoClfmYCcwIyw",
+            "name": "WR: Postgres Chat Memory Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          -64,
+          560
+        ],
+        "id": "791ae6d7-7e5b-43d9-833c-c127bc590679",
+        "name": "Embeddings OpenAI",
+        "credentials": {
+          "openAiApi": {
+            "id": "oQQrCQWqdo1CuRzx",
+            "name": "WRai: OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "“Supabase Vector Store containing all information about the SERVICES WE OFFER, including Automation Services, CRM Services, Development Services, Database Services, and Lead Generation Services — with full descriptions of each service and all supported apps such as n8n, Make, Zapier, GoHighLevel, Odoo, WooCommerce CRM, Monday.com, Supabase, Laravel, Vue/Nuxt, Shadcn, Tailwind, Next.js, and React Native.”\n\nThis is the description you paste into:\n\n🔹 Automation Services Vector Store",
+          "tableName": {
+            "__rl": true,
+            "value": "documents",
+            "mode": "list",
+            "cachedResultName": "documents"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.3,
+        "position": [
+          -144,
+          352
+        ],
+        "id": "1b488035-6f7a-45e2-8b57-2c477dee283e",
+        "name": "Services Tool",
+        "credentials": {
+          "supabaseApi": {
+            "id": "DEaO1fBaQ4zTRzHk",
+            "name": "WR: Supabase Account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "typeVersion": 1.1,
+        "position": [
+          144,
+          352
+        ],
+        "id": "08a630ba-892e-4a2a-9aa9-cdda343c6717",
+        "name": "Think"
+      },
+      {
+        "parameters": {
+          "operation": "download",
+          "fileId": {
+            "__rl": true,
+            "value": "1fN-cZnBy-rcFpfaq-N0R8DwyQUcDkXsZDH8tFAaQ0as",
+            "mode": "list",
+            "cachedResultName": "TERMS & CONDITIONS",
+            "cachedResultUrl": "https://docs.google.com/document/d/1fN-cZnBy-rcFpfaq-N0R8DwyQUcDkXsZDH8tFAaQ0as/edit?usp=drivesdk"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleDrive",
+        "typeVersion": 3,
+        "position": [
+          -1072,
+          768
+        ],
+        "id": "3d84d82d-fdd5-4b42-8a2d-4e419977fa4a",
+        "name": "Download file",
+        "credentials": {
+          "googleDriveOAuth2Api": {
+            "id": "z5YQfG6e3Bj98mzu",
+            "name": "DP: Google Drive account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "insert",
+          "tableName": {
+            "__rl": true,
+            "value": "documents",
+            "mode": "list",
+            "cachedResultName": "documents"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.3,
+        "position": [
+          -816,
+          768
+        ],
+        "id": "603190c2-e2a0-4858-9844-7e90447d080a",
+        "name": "Supabase Vector Store",
+        "credentials": {
+          "supabaseApi": {
+            "id": "DEaO1fBaQ4zTRzHk",
+            "name": "WR: Supabase Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          -848,
+          992
+        ],
+        "id": "22791189-b725-42d6-b25b-77f7c11b102e",
+        "name": "Embeddings OpenAI1",
+        "credentials": {
+          "openAiApi": {
+            "id": "oQQrCQWqdo1CuRzx",
+            "name": "WRai: OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "dataType": "binary",
+          "textSplittingMode": "custom",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+        "typeVersion": 1.1,
+        "position": [
+          -720,
+          992
+        ],
+        "id": "d06a706d-eff6-4c96-ac84-4b5c44976e37",
+        "name": "Default Data Loader"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+        "typeVersion": 1,
+        "position": [
+          -640,
+          1200
+        ],
+        "id": "b2cfa7af-af1b-4312-b27a-75c9eec0342f",
+        "name": "Recursive Character Text Splitter"
+      },
+      {
+        "parameters": {
+          "jsCode": "// items = array of incoming items from previous node\nconst result = [];\n\nfor (const item of items) {\n  const body = item.json.body;\n  const entry = body?.entry?.[0];\n  const messaging = entry?.messaging?.[0];\n\n  // 1. Get the text (if any)\n  const text = messaging?.message?.text;\n\n  // 2. OPTIONAL: avoid double-fire by checking sender vs page id\n  //    - entry.id = page ID\n  //    - messaging.sender.id = user ID when user sends the message\n  const senderId   = messaging?.sender?.id;\n  const pageId     = entry?.id;\n  const isFromUser = senderId && pageId && senderId !== pageId;\n\n  // Only keep items that:\n  //  - have a non-empty text message\n  //  - AND come from the user (not the page itself)\n  if (text && text.trim() !== '' && isFromUser) {\n    result.push({\n      json: {\n        ...item.json,\n        // Clean field for the AI Agent to use\n        userMessage: text,\n      },\n    });\n  }\n}\n\n// IMPORTANT:\n// - If result.length == 0, this node returns []\n//   => AI Agent will NOT execute.\nreturn result;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -624,
+          128
+        ],
+        "id": "9396c359-1eef-4e7e-a764-ad6e50f237cc",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.userMessage }}\n",
+          "options": {
+            "systemMessage": "=You are the E-Connect Digital Marketing AI Assistant, replying in a short, simple, friendly Messenger tone with light emojis.\n\nYou assist with:\nAutomation · CRM · Web/App Dev · Supabase/Laravel · Lead Generation · Consultations\n\nNever over-explain. Keep answers short.\n\nTOOLS\n\n• Supabase Services Tool – retrieves service details and pricing\n• Think Tool – ALWAYS use before choosing any tool\n\nINSTRUCTIONS\n1. GREETING RULE (MANDATORY)\n\nFor “hi”, “hello”, “kumusta”, “unsa man”, etc.:\n\n→ Do NOT use tools\n→ Must reply EXACTLY:\n\nHey! 👋 How can I help you today?\n\n\nNo company details.\nNo list.\nNo extras.\n\n2. LANGUAGE DETECTION\n\nTagalog → reply in Taglish\nCebuano/Bisaya → reply in Bisaya + English\nEnglish → reply in English\nMixed → mirror the style\n\n3. WHEN USER ASKS ABOUT THE COMPANY\n\nONLY then show this short version:\n\nE-Connect Digital Marketing Services helps businesses with automation, CRM setup, web/app development, backend systems, and lead generation.\n\nFounded by Don Puerto – a Computer Engineer, full-stack developer, and AI automation specialist based in Davao City.\nContact: 0976 093 8376\n\n\nNo long details.\nNo bullets.\nNo pricing.\n\n4. WHEN USER ASKS “WHAT SERVICES DO YOU OFFER?”\n\nKeep it short and clean:\n\nWe offer automation (n8n, Make, Zapier), CRM setup, web/app development, Supabase & Laravel backend, and lead generation for Facebook, TikTok, Google, and LinkedIn.\nWhich service do you want to know more about? 😊\n\n\nNo additional content unless requested.\n\n5. WHEN USER ASKS “HOW MUCH?” / PRICE / COST / MAGKANO / PILA\n\nDo NOT give prices immediately.\nFirst ask:\n\nSure 😊 Which service do you want pricing for?\n\n\nAfter the user answers:\n\nUse Think Tool\n\nPull ONLY the price for that specific service from Supabase Services Tool\n\nGive a short price response, nothing long\n\nThen end the conversation by sending form + calendar:\n\nYou can book a quick call here:\nhttps://calendar.google.com/econnect-sample-link\n\nOr send your project details here:\nhttps://forms.gle/econnect-sample-intake\n\n\nAfter this, do not continue unless user restarts the topic.\n\n6. WHEN USER ASKS ABOUT A SPECIFIC SERVICE\n\n→ Use Think Tool\n→ Use Supabase Services Tool\n→ Give a very short explanation (1–2 lines max)\n→ If user wants pricing → follow pricing rule above\n\nNEVER give long descriptions.\nNEVER send large feature lists unless user specifically asks “explain more.”\n\n7. END-CONVERSATION RULE\n\nOnce a quote or pricing is given:\n\n→ Always send calendar link + form\n→ Keep it short\n→ Stop extending conversation\n\n8. STYLE RULES\n\n• Keep replies short\n• Use simple words\n• No long paragraphs\n• Avoid technical jargon unless user asks\n• Light emojis only\n• Messenger-friendly spacing\n• Never overwhelm the user\n\nGENERAL RULES\n\n✔ Do NOT use tools for greetings\n✔ Never hallucinate\n✔ If unsure → say you will check\n✔ Keep messages under 1500 characters\n✔ Ask clarifying questions only when needed\n✔ Always use Think Tool first before pulling any tool"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3,
+        "position": [
+          -32,
+          128
+        ],
+        "id": "3226c96f-ae33-4d68-ac2e-bb1fa587e3f6",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "“Supabase Vector Store containing all PRICING and QUOTATION details for every service we offer, including automation pricing, CRM pricing, development pricing, database/backend pricing, and lead generation pricing — with updated 2025 standard market rates.”\n\nThis description ensures the AI agent knows:\n\n➡️ This store is ONLY for pricing\n➡️ Do NOT retrieve service descriptions here",
+          "tableName": {
+            "__rl": true,
+            "value": "documents",
+            "mode": "list",
+            "cachedResultName": "documents"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.3,
+        "position": [
+          272,
+          352
+        ],
+        "id": "f8f47731-e321-4c04-bbbe-ec8eb582bd4e",
+        "name": "Quote  Tool",
+        "credentials": {
+          "supabaseApi": {
+            "id": "DEaO1fBaQ4zTRzHk",
+            "name": "WR: Supabase Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          352,
+          560
+        ],
+        "id": "c6b0a880-4ca8-4fcb-8285-9cd3d98bed2f",
+        "name": "Embeddings OpenAI2",
+        "credentials": {
+          "openAiApi": {
+            "id": "oQQrCQWqdo1CuRzx",
+            "name": "WRai: OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "“Supabase Vector Store containing all TERMS, CONDITIONS, and INTERNAL POLICIES of E-Connect Digital Marketing Services, including payment terms, warranty, liability, data access rules, security notes, customer satisfaction policy, data privacy policy, employee conduct, health & safety guidelines, and sustainability policies.”\n\nThis allows your agent to answer:\n\n“What is your refund policy?”\n\n“What are your payment rules?”\n\n“Do you offer warranties?”\n\n“What is your data privacy policy?”",
+          "tableName": {
+            "__rl": true,
+            "value": "documents",
+            "mode": "list",
+            "cachedResultName": "documents"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+        "typeVersion": 1.3,
+        "position": [
+          560,
+          352
+        ],
+        "id": "6dc90b14-5bb3-480d-9fa2-7ccfd1703c03",
+        "name": "Supabase Vector Store1",
+        "credentials": {
+          "supabaseApi": {
+            "id": "DEaO1fBaQ4zTRzHk",
+            "name": "WR: Supabase Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          640,
+          560
+        ],
+        "id": "910e164b-7c1b-4445-a2f6-26fe984b798a",
+        "name": "Embeddings OpenAI3",
+        "credentials": {
+          "openAiApi": {
+            "id": "oQQrCQWqdo1CuRzx",
+            "name": "WRai: OpenAi account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Messenger rule to response with 200 status",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Authentication Response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Messenger rule to response with 200 status": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Messenger Reply": {
+        "main": [
+          []
+        ]
+      },
+      "Postgres Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Services Tool",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Services Tool": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Think": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download file": {
+        "main": [
+          [
+            {
+              "node": "Supabase Vector Store",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI1": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Supabase Vector Store",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Default Data Loader": {
+        "ai_document": [
+          [
+            {
+              "node": "Supabase Vector Store",
+              "type": "ai_document",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Recursive Character Text Splitter": {
+        "ai_textSplitter": [
+          [
+            {
+              "node": "Default Data Loader",
+              "type": "ai_textSplitter",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Messenger Reply",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Quote  Tool": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI2": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Quote  Tool",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Supabase Vector Store1": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI3": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Supabase Vector Store1",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Christine Kam",
+    "name": null,
+    "description": null,
+    "autosaved": false,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2025-12-11T02:27:32.688Z",
+        "id": 17,
+        "workflowId": "LBFkzwXsupw3PIzv",
+        "versionId": "9736aa19-5058-4153-83e7-69d20ec34f82",
+        "event": "activated",
+        "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b"
+      }
+    ]
+  }
+}
