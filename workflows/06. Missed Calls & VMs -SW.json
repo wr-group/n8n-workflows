@@ -1,0 +1,229 @@
+{
+  "updatedAt": "2025-12-16T15:11:35.402Z",
+  "createdAt": "2025-12-16T14:01:26.209Z",
+  "id": "TDvWgyYlFtUOtmZt",
+  "name": "06. Missed Calls & VMs -SW",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -96
+      ],
+      "id": "a0b61d00-2335-4ce8-b3d8-690fcc6a44c5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "={{ $json.notify[0].id }}",
+          "mode": "id"
+        },
+        "content": "=Lead Type: {{ $json.leadType }}\nAssigned CSR: {{ $json.CSR }}\n\nCustomer Name:  {{ $json.contactFirstName }} {{ $json.contactLastName }}\nJob Title: {{ $json.contactJobTitle }}\nEmail: {{ $json.email }}\nMobile Number: {{ $json.mobileNumber }}\nPhone Number: {{ $json.phoneNumber }}\nAddress: {{ $json.streetAddress }} {{ $json.suburb }} {{ $json.state }} {{ $json.postalCode }}\n\nEnquiry:\n{{ $json.enquiryDetails }}\n\nSales Pipeline: {{ $json.salesPipeline }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -96
+      ],
+      "id": "d394ce53-f534-4702-a3c8-1f34b522788b",
+      "name": "Notify CSR",
+      "webhookId": "8524e5d8-f255-408c-b769-8b2ebdc84200",
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Notify CSR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "646eb985-88b2-4c6b-8f39-ec7539329214",
+  "activeVersionId": "646eb985-88b2-4c6b-8f39-ec7539329214",
+  "versionCounter": 23,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-12-16T14:01:26.215Z",
+      "createdAt": "2025-12-16T14:01:26.215Z",
+      "role": "workflow:owner",
+      "workflowId": "TDvWgyYlFtUOtmZt",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-11-25T13:05:18.454Z",
+      "createdAt": "2025-11-25T13:05:18.454Z",
+      "id": "xn6seEX74pkTOLqC",
+      "name": "@lead"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2025-12-16T15:11:35.402Z",
+    "createdAt": "2025-12-16T15:11:35.402Z",
+    "versionId": "646eb985-88b2-4c6b-8f39-ec7539329214",
+    "workflowId": "TDvWgyYlFtUOtmZt",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          -96
+        ],
+        "id": "a0b61d00-2335-4ce8-b3d8-690fcc6a44c5",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "753455160209965106",
+            "mode": "list",
+            "cachedResultName": "Window Revival",
+            "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+          },
+          "sendTo": "user",
+          "userId": {
+            "__rl": true,
+            "value": "={{ $json.notify[0].id }}",
+            "mode": "id"
+          },
+          "content": "=Lead Type: {{ $json.leadType }}\nAssigned CSR: {{ $json.CSR }}\n\nCustomer Name:  {{ $json.contactFirstName }} {{ $json.contactLastName }}\nJob Title: {{ $json.contactJobTitle }}\nEmail: {{ $json.email }}\nMobile Number: {{ $json.mobileNumber }}\nPhone Number: {{ $json.phoneNumber }}\nAddress: {{ $json.streetAddress }} {{ $json.suburb }} {{ $json.state }} {{ $json.postalCode }}\n\nEnquiry:\n{{ $json.enquiryDetails }}\n\nSales Pipeline: {{ $json.salesPipeline }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          224,
+          -96
+        ],
+        "id": "d394ce53-f534-4702-a3c8-1f34b522788b",
+        "name": "Notify CSR",
+        "webhookId": "8524e5d8-f255-408c-b769-8b2ebdc84200",
+        "credentials": {
+          "discordBotApi": {
+            "id": "a0FDlWFh8PBA5Add",
+            "name": "WR: Discord Bot Account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Notify CSR",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Christine Kam",
+    "name": null,
+    "description": null,
+    "autosaved": false,
+    "workflowPublishHistory": []
+  }
+}
