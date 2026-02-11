@@ -1,0 +1,2501 @@
+{
+  "updatedAt": "2025-12-23T07:03:28.134Z",
+  "createdAt": "2025-12-22T11:09:52.967Z",
+  "id": "rBlhfCJCdrtSc46p",
+  "name": "04. Booking Jobs v3",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "react",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "753455160209965111",
+          "mode": "list",
+          "cachedResultName": "booked_jobs",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106/753455160209965111"
+        },
+        "messageId": "={{ $json.id }}",
+        "emoji": "👍"
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        192
+      ],
+      "id": "ead3c214-d358-40d6-80e8-7663326f0623",
+      "name": "React with an emoji to a message",
+      "webhookId": "cd288430-68e5-4414-9219-0bedd49e8911",
+      "executeOnce": false,
+      "retryOnFail": false,
+      "alwaysOutputData": false,
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1372367179650957405",
+          "mode": "list",
+          "cachedResultName": "double-hung-emporium",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106/1372367179650957405"
+        },
+        "content": "===========\nJob Category: {{ $json.jobCategory }}\n==========\n* Customer Name:  {{ $json.customerFirstName }}  {{ $json.customerLastName }}\n* Email: {{ $json.emailAddress }}\n* Mobile Number: {{ $json.mobileNumber }}\n* Phone Number: {{ $json.phoneNumber }}\n* Address: {{ $json.streetAddress }} {{ $json.streetAddressDescription }}\n* Suburb: {{ $json.suburb }} \n* Postal Code: {{ $json.postalCode }}\n* Job Start: {{ $json.jobStart }}\n* Job End: {{ $json.jobEnd }}\n* Job Description: {{ $json.jobDetails }}\n\n* DSP notes: {{ $json.dspNotes }}\n* Est Price: {{ $json.estPrice }}\n* Technician: {{ $json.technicianName }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        -96
+      ],
+      "id": "01643158-82d9-4cf0-b815-7fe3afa7773a",
+      "name": "Flag DH emporium",
+      "webhookId": "5d8e3f67-c5b6-456f-aead-effa614f4e8a",
+      "executeOnce": false,
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1184,
+        0
+      ],
+      "id": "08c2b1e9-79a8-4e1f-8faf-2d3de3339499",
+      "name": "Wait DH Emporium",
+      "webhookId": "603d02db-387b-49b1-8d7d-f7904c2c3daa",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1408,
+        192
+      ],
+      "id": "03f3ff72-c67e-4dee-882b-0ecdd2c50c7d",
+      "name": "Wait 10s to React Discord",
+      "webhookId": "b0fef383-15a3-4879-b4c0-3c72e368e699",
+      "executeOnce": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1136,
+        1008
+      ],
+      "id": "6108dfb3-a48c-4101-addf-693b1fc280cb",
+      "name": "Wait1",
+      "webhookId": "5b7b08aa-0892-4034-a784-6545c973cb3d",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const row = item.json;\n\n  // Normalize CRLF → LF\n  const content = String(row.Jobs ?? row.content ?? \"\").replace(/\\r\\n/g, \"\\n\");\n  const contentLower = content.toLowerCase();\n\n  /* ===============================\n     Time helpers\n  =============================== */\n\n  function formatBrisbane(d) {\n    if (!d) return null;\n    const parts = new Intl.DateTimeFormat(\"en-AU\", {\n      timeZone: \"Australia/Brisbane\",\n      year: \"2-digit\",\n      month: \"2-digit\",\n      day: \"2-digit\",\n      hour: \"2-digit\",\n      minute: \"2-digit\",\n      second: \"2-digit\",\n      hour12: false,\n    }).formatToParts(d);\n\n    const o = Object.fromEntries(parts.map(p => [p.type, p.value]));\n    return `${o.day}/${o.month}/${o.year} ${o.hour}:${o.minute}:${o.second}`;\n  }\n\n  function resolveTimestampDate() {\n    const ts = row.timestamp ?? row.Timestamp;\n    if (ts !== null && ts !== undefined && ts !== \"\") {\n      const d = new Date(Number(ts));\n      if (!isNaN(d.getTime())) return d;\n    }\n    return new Date();\n  }\n\n  /* ===============================\n     Regex helpers\n  =============================== */\n\n  function escapeRegex(str) {\n    return str.replace(/[.*+?^${}()|[\\]\\\\]/g, \"\\\\$&\");\n  }\n\n  function getLineValue(label) {\n    const re = new RegExp(\"^\\\\s*\" + escapeRegex(label) + \"\\\\s*:\\\\s*(.+)$\", \"mi\");\n    const m = content.match(re);\n    if (!m) return null;\n    const v = m[1].trim().replace(/^\"|\"$/g, \"\");\n    if (!v || v === \"-\") return null;\n    return v;\n  }\n\n  function getBlockValue(startLabel, endLabel) {\n    const lower = contentLower;\n    const startIdx = lower.indexOf(startLabel.toLowerCase());\n    if (startIdx === -1) return null;\n\n    const afterStart = content.indexOf(\"\\n\", startIdx);\n    const from = afterStart === -1 ? startIdx : afterStart + 1;\n\n    const endIdx = lower.indexOf(endLabel.toLowerCase(), from);\n    const block = endIdx === -1 ? content.slice(from) : content.slice(from, endIdx);\n\n    const v = block.trim();\n    if (!v || v === \"-\") return null;\n    return v;\n  }\n\n  /* ===============================\n     Phone helpers\n  =============================== */\n\n  function formatPhoneAu(raw) {\n    if (!raw) return null;\n    let d = (raw.match(/\\d+/g) || []).join(\"\");\n    if (!d) return null;\n    if (d.startsWith(\"61\")) d = \"0\" + d.slice(2);\n    if (d.startsWith(\"1300\")) return `${d.slice(0,4)} ${d.slice(4,7)} ${d.slice(7,10)}`;\n    if (d.startsWith(\"1800\")) return `${d.slice(0,4)} ${d.slice(4,7)} ${d.slice(7,10)}`;\n    if (d.startsWith(\"13\") && d.length === 6) return `13 ${d.slice(2,4)} ${d.slice(4)}`;\n    if (d.length === 10 && d.startsWith(\"04\")) return `${d.slice(0,4)} ${d.slice(4,7)} ${d.slice(7)}`;\n    if (d.length === 10 && d.startsWith(\"07\")) return `${d.slice(0,2)} ${d.slice(2,6)} ${d.slice(6)}`;\n    return d;\n  }\n\n  function findTollFreeNumber(text) {\n    const m = text.match(/(1[38]00[ \\d]{6,10}|13[ \\d]{4,8})/);\n    return m ? formatPhoneAu(m[0]) : null;\n  }\n\n  /* ===============================\n     Inference helpers\n  =============================== */\n\n  function inferHowDidYouHear(text) {\n    if (text.includes(\"hipages\")) return \"HiPages Lead\";\n    if (text.includes(\"facebook\")) return \"Facebook\";\n    if (text.includes(\"instagram\")) return \"Instagram\";\n    if (text.includes(\"youtube\")) return \"Youtube\";\n    if (text.includes(\"real estate\") || text.includes(\"property manager\")) {\n      return \"Real Estate Property Managers\";\n    }\n    return \"Google\";\n  }\n\n  function inferJobServices(text) {\n    const opts = [\n      \"Booked Job (Stock Received)\",\n      \"Booked Job (Quote Accepted)\",\n      \"Booked Job (Pencilled In)\",\n      \"DH W Spiral Replacement (Accepted)\",\n      \"Onsite Quote/Onsite Check Measure\",\n      \"Onsite Quote/Repairs\",\n      \"Won-Require Stock to order\",\n      \"Booked Job\",\n    ];\n    for (const o of opts) if (text.includes(o.toLowerCase())) return o;\n    return \"Booked Job\";\n  }\n\n  /* ===============================\n     Technician canonical mapping\n  =============================== */\n\n  const TECH_MAP = {\n    \"cody\": \"Cody Walker\",\n    \"cody walker\": \"Cody Walker\",\n    \"phillip\": \"Phillip Whippy\",\n    \"phillip whippy\": \"Phillip Whippy\",\n    \"philip whippy\": \"Phillip Whippy\",\n    \"phil\": \"Phillip Whippy\",\n    \"phil whippy\": \"Phillip Whippy\",\n    \"jimmy\": \"Jimmy Tran\",\n    \"jimmy tran\": \"Jimmy Tran\",\n    \"paul\": \"Paul Darby\",\n    \"paul darby\": \"Paul Darby\",\n    \"rhys\": \"Rhys Crawford\",\n    \"rhys crawford\": \"Rhys Crawford\",\n    \"taylor\": \"Taylor Hamilton\",\n    \"taylor hamilton\": \"Taylor Hamilton\",\n  };\n\n  function toCanonicalTechName(name) {\n    if (!name) return null;\n    const key = name.trim().toLowerCase();\n    if (TECH_MAP[key]) return TECH_MAP[key];\n    return name.trim()\n      .toLowerCase()\n      .replace(/\\b\\w/g, c => c.toUpperCase());\n  }\n\n  function splitNames(str) {\n    if (!str) return [];\n    return str.split(/,|&| and /i).map(s => s.trim()).filter(Boolean);\n  }\n\n  /* ===============================\n     Parse main fields\n  =============================== */\n\n  const customerName = getLineValue(\"Customer Name\");\n  let customerFirstName = null;\n  let customerLastName = null;\n\n  if (customerName) {\n    const p = customerName.split(/\\s+/);\n    customerFirstName = p.shift() || null;\n    customerLastName = p.join(\" \") || null;\n  }\n\n  const emailAddress = getLineValue(\"Email Address\");\n\n  const mobileNumberRaw = getLineValue(\"Mobile Number\");\n  const phoneNumberRaw = getLineValue(\"Phone Number\");\n\n  const mobileNumber = formatPhoneAu(mobileNumberRaw);\n  const phoneFromLabel = formatPhoneAu(phoneNumberRaw);\n  const tollFree = findTollFreeNumber(content);\n\n  const phoneNumber =\n    phoneFromLabel && tollFree && phoneFromLabel !== tollFree\n      ? `${phoneFromLabel} / ${tollFree}`\n      : (phoneFromLabel || tollFree || null);\n\n  const jobStartRaw = getLineValue(\"Job Start\") || row.jobStart;\n  const jobEndRaw = getLineValue(\"Job End\") || row.jobEnd;\n\n  const jobStart = jobStartRaw;\n  const jobEnd = jobEndRaw;\n\n  const jobType = getLineValue(\"Job Type\");\n\n  let jobDescription =\n    getBlockValue(\"Job Description\", \"PRICE ESTIMATE\") ||\n    getBlockValue(\"Job Description\", \"DSP Notes\") ||\n    getBlockValue(\"Job Description\", \"Est Time Hours\");\n\n  const dspNotes = getBlockValue(\"DSP Notes\", \"Est Time Hours\");\n\n  const estTimeHoursRaw = getLineValue(\"Est Time Hours\");\n  const estPriceRaw = getLineValue(\"Est Price\");\n\n  const estTimeHours = estTimeHoursRaw ? Number(estTimeHoursRaw.match(/[\\d.]+/)?.[0]) : null;\n  const estPrice = estPriceRaw ? Number(estPriceRaw.match(/[\\d.]+/)?.[0]) : null;\n\n  /* ===============================\n     Technician + manJob logic\n  =============================== */\n\n  const techField = getLineValue(\"Technician Name\");\n  const techNames = splitNames(techField)\n    .map(toCanonicalTechName)\n    .filter(Boolean);\n\n  const uniqueTechs = [...new Set(techNames)];\n\n  let manJob = 1;\n  const manMatch = contentLower.match(/(\\d+)\\s*man job/);\n  if (manMatch) {\n    manJob = Number(manMatch[1]);\n  } else if (uniqueTechs.length > 0) {\n    manJob = uniqueTechs.length;\n  } else {\n    const mj = getLineValue(\"Man Job\");\n    manJob = mj ? Number(mj) || 1 : 1;\n  }\n\n  const technicianName = uniqueTechs.slice(0, manJob).join(\", \") || null;\n\n  /* ===============================\n     Final object\n  =============================== */\n\n  const result = {\n    googleSheetId: row.Id ?? row.id ?? null,\n    timestamp: formatBrisbane(resolveTimestampDate()),\n\n    channelId: row.channelId ?? null,\n    csrName: row.CSR ?? row.authorName ?? null,\n    Trigger: row.Trigger ?? null,\n\n    customerFirstName,\n    customerLastName,\n    customerJobTitle: null,\n\n    jobServices: inferJobServices(contentLower),\n    howDidYouHearAboutUs: inferHowDidYouHear(contentLower),\n\n    emailAddress,\n    mobileNumber,\n    phoneNumber,\n\n    jobType,\n    jobStart,\n    jobEnd,\n\n    jobDescription,\n    dspNotes,\n\n    estTimeHours,\n    estPrice,\n    manJob,\n    technicianName,\n\n    isDhWsNsEmporium: String(getLineValue(\"isDhWsNsEmporium\")).toLowerCase() === \"true\",\n    isCreated: true,\n  };\n\n  // Normalize empty strings → null\n  for (const k in result) {\n    if (typeof result[k] === \"string\" && result[k].trim() === \"\") {\n      result[k] = null;\n    }\n  }\n\n  return { json: result };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1664,
+        592
+      ],
+      "id": "d6e51c35-6898-43c1-9b1a-da7b934a88e6",
+      "name": "Data Parsing",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+          "mode": "list",
+          "cachedResultName": "Leads Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 321309652,
+          "mode": "list",
+          "cachedResultName": "booked jobs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=321309652"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "isCreated": "={{ $json.isCreated }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channelId",
+              "displayName": "channelId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "authorId",
+              "displayName": "authorId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "csrName",
+              "displayName": "csrName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerFirstName",
+              "displayName": "customerFirstName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerLastName",
+              "displayName": "customerLastName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerJobTitle",
+              "displayName": "customerJobTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobServices",
+              "displayName": "jobServices",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "howDidYouHearAboutUs",
+              "displayName": "howDidYouHearAboutUs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "emailAddress",
+              "displayName": "emailAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "mobileNumber",
+              "displayName": "mobileNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phoneNumber",
+              "displayName": "phoneNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "streetAddress",
+              "displayName": "streetAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "streetAddressDescription",
+              "displayName": "streetAddressDescription",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "suburb",
+              "displayName": "suburb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "postalCode",
+              "displayName": "postalCode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobType",
+              "displayName": "jobType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobStart",
+              "displayName": "jobStart",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobEnd",
+              "displayName": "jobEnd",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobDescription",
+              "displayName": "jobDescription",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "dspNotes",
+              "displayName": "dspNotes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estTimeHours",
+              "displayName": "estTimeHours",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estPrice",
+              "displayName": "estPrice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "manJob",
+              "displayName": "manJob",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianName",
+              "displayName": "technicianName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "isDhWsNsEmporium",
+              "displayName": "isDhWsNsEmporium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "isCreated",
+              "displayName": "isCreated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobTitle",
+              "displayName": "jobTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -944,
+        1056
+      ],
+      "id": "a21ff558-69df-434f-a9e0-c3d1556be152",
+      "name": "Append or update Booked Job Database",
+      "executeOnce": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1f0bXgNwR3Q1-5TrySl3nN4Hy2XmOA3AwZ3sppB85JIs",
+          "mode": "list",
+          "cachedResultName": "Double Hung Emporium",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1f0bXgNwR3Q1-5TrySl3nN4Hy2XmOA3AwZ3sppB85JIs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "raw",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1f0bXgNwR3Q1-5TrySl3nN4Hy2XmOA3AwZ3sppB85JIs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channelId",
+              "displayName": "channelId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "authorId",
+              "displayName": "authorId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "csrName",
+              "displayName": "csrName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerFirstName",
+              "displayName": "customerFirstName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerLastName",
+              "displayName": "customerLastName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerJobTitle",
+              "displayName": "customerJobTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobType",
+              "displayName": "jobType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobServices",
+              "displayName": "jobServices",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "howDidYouHearAboutUs",
+              "displayName": "howDidYouHearAboutUs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "emailAddress",
+              "displayName": "emailAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "mobileNumber",
+              "displayName": "mobileNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phoneNumber",
+              "displayName": "phoneNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "streetAddress",
+              "displayName": "streetAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "streetAddressDescription",
+              "displayName": "streetAddressDescription",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "suburb",
+              "displayName": "suburb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "postalCode",
+              "displayName": "postalCode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobStart",
+              "displayName": "jobStart",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobEnd",
+              "displayName": "jobEnd",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobDetails",
+              "displayName": "jobDetails",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "dspNotes",
+              "displayName": "dspNotes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estTimeHours",
+              "displayName": "estTimeHours",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estPrice",
+              "displayName": "estPrice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "manJob",
+              "displayName": "manJob",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianName",
+              "displayName": "technicianName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "isDhWsNsEmporium",
+              "displayName": "isDhWsNsEmporium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "isCreated",
+              "displayName": "isCreated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -960,
+        96
+      ],
+      "id": "96cf0d4a-b360-411d-8e07-d79d39524ee9",
+      "name": "Append or update in DH Emporium",
+      "executeOnce": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5a532eb4-0f05-41fa-953d-a584e2712626",
+              "leftValue": "={{ $json.isDhWsNsEmporium }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1408,
+        0
+      ],
+      "id": "5cd0afda-69eb-41b4-894a-29a38beb7395",
+      "name": "is DH Emporium?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node 2 – Build Discord error payload\n// Input: items from Switch where validationPassed === false\n// Output: minimal JSON for Discord notification\n// + Per-run de-duplication by booking \"id\" so the\n//   same booking can't create multiple payloads in ONE execution.\n\nconst newItems = [];\nconst seenIds = new Set(); // per-execution only\n\nfor (const item of items) {\n  const row = item.json;\n\n  // Normalise missingFields\n  const missing = Array.isArray(row.missingFields) ? row.missingFields : [];\n\n  // If no missing fields, skip\n  if (missing.length === 0) {\n    continue;\n  }\n\n  const bookingId = row.id || null;\n\n  // If we've already built a payload for this booking id in this run, skip\n  if (bookingId) {\n    if (seenIds.has(bookingId)) {\n      continue;\n    }\n    seenIds.add(bookingId);\n  }\n\n  const customerLabel = row.customerFirstName\n    ? row.customerFirstName + (row.customerLastName ? ' ' + row.customerLastName : '')\n    : 'the customer';\n\n  const messageLines = [];\n\n  // Mention the CSR by ID in Discord: <@USER_ID>\n  messageLines.push(`Hi <@${row.authorId}> 👋`);\n  messageLines.push(`Your booking for **${customerLabel}** is missing or has invalid details:`);\n  messageLines.push('');\n  messageLines.push(missing.map(f => `• ${f}`).join('\\n'));\n  messageLines.push('');\n  messageLines.push('Please update the details and re-run the booking. ✅');\n\n  const discordMessage = messageLines.join('\\n');\n\n  newItems.push({\n    json: {\n      id: row.id,\n      channelId: row.channelId,\n      authorId: row.authorId,\n      csrName: row.csrName || row.authorName || null,\n\n      customerFirstName: row.customerFirstName || null,\n      customerLastName: row.customerLastName || null,\n      jobType: row.jobType || null,\n      jobServices: row.jobServices || null,\n\n      validationPassed: false,\n      missingFields: missing,\n\n      discordMessage,\n      discordUserId: row.authorId,\n    },\n  });\n}\n\nreturn newItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1632,
+        384
+      ],
+      "id": "5da083e5-3632-404a-9fb6-9a81e73bdd43",
+      "name": "Validation and Notification"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "={{ $json.authorId }}",
+          "mode": "id"
+        },
+        "content": "={{ $json.discordMessage }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        384
+      ],
+      "id": "237b7518-efd1-466d-99a9-09c211a92a5e",
+      "name": "Notify CSR for missing or has invalid details",
+      "webhookId": "0c9fccf0-07f2-4473-bd47-3a4d2524760c",
+      "executeOnce": false,
+      "notesInFlow": true,
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -512,
+        -64
+      ],
+      "id": "650b8b61-041b-4188-b662-207a1a342639",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Technician Extractor').item.json.authorId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -384,
+        -64
+      ],
+      "id": "f57cc1a2-3c7d-4ecf-a80d-14d787ca78eb",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU",
+          "mode": "list",
+          "cachedResultName": "Technician Leave Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Main",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -256,
+        -64
+      ],
+      "id": "9bfd10d0-a0a5-4b78-94db-b546b1402bdf",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const newItems = [];\n\n/**\n * Split technicianName string into an array.\n */\nfunction splitTechNames(value) {\n  if (!value) return [];\n  return String(value)\n    .split(/,|&| and /i)\n    .map(s => s.trim())\n    .filter(Boolean);\n}\n\n// Track what we've already output\nconst seen = new Set();\n\nfor (const item of items) {\n  const row = item.json;\n\n  const techField = row.technicianName;\n  const authorId = row.authorId;\n  const streetAddress = row.streetAddress;\n\n  // Required field checks\n  if (!authorId) continue;\n  if (!streetAddress || String(streetAddress).trim() === \"\") continue;\n  if (!techField) continue;\n\n  const techNames = splitTechNames(techField);\n  if (!techNames.length) continue;\n\n  // Build a \"unique key\" for the booking (adjust if you have a bookingId/jobId)\n  const key = [\n    String(authorId).trim(),\n    String(streetAddress).trim().toLowerCase(),\n    String(row.jobStart || \"\").trim(),\n    String(row.jobEnd || \"\").trim(),\n    String(row.customerFirstName || \"\").trim().toLowerCase(),\n    String(row.customerLastName || \"\").trim().toLowerCase(),\n  ].join(\"|\");\n\n  if (seen.has(key)) continue;\n  seen.add(key);\n\n  newItems.push({\n    json: {\n      authorId: String(authorId),\n      technicians: techNames,\n      streetAddress: String(streetAddress).trim(),\n\n      customerFirstName: row.customerFirstName || null,\n      customerLastName: row.customerLastName || null,\n      mobileNumber: row.mobileNumber || null,\n      phoneNumber: row.phoneNumber || null,\n      suburb: row.suburb || null,\n      postalCode: row.postalCode || null,\n      jobDescription: row.jobDescription || null,\n      emailAddress: row.emailAddress || null,\n\n      jobStart: row.jobStart || null,\n      jobEnd: row.jobEnd || null,\n    },\n  });\n}\n\nreturn newItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        -288
+      ],
+      "id": "3a95b1d0-9d0d-4044-90ed-932d62833322",
+      "name": "Technician Extractor",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// Router / Validator\n// Input: parsing node output (Code Node 1)\n//\n// Output:\n//   - If VALID → full clean booking object (NO missingFields)\n//   - If INVALID → minimal object containing only:\n//       id, channelId, authorId, csrName, first/last name, jobType/jobServices,\n//       validationPassed=false, missingFields=[...]\n//\n// Switch node will route based on validationPassed.\n\nconst newItems = [];\n\n// Email validator\nfunction isValidEmail(email) {\n  if (!email) return false;\n  const value = String(email).trim();\n  if (value === '') return false;\n  const re = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n  return re.test(value);\n}\n\nfor (const item of items) {\n  const row = item.json;\n  const missing = [];\n\n  // REQUIRED FIELDS\n  if (!row.customerFirstName) missing.push(\"Customer First Name\");\n  if (!row.streetAddress) missing.push(\"Street Address\");\n  if (!row.suburb) missing.push(\"Suburb\");\n  if (!row.postalCode) missing.push(\"Postal Code\");\n  if (!row.jobDescription) missing.push(\"Job Description\");\n  if (!row.jobStart) missing.push(\"Job Start\");\n  if (!row.jobEnd) missing.push(\"Job End\");\n  if (!row.technicianName) missing.push(\"Technician Name\");\n\n  // Contact number: mobile or phone required\n  if (!row.mobileNumber && !row.phoneNumber) {\n    missing.push(\"Contact Number (Mobile or Phone)\");\n  }\n\n  // Email format validation\n  if (!isValidEmail(row.emailAddress)) {\n    missing.push(\"Valid Email Address\");\n  }\n\n  const validationPassed = missing.length === 0;\n\n  // ------------------------------\n  // VALID BOOKING → Return FULL object\n  // ------------------------------\n  if (validationPassed) {\n    newItems.push({\n      json: {\n        id: row.id,\n        channelId: row.channelId,\n        authorId: row.authorId,\n        timestamp: row.timestamp,\n\n        csrName: row.csrName || row.authorName || null,\n\n        customerFirstName: row.customerFirstName,\n        customerLastName: row.customerLastName,\n        customerJobTitle: row.customerJobTitle ?? null,\n\n        jobType: row.jobType,\n        jobServices: row.jobServices,\n        howDidYouHearAboutUs: row.howDidYouHearAboutUs,\n\n        emailAddress: row.emailAddress,\n        mobileNumber: row.mobileNumber,\n        phoneNumber: row.phoneNumber,\n\n        streetAddress: row.streetAddress,\n        streetAddressDescription: row.streetAddressDescription,\n        suburb: row.suburb,\n        postalCode: row.postalCode,\n\n        jobStart: row.jobStart,\n        jobEnd: row.jobEnd,\n\n        jobDescription: row.jobDescription,\n        dspNotes: row.dspNotes,\n\n        estTimeHours: row.estTimeHours,\n        estPrice: row.estPrice,\n        manJob: row.manJob,\n        technicianName: row.technicianName,\n\n        isDhWsNsEmporium: row.isDhWsNsEmporium === true,\n        isCreated: true,\n\n        validationPassed: true\n        // ❗ NO missingFields here\n      }\n    });\n    continue;\n  }\n\n  // ------------------------------\n  // INVALID BOOKING → Return MINIMAL error object\n  // ------------------------------\n  newItems.push({\n    json: {\n      id: row.id,\n      channelId: row.channelId,\n      authorId: row.authorId,\n      csrName: row.csrName || row.authorName || null,\n\n      customerFirstName: row.customerFirstName || null,\n      customerLastName: row.customerLastName || null,\n\n      jobType: row.jobType || null,\n      jobServices: row.jobServices || null,\n\n      validationPassed: false,\n      missingFields: missing\n    }\n  });\n}\n\nreturn newItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2064,
+        80
+      ],
+      "id": "7213bda7-b927-4d50-9643-651becbce86e",
+      "name": "Router / Validator",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.validationPassed }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    },
+                    "id": "30af6507-a9ab-4c42-b3a9-74e9027e39d7"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "true"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e413e2b5-e1f1-452b-8af2-47288c7e16c4",
+                    "leftValue": "={{ $json.validationPassed }}",
+                    "rightValue": false,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1840,
+        240
+      ],
+      "id": "83c72698-8a87-4876-843a-664f9696a7ac",
+      "name": "Route valid vs invalid",
+      "executeOnce": false
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        -64
+      ],
+      "id": "7fce2531-b7fb-48a1-a054-5e4f67fd2a96",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Customer Service Represantive: {{ $json.authorId }}\nCustomer Street Address: {{ $json.streetAddress }}  {{ $json.suburb }} {{ $json.postalCode }}\nJob Start: {{ $json.jobStart }}\nJob End: {{ $json.jobEnd }}\nTechnician: {{ $json.technicians }}\nCustomer Name: {{ $json.customerFirstName }} {{ $json.customerLastName }}\nMobile Number: {{ $json.mobileNumber }}\nPhone Number: {{ $json.phoneNumber }} \nJob Details: {{ $json.jobDescription }}\n",
+        "options": {
+          "systemMessage": "=You are the SDR Technician Assignment AI.\n\nYour role is to evaluate the assigned technician(s) for a customer booking and provide a clear, helpful suggestion message to the CSR.\n\nYou MUST use:\n\nThink Tool — before EVERY reasoning step.\n\nGoogle Sheet Tool — to read technician leave data BEFORE making any recommendation.\n\nYou must ALWAYS verify technician availability BEFORE considering proximity.\n\n📌 USER PROMPT FORMAT (YOU WILL RECEIVE):\n\nCustomer Service Representative: {{ $json.authorId }}\nCustomer Street Address: {{ $json.streetAddress }} {{ $json.suburb }} {{ $json.postalCode }}\nJob Start: {{ $json.jobStart }}\nJob End: {{ $json.jobEnd }}\nTechnician: {{ $json.technicians }}\nCustomer Name: {{ $json.customerFirstName }} {{ $json.customerLastName }}\nMobile Number: {{ $json.mobileNumber }}\nPhone Number: {{ $json.phoneNumber }}\nJob Details: {{ $json.jobDescription }}\n\nYou must correctly parse ALL fields.\n\nExtract the job date from jobStart.\nExample: \"Monday 15/12/2025 07:00\" → \"15/12/2025\".\n\n📌 TECHNICIAN BASE LOCATIONS\nGold Coast\n\nNathan Leafe — Unit 13 / 27–29 Walton St, Southport\n\nPaul Darby — Unit 3 / 7 Whiting St, Labrador\n\nTaylor Hamilton — 34 Melissa St, Upper Coomera\n\nRhys Crawford — 16 McInness Ave, Molendinar\n\nBrisbane\n\nCody Walker — Unit 26A Daintree Court, Park Ridge\n\nPhillip Whippy — 28 Stay Place, Carseldine\n\nJimmy Tran — 98 Begonia St, Inala\n\n📌 TOOL USAGE REQUIREMENTS\n\nBefore ANY recommendation, you MUST:\n\n1. Use Think Tool\n\nYou must outline the plan:\n\nParse all fields\n\nExtract job date\n\nQuery leave data using Google Sheet Tool\n\nExclude technicians who are on leave\n\nDetermine closest available technician based on suburb + region\n\nGenerate the CSR recommendation message\n\nYou MUST use Think Tool before each reasoning step.\n\n2. Use Google Sheet Tool\n\nThe sheet contains:\n\nTechnician | Leave Start | Leave End\n(DD/MM/YYYY format, Brisbane timezone)\n\nYou must:\n\nParse the job date from jobStart\n\nCompare job date with leave date ranges\n\nIf jobDate is on or between leave start/end → technician is UNAVAILABLE\n\nUnavailable technicians MUST NOT be recommended\n\nIf ALL assigned technicians are unavailable:\n\nRecommend the closest available technician from the same region (Gold Coast or Brisbane).\n\n📌 LOGIC YOU MUST FOLLOW\n1. Parse user prompt fields.\n2. Extract job date from jobStart in DD/MM/YYYY.\n3. For EACH technician:\n\nQuery Google Sheet Tool\n\nCheck if the technician is on leave\n\nMark unavailable if job date is inside leave range\n\n4. After leave filtering:\n\nIf any assigned technician is still available:\n\nRecommend the closest available technician based on customer suburb + technician base suburb\n\nIf none are available:\n\nRecommend the closest available technician in the same region\n\nYou MUST always:\n\n✔ Avoid recommending a technician on leave\n✔ Use only Gold Coast techs for Gold Coast suburbs\n✔ Use only Brisbane techs for Brisbane suburbs\n✔ Make proximity decisions logically based on GC/Brisbane area structure\n\nNO fictional distances allowed.\n\n📌 OUTPUT RULES\n\nYour output MUST:\n\nBe JSON ONLY\n\nContain all fields\n\nUse empty string (\"\") instead of null\n\nInclude the extracted jobDate as DD/MM/YYYY\n\nContain a short, helpful recommendation message\n\nDO NOT output any explanations outside JSON.\n\n✅ MANDATORY OUTPUT FORMAT\n\nYou MUST output JSON exactly like this:\n\n{\n  \"authorId\": \"CSR ID\",\n  \"technicians\": [\"List\", \"Of\", \"Technicians\"],\n  \"message\": \"Your suggestion message.\",\n  \"customerFirstName\": \"...\",\n  \"customerLastName\": \"...\",\n  \"mobileNumber\": \"...\",\n  \"phoneNumber\": \"...\",\n  \"streetAddress\": \"...\",\n  \"suburb\": \"...\",\n  \"postalCode\": \"...\",\n  \"jobDescription\": \"...\",\n  \"jobDate\": \"DD/MM/YYYY\"\n}\n\n📌 EXAMPLES\n✔ Example 1 — Technician on leave\n{\n  \"authorId\": \"325664446103945217\",\n  \"technicians\": [\"Rhys Crawford\"],\n  \"message\": \"Rhys is on leave on this date. Paul or Nathan are the closest available technicians for this area.\",\n  \"customerFirstName\": \"Ken\",\n  \"customerLastName\": \"Fountain\",\n  \"mobileNumber\": \"0431 123 456\",\n  \"phoneNumber\": \"\",\n  \"streetAddress\": \"16 Example St\",\n  \"suburb\": \"Molendinar\",\n  \"postalCode\": \"4214\",\n  \"jobDescription\": \"Roller Replacement...\",\n  \"jobDate\": \"16/12/2025\"\n}\n\n✔ Example 2 — All good\n{\n  \"authorId\": \"325664446103945217\",\n  \"technicians\": [\"Taylor Hamilton\"],\n  \"message\": \"Taylor is available and is the closest technician for this Upper Coomera address.\",\n  \"customerFirstName\": \"Ken\",\n  \"customerLastName\": \"Fountain\",\n  \"mobileNumber\": \"0431 123 456\",\n  \"phoneNumber\": \"\",\n  \"streetAddress\": \"34 Example Street\",\n  \"suburb\": \"Upper Coomera\",\n  \"postalCode\": \"4209\",\n  \"jobDescription\": \"Repair of sliding door…\",\n  \"jobDate\": \"15/12/2025\"\n}\n\n✔ You MUST follow all instructions precisely.\n✔ Only output JSON."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -400,
+        -288
+      ],
+      "id": "9d56bf1d-ed12-4359-835f-fb678289b248",
+      "name": "Suggest correct technician to the CSR"
+    },
+    {
+      "parameters": {
+        "jsCode": "// This Code node takes the AI Agent output and parses the JSON string inside \"output\"\n\nreturn items.map(item => {\n  const raw = item.json.output;\n\n  let parsed = {};\n  try {\n    parsed = JSON.parse(raw); // Convert string → actual JSON object\n  } catch (err) {\n    // If parsing fails, return a safe error structure\n    parsed = {\n      error: true,\n      message: \"Failed to parse AI JSON output.\",\n      rawOutput: raw || null\n    };\n  }\n\n  return {\n    json: parsed\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        -288
+      ],
+      "id": "4311ed94-9ffb-463f-a2e8-a3d3b9c12185",
+      "name": "Parse AI output"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "={{ $json.authorId }}",
+          "mode": "id"
+        },
+        "content": "=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        528,
+        -288
+      ],
+      "id": "d7b8e0c8-15da-4a60-b509-75011d6626ee",
+      "name": "Notify CSR for suggesting tech availability and nomination",
+      "webhookId": "dcb21350-c599-414c-8030-5dd350405a20",
+      "executeOnce": true,
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        -288
+      ],
+      "id": "f8610471-b78e-490f-9372-c354c95b8427",
+      "name": "Wait 10s to to suggect to CSR",
+      "webhookId": "a4299fc1-b4f5-49d2-8cc1-ef953afd7f07",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1408,
+        384
+      ],
+      "id": "f70746f3-5812-440b-a1d4-72f7b4d66e1f",
+      "name": "Wait 10s to notify CSR",
+      "webhookId": "09c799d4-9621-446c-98d6-d4b3769caaac",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "include": "except",
+        "excludeFields": "validationPassed",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1648,
+        -64
+      ],
+      "id": "757765e8-c92f-4916-b50b-b6faf455bba0",
+      "name": "Validation accepted",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51f6d171-641e-4edc-b96a-2eb14de74a39",
+              "name": "authorId",
+              "value": "={{ $json.authorId }}",
+              "type": "string"
+            },
+            {
+              "id": "3cf1fc76-063d-4804-9ef7-93b7327229c3",
+              "name": "technicians",
+              "value": "={{ $json.technicians }}",
+              "type": "array"
+            },
+            {
+              "id": "22abedb6-c1ad-47e0-9526-d3f760241a02",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "2ce0d090-8af7-42af-8578-aabde4f1de79",
+              "name": "customerFirstName",
+              "value": "={{ $json.customerFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "baaad8a7-7532-41eb-b48e-9276b5038bfd",
+              "name": "customerLastName",
+              "value": "={{ $json.customerLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "7f13c46c-c04e-4664-9669-280585eb4e14",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "067347e1-e9db-457f-a627-295f70cd6cfc",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "e4aecc46-babb-4968-ae4d-a2d257ef1b1a",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "1ff5ff4b-c109-41bf-b9ef-e8a9fd443501",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "c1841edf-b335-4bd7-b83d-482e55e10484",
+              "name": "jobDescription",
+              "value": "={{ $json.jobDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "524002a8-7a6c-4815-9149-66fe28089256",
+              "name": "emailAddress",
+              "value": "={{ $json.emailAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "3bace3e5-ef21-4013-8462-c71f389d0ab5",
+              "name": "jobStart",
+              "value": "={{ $json.jobStart }}",
+              "type": "string"
+            },
+            {
+              "id": "7084e7df-a484-4b4a-890d-ac088578086b",
+              "name": "jobEnd",
+              "value": "={{ $json.jobEnd }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -736,
+        -288
+      ],
+      "id": "1af5e98e-bb65-4876-9885-9ce34767af99",
+      "name": "technician suggestion",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "dedupeValue": "={{ $json.id }}",
+        "options": {
+          "scope": "node"
+        }
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        -288
+      ],
+      "id": "6711cf06-5938-44a2-97e1-c4e753888cf1",
+      "name": "Dedupe Discord  Id1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1982351211,
+          "mode": "list",
+          "cachedResultName": "Larry Booked Job",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1982351211"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2224,
+        704
+      ],
+      "id": "cc789f49-eb05-441a-9d46-04f4db46b9db",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "X6hUNZyYXuyFC9wd",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Trigger }}",
+                    "rightValue": "Search Contact",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2102a134-563b-4383-92cf-3e28b08a249c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Search Contact"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1cab9fb6-5ca5-4d0b-89de-cf81f9e12a9a",
+                    "leftValue": "={{ $json.Trigger }}",
+                    "rightValue": "Create Job",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create Job"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1664,
+        928
+      ],
+      "id": "34ad857e-6a23-4d96-839f-e876014693b6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "contact"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.q }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1056,
+        688
+      ],
+      "id": "21bd413c-2103-465d-a439-52b91938cb68",
+      "name": "Search Wrapp",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "rHzGP8ha89XweYzM",
+          "name": "FB: Messenger Bearer Auth account"
+        },
+        "httpCustomAuth": {
+          "id": "4euUKhsB2uvVNoeP",
+          "name": "Custom Auth account"
+        },
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -496,
+        1056
+      ],
+      "id": "f0edcae6-4247-4fd7-8f26-25154bb1f20d",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "429abcce-52d7-4352-93e7-cd580d66f383",
+              "name": "Id",
+              "value": "={{ $json.Id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -624,
+        880
+      ],
+      "id": "676f9fd1-0dca-4ac1-84e6-c92211b711e3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+          "mode": "list",
+          "cachedResultName": "Window Revival - System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1982351211,
+          "mode": "list",
+          "cachedResultName": "Larry Booked Job",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y/edit#gid=1982351211"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $json.Id }}",
+            "Response": "=Contact Existed:\nId: {{ $json.contactId }}\nName: {{ $json.firstName }} {{ $json.lastName }}\nMobile: {{ $json.mobile }}\nPhone: {{ $json.workPhone }}\n\n"
+          },
+          "matchingColumns": [
+            "Id"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CSR",
+              "displayName": "CSR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Jobs",
+              "displayName": "Jobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Trigger",
+              "displayName": "Trigger",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Response",
+              "displayName": "Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -288,
+        976
+      ],
+      "id": "5ea054bb-f7d5-42f8-8d69-1add60c19cc7",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "801de932-d6f3-464f-844f-57dbf1d25ba1",
+              "leftValue": "={{ $json.Response }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1968,
+        704
+      ],
+      "id": "28cb529c-8e17-4ea6-a5d5-04d6e5d3d015",
+      "name": "Process only when \"Response\" its not empty"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d0a2ec7f-875c-440d-b69b-ca7aa944aebc",
+              "name": "Id",
+              "value": "={{ $json.Id }}",
+              "type": "string"
+            },
+            {
+              "id": "a30d0d00-731c-4fd3-ad1e-439c0b30005c",
+              "name": "channelId",
+              "value": "={{ $json.channelId }}",
+              "type": "string"
+            },
+            {
+              "id": "b6a86ce7-1fdb-4fdb-b827-22586316dda7",
+              "name": "discordId",
+              "value": "={{ $json.discordId }}",
+              "type": "string"
+            },
+            {
+              "id": "dd6d4466-5072-4b2f-ab17-18965acd14a5",
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "c68a804e-c51a-40bc-803f-7c387d185fb4",
+              "name": "csrName",
+              "value": "={{ $json.csrName }}",
+              "type": "string"
+            },
+            {
+              "id": "c06e81fc-5bc4-423b-92c5-91a32cabcd5f",
+              "name": "customerFirstName",
+              "value": "={{ $json.customerFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "f71647dc-9dd1-466a-a905-492020a66ea1",
+              "name": "customerLastName",
+              "value": "={{ $json.customerLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "74094117-6b02-4cac-854c-c080b757883f",
+              "name": "customerJobTitle",
+              "value": "={{ $json.customerJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "71c72857-7599-4e89-8ac2-d2868e66ca21",
+              "name": "jobServices",
+              "value": "={{ $json.jobServices }}",
+              "type": "string"
+            },
+            {
+              "id": "9d83a9f3-510a-46cc-875b-1d9ebd291022",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "c61aa17a-cf94-45d2-8ce7-59834896c8e4",
+              "name": "emailAddress",
+              "value": "={{ $json.emailAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "78e48a6b-ebe3-4555-925f-4679190cd847",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "87e65565-686c-407a-a219-1b7cf7d9d5c9",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "cab12551-924c-4172-be1b-75f0bbc26c24",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "207a4b39-b6dd-4673-8081-ec312c1ac248",
+              "name": "streetAddressDescription",
+              "value": "={{ $json.streetAddressDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "32208dbc-e548-4e35-828f-f38cb978da1d",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "c9c06453-bf45-4968-83b3-572a0743ec59",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "da4f71d6-6086-498f-a29d-97c1a3fb1cf0",
+              "name": "jobType",
+              "value": "={{ $json.jobType }}",
+              "type": "string"
+            },
+            {
+              "id": "cc053742-2118-49de-9021-9a9d6980652e",
+              "name": "jobStart",
+              "value": "={{ $json.jobStart }}",
+              "type": "string"
+            },
+            {
+              "id": "7d72431e-a8b6-4253-97ee-9456deb6f1b8",
+              "name": "jobEnd",
+              "value": "={{ $json.jobEnd }}",
+              "type": "string"
+            },
+            {
+              "id": "1ffbd0cc-3ab9-4d8a-9306-c9b49c5d6ae7",
+              "name": "jobDescription",
+              "value": "={{ $json.jobDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "d7dcc3e3-d825-4627-be62-0843e3a5237d",
+              "name": "dspNotes",
+              "value": "={{ $json.dspNotes }}",
+              "type": "string"
+            },
+            {
+              "id": "bc04ba6d-3752-42db-bc24-b3df4bc485b7",
+              "name": "estTimeHours",
+              "value": "={{ $json.estTimeHours }}",
+              "type": "number"
+            },
+            {
+              "id": "ecb4b4fc-a1e7-4fe4-bef1-732ec31b8260",
+              "name": "technicianName",
+              "value": "={{ $json.technicianName }}",
+              "type": "string"
+            },
+            {
+              "id": "a36f1daa-7b51-476e-956a-ddfdbe05ca87",
+              "name": "isDhWsNsEmporium",
+              "value": "={{ $json.isDhWsNsEmporium }}",
+              "type": "boolean"
+            },
+            {
+              "id": "87a03b69-3546-4877-a5c6-05bbc58dce93",
+              "name": "isCreated",
+              "value": "={{ $json.isCreated }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1344,
+        944
+      ],
+      "id": "966c9971-0ef3-4bd9-8233-25490a8651c9",
+      "name": "Mapping of Job Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/opportunities/create",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -176,
+        688
+      ],
+      "id": "e3a21dde-8db8-4d51-9801-2a8e784536ad",
+      "name": "Create Opportunity",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "rHzGP8ha89XweYzM",
+          "name": "FB: Messenger Bearer Auth account"
+        },
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://wrapp2-testing.windowrevival.com.au/api/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "contact"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.q }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -992,
+        848
+      ],
+      "id": "73f719d5-1058-4a3b-9dba-dbdd2ce847c0",
+      "name": "Step 1: Search Contact in Wrapp",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "rHzGP8ha89XweYzM",
+          "name": "FB: Messenger Bearer Auth account"
+        },
+        "httpCustomAuth": {
+          "id": "4euUKhsB2uvVNoeP",
+          "name": "Custom Auth account"
+        },
+        "httpHeaderAuth": {
+          "id": "UTs7Hb7x8Xe72hTe",
+          "name": "WR: Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of items) {\n  const j = item.json;\n\n  const first = (j.customerFirstName ?? '').toString().trim();\n  const last  = (j.customerLastName ?? '').toString().trim();\n  const email = (j.emailAddress ?? '').toString().trim();\n\n  const mobileRaw = (j.mobileNumber ?? '').toString();\n  const phoneRaw  = (j.phoneNumber ?? '').toString();\n\n  const digitsOnly = (s) => (s ?? '').toString().replace(/\\D/g, '');\n\n  const isTollDigits = (d) =>\n    d.startsWith('1300') || d.startsWith('1800') || (d.startsWith('13') && d.length === 6);\n\n  // ✅ Mobile: remove +61/61, then digits only, then remove leading 0\n  const cleanMobile = (s) => {\n    if (!s) return '';\n    let d = digitsOnly(s);\n\n    if (!d) return '';\n    if (isTollDigits(d)) return '';\n\n    // remove country code 61 if present\n    if (d.startsWith('61')) d = d.slice(2);\n\n    // remove leading 0 (so 0409... -> 409...)\n    if (d.startsWith('0')) d = d.slice(1);\n\n    return d;\n  };\n\n  // ✅ Phone: digits only, ignore toll, remove leading 07\n  const cleanPhone = (s) => {\n    if (!s) return '';\n    let d = digitsOnly(s);\n\n    if (!d) return '';\n    if (isTollDigits(d)) return '';\n\n    // remove leading 07\n    if (d.startsWith('07')) d = d.slice(2);\n\n    return d;\n  };\n\n  const mobile = cleanMobile(mobileRaw);\n  const phone  = cleanPhone(phoneRaw);\n\n  const fullName = `${first} ${last}`.trim();\n\n  // Priority: mobile -> phone -> email -> full name\n  item.json.q = mobile || phone || email || fullName || '';\n}\n\nreturn items;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1296,
+        688
+      ],
+      "id": "309b639b-ae92-485a-aa95-77bfd6b8dab7",
+      "name": "Global Search \"Contact, Email, Mobile Number, Phone Number\""
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1b3fc9a-e30e-4c64-a1e2-7c392421f107",
+              "name": "customerFirstName",
+              "value": "={{ $json.customerFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "e0fef3fc-8e3d-4ec9-b0e6-23713fbdb7bb",
+              "name": "customerLastName",
+              "value": "={{ $json.customerLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "de58c95b-3d96-4872-a020-6909bc72a4fa",
+              "name": "emailAddress",
+              "value": "={{ $json.emailAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "2e68cd9b-169c-46e2-ba75-f5beeebe0def",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "9b4bd28d-4bb5-43dc-937a-c28ce7223cca",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1504,
+        688
+      ],
+      "id": "bae05b24-3db6-4c26-9954-99c6f1ecc096",
+      "name": "Search for Map Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c124f3bd-e908-4660-ae44-f06ed1a2644f",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -592,
+        656
+      ],
+      "id": "120f18d4-35d0-4dca-87e0-2d7d45239623",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const raw = item.json.data;\n\n  // 1) Parse outer JSON string\n  const outer = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\n  // 2) Parse contact JSON string (array)\n  const contactStr = outer?.data?.contact ?? '[]';\n  const contacts = typeof contactStr === 'string' ? JSON.parse(contactStr) : contactStr;\n\n  const c = Array.isArray(contacts) && contacts.length ? contacts[0] : null;\n\n  return {\n    json: {\n      status: outer?.status ?? null,\n      success: outer?.data?.success ?? null,\n\n      // Contact fields (first match)\n      contactId: c?.id ?? null,\n      firstName: c?.first_name ?? null,\n      lastName: c?.last_name ?? null,\n      address: c?.address ?? null,\n      email: c?.email ?? null,\n      homePhone: c?.home_phone ?? null,\n      workPhone: c?.work_phone ?? null,\n      mobile: c?.mobile ?? null,\n      isActive: c?.is_active ?? null,\n      company: c?.company ?? null,\n\n      \n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -864,
+        688
+      ],
+      "id": "47ff4b2c-0619-439c-bdb6-4664ad02e0e3",
+      "name": "Parsing Search Result"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -400,
+        672
+      ],
+      "id": "b6b084d0-f3da-4daf-ba2a-4af36556c601",
+      "name": "Set Field for Opportunity Entry"
+    }
+  ],
+  "connections": {
+    "Flag DH emporium": {
+      "main": [
+        []
+      ]
+    },
+    "Wait DH Emporium": {
+      "main": [
+        [
+          {
+            "node": "Flag DH emporium",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append or update in DH Emporium",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 10s to React Discord": {
+      "main": [
+        [
+          {
+            "node": "React with an emoji to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Append or update Booked Job Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Parsing": {
+      "main": [
+        [
+          {
+            "node": "Search for Map Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update Booked Job Database": {
+      "main": [
+        []
+      ]
+    },
+    "is DH Emporium?": {
+      "main": [
+        [
+          {
+            "node": "Wait DH Emporium",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validation and Notification": {
+      "main": [
+        [
+          {
+            "node": "Wait 10s to notify CSR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify CSR for missing or has invalid details": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Suggest correct technician to the CSR",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Suggest correct technician to the CSR",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "Suggest correct technician to the CSR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Technician Extractor": {
+      "main": [
+        [
+          {
+            "node": "technician suggestion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Router / Validator": {
+      "main": [
+        []
+      ]
+    },
+    "Route valid vs invalid": {
+      "main": [
+        [
+          {
+            "node": "Validation accepted",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validation and Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Suggest correct technician to the CSR",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Suggest correct technician to the CSR": {
+      "main": [
+        [
+          {
+            "node": "Parse AI output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI output": {
+      "main": [
+        [
+          {
+            "node": "Wait 10s to to suggect to CSR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 10s to to suggect to CSR": {
+      "main": [
+        [
+          {
+            "node": "Notify CSR for suggesting tech availability and nomination",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 10s to notify CSR": {
+      "main": [
+        [
+          {
+            "node": "Notify CSR for missing or has invalid details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validation accepted": {
+      "main": [
+        [
+          {
+            "node": "is DH Emporium?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 10s to React Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "technician suggestion": {
+      "main": [
+        [
+          {
+            "node": "Suggest correct technician to the CSR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dedupe Discord  Id1": {
+      "main": [
+        [
+          {
+            "node": "Technician Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Process only when \"Response\" its not empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Mapping of Job Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Wrapp": {
+      "main": [
+        [
+          {
+            "node": "Parsing Search Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "Process only when \"Response\" its not empty": {
+      "main": [
+        [
+          {
+            "node": "Data Parsing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapping of Job Fields": {
+      "main": [
+        [
+          {
+            "node": "Step 1: Search Contact in Wrapp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Global Search \"Contact, Email, Mobile Number, Phone Number\"": {
+      "main": [
+        [
+          {
+            "node": "Search Wrapp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search for Map Fields": {
+      "main": [
+        [
+          {
+            "node": "Global Search \"Contact, Email, Mobile Number, Phone Number\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Set Field for Opportunity Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsing Search Result": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Field for Opportunity Entry": {
+      "main": [
+        [
+          {
+            "node": "Create Opportunity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "b4cFEFv1eFePOnMh",
+    "saveExecutionProgress": false,
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": false,
+    "timeSavedMode": "fixed"
+  },
+  "staticData": {
+    "global": {
+      "processedMessages": {
+        "1448846547965182044": 1765502341538,
+        "1448847806675685376": 1765502641866,
+        "1448848242316935179": 1765502745247,
+        "1448848532533542992": 1765502814481,
+        "1448849042166644797": 1765502936067,
+        "1448849546896740452": 1765503057319,
+        "1449964551146573918": 1765768894174,
+        "1449991931613675631": 1765775422148,
+        "1450004147507036201": 1765778334527,
+        "1450715772128067695": 1765947999400,
+        "1450728219312521236": 1765950967750
+      },
+      "notifiedBookings": {
+        "1448847806675685376": 1765502641886,
+        "1448848242316935179": 1765502745261,
+        "1448849042166644797": 1765502936080,
+        "1448849546896740452": 1765503057339
+      },
+      "processedMessageIds": {
+        "1449956365400412234": 1765766942796,
+        "1449999336430899220": 1765777188170,
+        "1450709081059758080": 1765946404193,
+        "1450713700905255055": 1765947505749,
+        "1450714195720147085": 1765947623813,
+        "1450714878393450506": 1765947786426,
+        "1450726814254366852": 1765950632333
+      }
+    },
+    "node:Google Sheets Trigger": {
+      "documentId": "1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y",
+      "sheetId": 1982351211,
+      "lastRevision": 767,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1KKNM7DogDy5cMkawpplgZ9TvW1pzQFrhGnmBYqxLq_Y&revision=767&exportFormat=xlsx"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "0c7e4c8b-ce72-4565-b5bd-6b2068f55a48",
+  "activeVersionId": null,
+  "versionCounter": 881,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-12-22T11:09:52.983Z",
+      "createdAt": "2025-12-22T11:09:52.983Z",
+      "role": "workflow:owner",
+      "workflowId": "rBlhfCJCdrtSc46p",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-11-25T13:05:18.454Z",
+      "createdAt": "2025-11-25T13:05:18.454Z",
+      "id": "xn6seEX74pkTOLqC",
+      "name": "@lead"
+    }
+  ],
+  "activeVersion": null
+}
