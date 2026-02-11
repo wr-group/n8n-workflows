@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-11T15:57:28.846Z",
+  "updatedAt": "2026-02-11T15:59:11.498Z",
   "createdAt": "2026-01-13T05:57:44.356Z",
   "id": "VO009CqRh4IAVzmP",
   "name": "04. Backup & Restore WF",
@@ -181,8 +181,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -480,
-        -32
+        -448,
+        -64
       ],
       "id": "0e5bbdfe-0a34-4531-8132-9242a41beaff",
       "name": "Append or update row in sheet",
@@ -706,8 +706,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -2560,
-        -416
+        -2528,
+        -448
       ],
       "id": "1dd48dc0-2970-47fd-97ee-60ff95878254",
       "name": "Check Title/Name Existence in Workflow Sheet Tab1",
@@ -741,8 +741,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        -2048,
-        112
+        -2016,
+        80
       ],
       "id": "0799d178-0195-4746-b7b2-359c02398c71",
       "name": "Workflow → GitHub File Builder",
@@ -762,8 +762,8 @@
       "name": "Prepare Workflow JSON for Google Drive",
       "type": "n8n-nodes-base.code",
       "position": [
-        -2272,
-        -160
+        -2240,
+        -192
       ],
       "typeVersion": 2
     },
@@ -775,8 +775,8 @@
       "name": "Prepare Workflow JSON for GitHub",
       "type": "n8n-nodes-base.code",
       "position": [
-        -2272,
-        112
+        -2240,
+        80
       ],
       "typeVersion": 2
     },
@@ -802,8 +802,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -2016,
-        -160
+        -1984,
+        -192
       ],
       "id": "e84446a6-a51f-4837-bf6e-afd8620b843d",
       "name": "Google Drive File Builder",
@@ -823,8 +823,8 @@
       "type": "n8n-nodes-base.n8nTrigger",
       "typeVersion": 1,
       "position": [
-        -2768,
-        -16
+        -2736,
+        -48
       ],
       "id": "e274d276-3b6d-40fd-9267-d2bab64689b7",
       "name": "n8n → Workflow Update Trigger"
@@ -842,8 +842,8 @@
       "type": "n8n-nodes-base.n8n",
       "typeVersion": 1,
       "position": [
-        -2544,
-        -16
+        -2512,
+        -48
       ],
       "id": "f7328883-e5a9-41d5-be6e-5f3b51683ef4",
       "name": "n8n → Get Workflow by ID",
@@ -871,8 +871,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2304,
-        -416
+        -2272,
+        -448
       ],
       "id": "511a8d3d-7181-4a41-b594-a9ec59964f4a",
       "name": "Extract Drive File ID from Sheet"
@@ -890,8 +890,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -2064,
-        -416
+        -2032,
+        -448
       ],
       "id": "4439b808-3c60-47c4-9edb-6abc3dcc3345",
       "name": "Delete Existing Drive Backup",
@@ -943,8 +943,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1792,
-        -160
+        -1760,
+        -192
       ],
       "id": "524d8cc5-1b0b-4818-a9e9-6a03a176d55d",
       "name": "Set Drive File Metadata"
@@ -966,8 +966,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1792,
-        112
+        -1760,
+        80
       ],
       "id": "e5106ef9-c15e-4fbd-a48a-06fa475d6ea9",
       "name": "Set GitHub File Metadata"
@@ -977,8 +977,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1408,
-        -32
+        -1376,
+        -64
       ],
       "id": "ffaca69a-c406-4319-bcfa-1e0910e5e238",
       "name": "Combine Drive + GitHub Results"
@@ -991,8 +991,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -1184,
-        -32
+        -1152,
+        -64
       ],
       "id": "9f3cdb51-8b7a-4f72-adad-96168b7b689c",
       "name": "Consolidate Backup Data"
@@ -1004,12 +1004,27 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -928,
-        -32
+        -896,
+        -64
       ],
       "id": "69a35516-a8df-4457-9e0f-80802b5db48b",
       "name": "Stabilize Before Sheet Update",
       "webhookId": "801c9260-f7a8-4b73-afba-6a8c61e280a1"
+    },
+    {
+      "parameters": {
+        "content": "## Update working during Published instance\n",
+        "height": 784,
+        "width": 3280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2816,
+        -512
+      ],
+      "typeVersion": 1,
+      "id": "57891b7d-982c-4cc1-8eb4-a0e69f7a2e67",
+      "name": "Sticky Note1"
     }
   ],
   "connections": {
@@ -1395,9 +1410,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "57211fc4-0439-415a-926f-14f7bebcc7ee",
-  "activeVersionId": "57211fc4-0439-415a-926f-14f7bebcc7ee",
-  "versionCounter": 549,
+  "versionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
+  "activeVersionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
+  "versionCounter": 563,
   "triggerCount": 2,
   "shared": [
     {
@@ -1471,9 +1486,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-02-11T15:57:36.000Z",
-    "createdAt": "2026-02-11T15:57:28.847Z",
-    "versionId": "57211fc4-0439-415a-926f-14f7bebcc7ee",
+    "updatedAt": "2026-02-11T15:59:14.000Z",
+    "createdAt": "2026-02-11T15:59:11.499Z",
+    "versionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
     "workflowId": "VO009CqRh4IAVzmP",
     "nodes": [
       {
@@ -1650,8 +1665,8 @@
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4.5,
         "position": [
-          -480,
-          -32
+          -448,
+          -64
         ],
         "id": "0e5bbdfe-0a34-4531-8132-9242a41beaff",
         "name": "Append or update row in sheet",
@@ -2175,8 +2190,8 @@
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4.5,
         "position": [
-          -2560,
-          -416
+          -2528,
+          -448
         ],
         "id": "1dd48dc0-2970-47fd-97ee-60ff95878254",
         "name": "Check Title/Name Existence in Workflow Sheet Tab1",
@@ -2210,8 +2225,8 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          -2048,
-          112
+          -2016,
+          80
         ],
         "id": "0799d178-0195-4746-b7b2-359c02398c71",
         "name": "Workflow → GitHub File Builder",
@@ -2231,8 +2246,8 @@
         "name": "Prepare Workflow JSON for Google Drive",
         "type": "n8n-nodes-base.code",
         "position": [
-          -2272,
-          -160
+          -2240,
+          -192
         ],
         "typeVersion": 2
       },
@@ -2244,8 +2259,8 @@
         "name": "Prepare Workflow JSON for GitHub",
         "type": "n8n-nodes-base.code",
         "position": [
-          -2272,
-          112
+          -2240,
+          80
         ],
         "typeVersion": 2
       },
@@ -2271,8 +2286,8 @@
         "type": "n8n-nodes-base.googleDrive",
         "typeVersion": 3,
         "position": [
-          -2016,
-          -160
+          -1984,
+          -192
         ],
         "id": "e84446a6-a51f-4837-bf6e-afd8620b843d",
         "name": "Google Drive File Builder",
@@ -2292,8 +2307,8 @@
         "type": "n8n-nodes-base.n8nTrigger",
         "typeVersion": 1,
         "position": [
-          -2768,
-          -16
+          -2736,
+          -48
         ],
         "id": "e274d276-3b6d-40fd-9267-d2bab64689b7",
         "name": "n8n → Workflow Update Trigger"
@@ -2311,8 +2326,8 @@
         "type": "n8n-nodes-base.n8n",
         "typeVersion": 1,
         "position": [
-          -2544,
-          -16
+          -2512,
+          -48
         ],
         "id": "f7328883-e5a9-41d5-be6e-5f3b51683ef4",
         "name": "n8n → Get Workflow by ID",
@@ -2340,8 +2355,8 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          -2304,
-          -416
+          -2272,
+          -448
         ],
         "id": "511a8d3d-7181-4a41-b594-a9ec59964f4a",
         "name": "Extract Drive File ID from Sheet"
@@ -2359,8 +2374,8 @@
         "type": "n8n-nodes-base.googleDrive",
         "typeVersion": 3,
         "position": [
-          -2064,
-          -416
+          -2032,
+          -448
         ],
         "id": "4439b808-3c60-47c4-9edb-6abc3dcc3345",
         "name": "Delete Existing Drive Backup",
@@ -2412,8 +2427,8 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          -1792,
-          -160
+          -1760,
+          -192
         ],
         "id": "524d8cc5-1b0b-4818-a9e9-6a03a176d55d",
         "name": "Set Drive File Metadata"
@@ -2435,8 +2450,8 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          -1792,
-          112
+          -1760,
+          80
         ],
         "id": "e5106ef9-c15e-4fbd-a48a-06fa475d6ea9",
         "name": "Set GitHub File Metadata"
@@ -2446,8 +2461,8 @@
         "type": "n8n-nodes-base.merge",
         "typeVersion": 3.2,
         "position": [
-          -1408,
-          -32
+          -1376,
+          -64
         ],
         "id": "ffaca69a-c406-4319-bcfa-1e0910e5e238",
         "name": "Combine Drive + GitHub Results"
@@ -2460,8 +2475,8 @@
         "type": "n8n-nodes-base.aggregate",
         "typeVersion": 1,
         "position": [
-          -1184,
-          -32
+          -1152,
+          -64
         ],
         "id": "9f3cdb51-8b7a-4f72-adad-96168b7b689c",
         "name": "Consolidate Backup Data"
@@ -2473,12 +2488,27 @@
         "type": "n8n-nodes-base.wait",
         "typeVersion": 1.1,
         "position": [
-          -928,
-          -32
+          -896,
+          -64
         ],
         "id": "69a35516-a8df-4457-9e0f-80802b5db48b",
         "name": "Stabilize Before Sheet Update",
         "webhookId": "801c9260-f7a8-4b73-afba-6a8c61e280a1"
+      },
+      {
+        "parameters": {
+          "content": "## Update working during Published instance\n",
+          "height": 784,
+          "width": 3280
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -2816,
+          -512
+        ],
+        "typeVersion": 1,
+        "id": "57891b7d-982c-4cc1-8eb4-a0e69f7a2e67",
+        "name": "Sticky Note1"
       }
     ],
     "connections": {
@@ -2852,15 +2882,15 @@
       }
     },
     "authors": "Christine Kam",
-    "name": "Version 57211fc4",
+    "name": "Version 8337d9e0",
     "description": "",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-02-11T15:57:36.520Z",
-        "id": 148,
+        "createdAt": "2026-02-11T15:59:14.516Z",
+        "id": 149,
         "workflowId": "VO009CqRh4IAVzmP",
-        "versionId": "57211fc4-0439-415a-926f-14f7bebcc7ee",
+        "versionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
         "event": "activated",
         "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b"
       }
