@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-11T15:06:41.501Z",
+  "updatedAt": "2026-02-11T15:19:25.522Z",
   "createdAt": "2026-01-13T05:57:44.356Z",
   "id": "VO009CqRh4IAVzmP",
   "name": "04. Backup & Restore WF",
@@ -17,31 +17,6 @@
       ],
       "id": "98ef7108-be81-4eab-ba28-eaea18f6c5aa",
       "name": "When clicking ‘Test workflow’"
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "workflowId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "={{ $json.workflow_id }}"
-        },
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-base.n8n",
-      "typeVersion": 1,
-      "position": [
-        -2560,
-        80
-      ],
-      "id": "f7328883-e5a9-41d5-be6e-5f3b51683ef4",
-      "name": "n8n2",
-      "credentials": {
-        "n8nApi": {
-          "id": "ct9VygkZ0SbgQP2e",
-          "name": "WR: n8n account"
-        }
-      }
     },
     {
       "parameters": {
@@ -103,36 +78,6 @@
     },
     {
       "parameters": {
-        "name": "={{ $('n8n2').item.json.name }}",
-        "driveId": {
-          "__rl": true,
-          "value": "1HmBSAtGgcZLSbO2BxikQbvbzAcZzY7u9",
-          "mode": "id"
-        },
-        "folderId": {
-          "__rl": true,
-          "value": "https://drive.google.com/drive/u/0/folders/1SDMuJ-oFxW1laCNTpvFMb2t5Gd2ofLhnhttps://drive.google.com/drive/u/0/folders/1SDMuJ-oFxW1laCNTpvFMb2t5Gd2ofLhn",
-          "mode": "url"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        -1120,
-        -176
-      ],
-      "id": "e84446a6-a51f-4837-bf6e-afd8620b843d",
-      "name": "Upload file1",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "ukMqhBlcAttN3yTg",
-          "name": "WR: Google Drive account Shop"
-        }
-      }
-    },
-    {
-      "parameters": {
         "operation": "appendOrUpdate",
         "documentId": {
           "__rl": true,
@@ -151,8 +96,8 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Title": "={{ $('n8n2').item.json.name }}",
-            "Last modified": "={{ $('n8n2').item.json.updatedAt }}",
+            "Title": "={{ $('n8n → Get Workflow by ID').item.json.name }}",
+            "Last modified": "={{ $('n8n → Get Workflow by ID').item.json.updatedAt }}",
             "Shared Url": "=https://drive.google.com/file/d/{{ $json.id }}"
           },
           "matchingColumns": [
@@ -233,7 +178,7 @@
       "typeVersion": 4.5,
       "position": [
         -1120,
-        0
+        -32
       ],
       "id": "0e5bbdfe-0a34-4531-8132-9242a41beaff",
       "name": "Append or update row in sheet",
@@ -380,49 +325,11 @@
       "typeVersion": 1.1,
       "position": [
         -1344,
-        0
+        -32
       ],
       "id": "69a35516-a8df-4457-9e0f-80802b5db48b",
       "name": "Wait1",
       "webhookId": "801c9260-f7a8-4b73-afba-6a8c61e280a1"
-    },
-    {
-      "parameters": {
-        "operation": "deleteFile",
-        "fileId": {
-          "__rl": true,
-          "value": "={{ $json[\"Shared Url\"] }}",
-          "mode": "url"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        -1792,
-        -576
-      ],
-      "id": "4439b808-3c60-47c4-9edb-6abc3dcc3345",
-      "name": "Delete a file",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "ukMqhBlcAttN3yTg",
-          "name": "WR: Google Drive account Shop"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "return items.map(item => {\n  const jsonData = JSON.stringify(item.json);\n  const binaryData = Buffer.from(jsonData).toString('base64');\n  item.binary = {\n    data: {\n      data: binaryData,\n      mimeType: 'application/json',\n      fileName: 'data.json'\n    }\n  };\n  return item;\n});"
-      },
-      "id": "108d4404-35f6-41ec-849d-92486b3c181d",
-      "name": "Code",
-      "type": "n8n-nodes-base.code",
-      "position": [
-        -1344,
-        -176
-      ],
-      "typeVersion": 2
     },
     {
       "parameters": {
@@ -724,21 +631,6 @@
     },
     {
       "parameters": {
-        "events": [
-          "update"
-        ]
-      },
-      "type": "n8n-nodes-base.n8nTrigger",
-      "typeVersion": 1,
-      "position": [
-        -2784,
-        80
-      ],
-      "id": "e274d276-3b6d-40fd-9267-d2bab64689b7",
-      "name": "n8n Trigger"
-    },
-    {
-      "parameters": {
         "documentId": {
           "__rl": true,
           "value": "1tKdVAQPyfl0LXCExNYjStmWmebb000rAoCULm88zdhA",
@@ -824,8 +716,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -2464,
-        -432
+        -2560,
+        -416
       ],
       "id": "1dd48dc0-2970-47fd-97ee-60ff95878254",
       "name": "Check Title/Name Existence in Workflow Sheet Tab1",
@@ -834,6 +726,137 @@
         "googleSheetsOAuth2Api": {
           "id": "S4FmXrss6MgN5rzt",
           "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "wr-group",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "name",
+          "value": "=n8n-workflows"
+        },
+        "filePath": "={{ $json.path }}",
+        "binaryData": true,
+        "commitMessage": "=Backup workflow {{ $json.workflowName }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -2048,
+        112
+      ],
+      "id": "0799d178-0195-4746-b7b2-359c02398c71",
+      "name": "Workflow → GitHub File Builder",
+      "webhookId": "6d34e561-d4d8-45ad-bad5-b38b775c223d",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "AyHRWMWHtltG24kr",
+          "name": "WR: GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const wf = items[0].json;\n\n// Build filename from workflow name\nconst workflowName = wf.name || 'workflow';\nconst safeName = workflowName.replace(/[<>:\"/\\\\|?*]+/g, '').trim();\n\n// Convert full workflow JSON to formatted string\nconst jsonString = JSON.stringify(wf, null, 2);\n\n// Convert to base64\nconst base64 = Buffer.from(jsonString, 'utf8').toString('base64');\n\nreturn [\n  {\n    json: {\n      workflowId: wf.id,\n      workflowName: workflowName,\n      createdAt: wf.createdAt,\n      updatedAt: wf.updatedAt,\n    },\n    binary: {\n      data: {\n        data: base64,\n        mimeType: 'application/json',\n        fileName: `${safeName}.json`,\n      },\n    },\n  },\n];\n"
+      },
+      "id": "108d4404-35f6-41ec-849d-92486b3c181d",
+      "name": "Prepare Workflow JSON for Google Drive",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -2272,
+        -160
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const wf = items[0].json;\n\nconst workflowName = wf.name || 'workflow';\nconst safeName = workflowName.replace(/[<>:\"/\\\\|?*]+/g, '').trim();\n\nconst jsonString = JSON.stringify(wf, null, 2);\nconst base64 = Buffer.from(jsonString, 'utf8').toString('base64');\n\nreturn [\n  {\n    json: {\n      workflowId: wf.id,\n      workflowName: wf.name,\n      fileName: `${safeName}.json`,\n      path: `workflows/${safeName}.json`,\n    },\n    binary: {\n      data: {\n        data: base64,\n        mimeType: 'application/json',\n        fileName: `${safeName}.json`,\n      },\n    },\n  },\n];\n"
+      },
+      "id": "f549f253-edd0-4d5f-a0c6-a5dfa8bcdd7f",
+      "name": "Prepare Workflow JSON for GitHub",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -2272,
+        112
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "name": "={{ $('n8n → Get Workflow by ID').item.json.name }}",
+        "driveId": {
+          "__rl": true,
+          "value": "1HmBSAtGgcZLSbO2BxikQbvbzAcZzY7u9",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/u/0/folders/1SDMuJ-oFxW1laCNTpvFMb2t5Gd2ofLhnhttps://drive.google.com/drive/u/0/folders/1SDMuJ-oFxW1laCNTpvFMb2t5Gd2ofLhn",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -2016,
+        -160
+      ],
+      "id": "e84446a6-a51f-4837-bf6e-afd8620b843d",
+      "name": "Google Drive File Builder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ukMqhBlcAttN3yTg",
+          "name": "WR: Google Drive account Shop"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "events": [
+          "update"
+        ]
+      },
+      "type": "n8n-nodes-base.n8nTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2768,
+        -16
+      ],
+      "id": "e274d276-3b6d-40fd-9267-d2bab64689b7",
+      "name": "n8n → Workflow Update Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.workflow_id }}"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -2544,
+        -16
+      ],
+      "id": "f7328883-e5a9-41d5-be6e-5f3b51683ef4",
+      "name": "n8n → Get Workflow by ID",
+      "credentials": {
+        "n8nApi": {
+          "id": "ct9VygkZ0SbgQP2e",
+          "name": "WR: n8n account"
         }
       }
     },
@@ -890,59 +913,61 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2224,
-        -112
+        -2304,
+        -416
       ],
       "id": "511a8d3d-7181-4a41-b594-a9ec59964f4a",
-      "name": "Edit Fields"
+      "name": "Extract Drive File ID from Sheet"
     },
     {
       "parameters": {
-        "jsCode": "const input = $input.first().json;\n\n// Sheet values\nconst workflowId = input.Id;\nconst title = input.Title || 'workflow';\n\n// Extract workflow JSON (remove sheet fields only)\nconst { Id, Title, ...wf } = input;\n\nif (!wf || Object.keys(wf).length === 0) {\n  throw new Error(\"No workflow JSON detected. Check Merge mode.\");\n}\n\n// 🔥 KEEP ORIGINAL NAME FORMAT (no underscore conversion)\nconst safeName = title\n  .replace(/[<>:\"/\\\\|?*]+/g, '')  // remove illegal characters only\n  .trim();\n\nconst fileName = `${safeName}.json`;\nconst path = `workflows/${fileName}`;\n\nconst jsonString = JSON.stringify(wf, null, 2);\nconst base64 = Buffer.from(jsonString).toString('base64');\n\nreturn [{\n  json: {\n    workflowId,\n    title,\n    workflowName: wf.name || title,\n    fileName,\n    path\n  },\n  binary: {\n    data: {\n      data: base64,\n      fileName,\n      mimeType: 'application/json'\n    }\n  }\n}];\n"
-      },
-      "id": "f549f253-edd0-4d5f-a0c6-a5dfa8bcdd7f",
-      "name": "Prepare Workflow for GitHub Commit",
-      "type": "n8n-nodes-base.code",
-      "position": [
-        -2304,
-        80
-      ],
-      "typeVersion": 2
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "operation": "edit",
-        "owner": {
+        "operation": "deleteFile",
+        "fileId": {
           "__rl": true,
-          "value": "wr-group",
-          "mode": "name"
+          "value": "={{ $json[\"Shared Url\"] }}",
+          "mode": "url"
         },
-        "repository": {
-          "__rl": true,
-          "mode": "name",
-          "value": "=n8n-workflows"
-        },
-        "filePath": "={{ $json.path }}",
-        "binaryData": true,
-        "commitMessage": "=Backup workflow {{ $json.workflowName }}"
+        "options": {}
       },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
       "position": [
-        -1664,
-        0
+        -2064,
+        -416
       ],
-      "id": "0799d178-0195-4746-b7b2-359c02398c71",
-      "name": "Workflow → GitHub File Builder",
-      "webhookId": "6d34e561-d4d8-45ad-bad5-b38b775c223d",
+      "id": "4439b808-3c60-47c4-9edb-6abc3dcc3345",
+      "name": "Delete Existing Drive Backup",
       "credentials": {
-        "githubOAuth2Api": {
-          "id": "AyHRWMWHtltG24kr",
-          "name": "WR: GitHub account"
+        "googleDriveOAuth2Api": {
+          "id": "ukMqhBlcAttN3yTg",
+          "name": "WR: Google Drive account Shop"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1760,
+        -32
+      ],
+      "id": "ffaca69a-c406-4319-bcfa-1e0910e5e238",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1552,
+        -32
+      ],
+      "id": "9f3cdb51-8b7a-4f72-adad-96168b7b689c",
+      "name": "Aggregate1"
     }
   ],
   "connections": {
@@ -951,17 +976,6 @@
         [
           {
             "node": "Get many n8n workflows",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "n8n2": {
-      "main": [
-        [
-          {
-            "node": "Prepare Workflow for GitHub Commit",
             "type": "main",
             "index": 0
           }
@@ -1012,11 +1026,6 @@
         ]
       ]
     },
-    "Upload file1": {
-      "main": [
-        []
-      ]
-    },
     "Append or update row in sheet": {
       "main": [
         []
@@ -1050,22 +1059,6 @@
         [
           {
             "node": "Append or update row in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Delete a file": {
-      "main": [
-        []
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Upload file1",
             "type": "main",
             "index": 0
           }
@@ -1188,17 +1181,6 @@
         ]
       ]
     },
-    "n8n Trigger": {
-      "main": [
-        [
-          {
-            "node": "n8n2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Check Title If Exist in Workflow Sheet Tab": {
       "main": [
         [
@@ -1212,15 +1194,38 @@
     },
     "Check Title/Name Existence in Workflow Sheet Tab1": {
       "main": [
-        []
+        [
+          {
+            "node": "Extract Drive File ID from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "Edit Fields": {
+    "Workflow → GitHub File Builder": {
       "main": [
-        []
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
       ]
     },
-    "Prepare Workflow for GitHub Commit": {
+    "Prepare Workflow JSON for Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Google Drive File Builder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Workflow JSON for GitHub": {
       "main": [
         [
           {
@@ -1231,9 +1236,85 @@
         ]
       ]
     },
-    "Workflow → GitHub File Builder": {
+    "Google Drive File Builder": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n → Workflow Update Trigger": {
+      "main": [
+        [
+          {
+            "node": "n8n → Get Workflow by ID",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Title/Name Existence in Workflow Sheet Tab1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n → Get Workflow by ID": {
+      "main": [
+        [
+          {
+            "node": "Prepare Workflow JSON for GitHub",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare Workflow JSON for Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Drive File ID from Sheet": {
+      "main": [
+        [
+          {
+            "node": "Delete Existing Drive Backup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Existing Drive Backup": {
       "main": [
         []
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -1250,9 +1331,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "db5b24a7-8870-4694-8e03-29b5141daac2",
+  "versionId": "aa2e97d2-25bb-465a-807f-9201b48f561f",
   "activeVersionId": "1af24fc7-1c21-474e-b9d4-cc5745bbd061",
-  "versionCounter": 423,
+  "versionCounter": 467,
   "triggerCount": 2,
   "shared": [
     {
