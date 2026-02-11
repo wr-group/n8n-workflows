@@ -1,0 +1,455 @@
+{
+  "updatedAt": "2025-11-24T05:56:28.000Z",
+  "createdAt": "2025-11-16T10:17:22.139Z",
+  "id": "TlXNn2TQ2Geo3AtK",
+  "name": "01. Slack",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "trigger": [
+          "message"
+        ],
+        "channelId": {
+          "__rl": true,
+          "value": "C09TBTELL4C",
+          "mode": "list",
+          "cachedResultName": "demo"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        -264
+      ],
+      "id": "e5421e1d-b923-4294-82d4-1aea3e926584",
+      "name": "Slack Trigger",
+      "webhookId": "6ad330fa-60a5-46b4-9d99-87db4972d121",
+      "credentials": {
+        "slackApi": {
+          "id": "2f880opdk3SzZNJg",
+          "name": "WR: Slack Trigger Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        992,
+        -264
+      ],
+      "id": "bf3f387e-1845-41b9-9e3d-5809b98f62b7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        -40
+      ],
+      "id": "83abd7e3-2bef-48a1-a3e1-3018f39e6556",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "y50JkhvigpefblfD",
+          "name": "WR: Google Gemini(PaLM) API Cccount"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09TBTELL4C",
+          "mode": "list",
+          "cachedResultName": "demo"
+        },
+        "text": "={{ $json.output }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $('Slack Trigger').item.json.ts }} "
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1344,
+        -264
+      ],
+      "id": "5f095146-5a26-4dc0-87e9-769e8e8a419e",
+      "name": "Send a message",
+      "webhookId": "18eb914b-133d-40de-8334-75b0dc3c0d4e",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "QijDqsPqSpMnEZMR",
+          "name": "WR: Slack Send Acount"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Slack Trigger').item.json.ts }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1128,
+        -40
+      ],
+      "id": "abe24fe0-341d-4355-a39f-ca167e493d54",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ffc3491d-50ba-4183-a9d1-ce21387eb128",
+              "leftValue": "={{ $json.bot_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "399cf81e-3b05-439a-b5d0-69f7708ab067",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        -264
+      ],
+      "id": "6026d890-230f-4a8f-be1e-296c40139e36",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.files[0].url_private_download }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "92ccc6a7-02f5-4f22-9cd3-c10bf37f1f84"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Voice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5a9506e4-a62b-4aee-8541-bb5ca4a0e46e",
+                    "leftValue": "={{ $json.blocks[0].elements[0].elements[0].text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text_thread"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        320,
+        -264
+      ],
+      "id": "4f02436d-6c84-4f2e-86a5-368bebbb0c31",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.files[0].url_private_download }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        544,
+        -336
+      ],
+      "id": "1177c94a-d19a-4026-a000-ab5cc49a50f9",
+      "name": "HTTP Request",
+      "credentials": {
+        "slackApi": {
+          "id": "2f880opdk3SzZNJg",
+          "name": "WR: Slack Trigger Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2,
+      "position": [
+        768,
+        -336
+      ],
+      "id": "4cb8ccc0-f22a-499d-8925-a8e9428ec48b",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "b4cFEFv1eFePOnMh"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "79e76004-7ef2-4123-aeee-da56ec02b313",
+  "activeVersionId": null,
+  "versionCounter": 109,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-11-16T10:17:22.141Z",
+      "createdAt": "2025-11-16T10:17:22.141Z",
+      "role": "workflow:owner",
+      "workflowId": "TlXNn2TQ2Geo3AtK",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}
