@@ -1,0 +1,2187 @@
+{
+  "updatedAt": "2026-02-03T02:52:46.207Z",
+  "createdAt": "2025-11-18T23:01:48.312Z",
+  "id": "wrLHe2EfymAYkFky",
+  "name": "04. Booking Jobs v1 via Discord",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "react",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "753455160209965111",
+          "mode": "list",
+          "cachedResultName": "booked_jobs",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106/753455160209965111"
+        },
+        "messageId": "={{ $json.id }}",
+        "emoji": "👍"
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        -676
+      ],
+      "id": "9ac72f23-53c8-456d-a8f1-d6f453b7e330",
+      "name": "React with an emoji to a message",
+      "webhookId": "e697dfc0-caf1-4d13-bfcc-ad41e77d1d34",
+      "executeOnce": true,
+      "retryOnFail": false,
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "753455160209965106",
+          "mode": "list",
+          "cachedResultName": "Window Revival",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1372367179650957405",
+          "mode": "list",
+          "cachedResultName": "double-hung-emporium",
+          "cachedResultUrl": "https://discord.com/channels/753455160209965106/1372367179650957405"
+        },
+        "content": "===========\nJob Category: {{ $json.jobCategory }}\n==========\n* Customer Name:  {{ $json.customerFirstName }}  {{ $json.customerLastName }}\n* Email: {{ $json.emailAddress }}\n* Mobile Number: {{ $json.mobileNumber }}\n* Phone Number: {{ $json.phoneNumber }}\n* Address: {{ $json.streetAddress }} {{ $json.streetAddressDescription }}\n* Suburb: {{ $json.suburb }} \n* Postal Code: {{ $json.postalCode }}\n* Job Start: {{ $json.jobStart }}\n* Job End: {{ $json.jobEnd }}\n* Job Description: {{ $json.jobDetails }}\n\n* DSP notes: {{ $json.dspNotes }}\n* Est Price: {{ $json.estPrice }}\n* Technician: {{ $json.technicianName }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2352,
+        -868
+      ],
+      "id": "f610dd0c-fb70-453c-bb89-b84ff7f434ad",
+      "name": "Flag DH emporium",
+      "webhookId": "e3101510-ab77-477a-b338-c7387f2e87cd",
+      "executeOnce": true,
+      "credentials": {
+        "discordBotApi": {
+          "id": "a0FDlWFh8PBA5Add",
+          "name": "WR: Discord Bot Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5a532eb4-0f05-41fa-953d-a584e2712626",
+              "leftValue": "={{ $json.isDhWsNsEmporium }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1904,
+        -868
+      ],
+      "id": "32c22e54-94ff-4777-8c60-87c10a818213",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "guildIds": [
+          "753455160209965106"
+        ],
+        "channelIds": [
+          "753455160209965111"
+        ],
+        "roleIds": [
+          "901010696152698890",
+          "901010019900882994",
+          "1440502588972728415"
+        ],
+        "pattern": "every",
+        "additionalFields": {
+          "debounceSeconds": 5
+        }
+      },
+      "type": "n8n-nodes-discord-trigger-new.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -768
+      ],
+      "id": "35db33fb-5eba-439f-a3a2-a2631ba53e4e",
+      "name": "Listen to Booked job Discord  Channel",
+      "executeOnce": true,
+      "credentials": {
+        "discordBotTriggerApi": {
+          "id": "bWnCMGqUZEPKKfgs",
+          "name": "WR: Discord Bot Trigger Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2128,
+        -868
+      ],
+      "id": "413ce48d-9e95-407a-b4e9-f672fd1d4e9a",
+      "name": "Wait DH Emporium",
+      "webhookId": "5499f85a-753a-4001-a0e4-8cdc5b2ac0d5",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1904,
+        -676
+      ],
+      "id": "a9fc48ec-edb8-4b78-aab0-28e591b6c4aa",
+      "name": "Wait 10s to React Discord",
+      "webhookId": "5499f85a-753a-4001-a0e4-8cdc5b2ac0d5",
+      "executeOnce": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        -772
+      ],
+      "id": "010dbd07-f049-461f-8d0a-2f9e4609b3a0",
+      "name": "Wait1",
+      "webhookId": "ea7ddd03-7db8-41c9-93e6-1af8a7e73aab",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU",
+          "mode": "list",
+          "cachedResultName": "Technicians Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Main",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        504,
+        -672
+      ],
+      "id": "5e9eb6ae-7161-4c1c-8d4c-98c0eb80f2a3",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "id, content, channelId, authorId, authorName",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -772
+      ],
+      "id": "834c179d-5c3b-46fd-ac19-e021d98ee09c",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+          "mode": "list",
+          "cachedResultName": "Leads Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 321309652,
+          "mode": "list",
+          "cachedResultName": "booked jobs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=321309652"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "isCreated": "={{ $json.isCreated }}",
+            "id": "={{ $('Set Fields').item.json.id }}",
+            "channelId": "={{ $('Set Fields').item.json.channelId }}",
+            "authorId": "={{ $('Set Fields').item.json.authorId }}",
+            "timestamp": "={{ $('Set Fields').item.json.timestamp }}",
+            "csrName": "={{ $('Set Fields').item.json.csrName }}",
+            "customerFirstName": "={{ $('Set Fields').item.json.customerFirstName }}",
+            "customerLastName": "={{ $('Set Fields').item.json.customerLastName }}",
+            "customerJobTitle": "={{ $('Set Fields').item.json.customerJobTitle }}",
+            "jobServices": "={{ $('Set Fields').item.json.jobServices }}",
+            "howDidYouHearAboutUs": "={{ $('Set Fields').item.json.howDidYouHearAboutUs }}",
+            "emailAddress": "={{ $('Set Fields').item.json.emailAddress }}",
+            "mobileNumber": "={{ $('Set Fields').item.json.mobileNumber }}",
+            "phoneNumber": "={{ $('Set Fields').item.json.phoneNumber }}",
+            "streetAddress": "={{ $('Set Fields').item.json.streetAddress }}",
+            "streetAddressDescription": "={{ $('Set Fields').item.json.streetAddressDescription }}",
+            "suburb": "={{ $('Set Fields').item.json.suburb }}",
+            "postalCode": "={{ $('Set Fields').item.json.postalCode }}",
+            "jobType": "={{ $('Set Fields').item.json.jobType }}",
+            "jobStart": "={{ $('Set Fields').item.json.jobStart }}",
+            "jobEnd": "={{ $('Set Fields').item.json.jobEnd }}",
+            "jobDescription": "={{ $('Set Fields').item.json.jobDescription }}",
+            "dspNotes": "={{ $('Set Fields').item.json.dspNotes }}",
+            "estTimeHours": "={{ $('Set Fields').item.json.estTimeHours }}",
+            "estPrice": "={{ $('Set Fields').item.json.estPrice }}",
+            "manJob": "={{ $('Set Fields').item.json.manJob }}",
+            "technicianName": "={{ $('Set Fields').item.json.technicianName }}",
+            "isDhWsNsEmporium": "={{ $('Set Fields').item.json.isDhWsNsEmporium }}",
+            "jobTitle": "={{ $('Set Fields').item.json.jobTitle }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channelId",
+              "displayName": "channelId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "authorId",
+              "displayName": "authorId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "csrName",
+              "displayName": "csrName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerFirstName",
+              "displayName": "customerFirstName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerLastName",
+              "displayName": "customerLastName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerJobTitle",
+              "displayName": "customerJobTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobServices",
+              "displayName": "jobServices",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "howDidYouHearAboutUs",
+              "displayName": "howDidYouHearAboutUs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "emailAddress",
+              "displayName": "emailAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "mobileNumber",
+              "displayName": "mobileNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phoneNumber",
+              "displayName": "phoneNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "streetAddress",
+              "displayName": "streetAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "streetAddressDescription",
+              "displayName": "streetAddressDescription",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "suburb",
+              "displayName": "suburb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "postalCode",
+              "displayName": "postalCode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobType",
+              "displayName": "jobType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobStart",
+              "displayName": "jobStart",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobEnd",
+              "displayName": "jobEnd",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobDescription",
+              "displayName": "jobDescription",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "dspNotes",
+              "displayName": "dspNotes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estTimeHours",
+              "displayName": "estTimeHours",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estPrice",
+              "displayName": "estPrice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "manJob",
+              "displayName": "manJob",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianName",
+              "displayName": "technicianName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "isDhWsNsEmporium",
+              "displayName": "isDhWsNsEmporium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "isCreated",
+              "displayName": "isCreated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobTitle",
+              "displayName": "jobTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1664,
+        -784
+      ],
+      "id": "a1537263-98a8-4fc0-9e9a-cad36aff13b1",
+      "name": "Append or update row in sheet",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n\nfunction clean(v) {\n  if (v === undefined || v === null) return null;\n  const s = String(v).trim();\n  return s.length ? s : null;\n}\n\nfunction getNowBrisbaneTimestamp() {\n  // Format required: DD/MM/YYHH:mm:ss (no space)\n  const d = new Date();\n\n  const parts = new Intl.DateTimeFormat(\"en-AU\", {\n    timeZone: \"Australia/Brisbane\",\n    day: \"2-digit\",\n    month: \"2-digit\",\n    year: \"2-digit\",\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    second: \"2-digit\",\n    hour12: false,\n  }).formatToParts(d);\n\n  const map = Object.fromEntries(parts.map(p => [p.type, p.value]));\n  return `${map.day}/${map.month}/${map.year}${map.hour}:${map.minute}:${map.second}`;\n}\n\nfunction parseAUAddress(full) {\n  // full example: \"6 Offham Ct, Arundel QLD 4214, Australia\"\n  const out = {\n    streetAddress: null,           // street only\n    streetAddressDescription: null, // always null (not explicitly in raw)\n    suburb: null,\n    postalCode: null,\n  };\n  if (!full) return out;\n\n  const parts = full.split(\",\").map(p => p.trim()).filter(Boolean);\n\n  // Street only (before first comma)\n  out.streetAddress = clean(parts[0]);\n\n  // Suburb/postcode derived from same raw line (ok)\n  if (parts.length >= 2) {\n    const suburbStatePost = parts[1];\n    const m = suburbStatePost.match(/^(.+?)\\s+([A-Z]{2,3})\\s+(\\d{4})$/);\n    if (m) {\n      out.suburb = clean(m[1]);\n      out.postalCode = clean(m[3]);\n    } else {\n      const pc = suburbStatePost.match(/(\\d{4})/);\n      out.postalCode = clean(pc?.[1]);\n      out.suburb = clean(suburbStatePost.split(/\\s+/)[0]);\n    }\n  }\n\n  return out;\n}\n\nfunction parseDateTime(line) {\n  // Example: \"Thursday 05/02/2026 - 7am\"\n  // Output: \"2026-02-05 07:00\" (assumes DD/MM/YYYY)\n  if (!line) return null;\n\n  const m = line.match(/(\\d{2})\\/(\\d{2})\\/(\\d{4})\\s*-\\s*([0-9]{1,2})(?::([0-9]{2}))?\\s*(am|pm)/i);\n  if (!m) return null;\n\n  const dd = parseInt(m[1], 10);\n  const mm = parseInt(m[2], 10);\n  const yyyy = parseInt(m[3], 10);\n\n  let hh = parseInt(m[4], 10);\n  const min = m[5] ? parseInt(m[5], 10) : 0;\n  const ampm = m[6].toLowerCase();\n\n  if (ampm === \"pm\" && hh !== 12) hh += 12;\n  if (ampm === \"am\" && hh === 12) hh = 0;\n\n  const pad = (n) => String(n).padStart(2, \"0\");\n  return `${yyyy}-${pad(mm)}-${pad(dd)} ${pad(hh)}:${pad(min)}`;\n}\n\nfunction extractBlock(text, startLabel, stopLabels) {\n  const startIdx = text.indexOf(startLabel);\n  if (startIdx === -1) return null;\n\n  const after = text.slice(startIdx + startLabel.length);\n  let endIdx = after.length;\n\n  for (const lab of stopLabels) {\n    const i = after.indexOf(lab);\n    if (i !== -1 && i < endIdx) endIdx = i;\n  }\n  return clean(after.slice(0, endIdx));\n}\n\n/**\n * Normalize Job Services into one of the allowed enum values.\n * Default: \"Repairs\"\n *\n * Extend by adding aliases into the map below.\n */\nfunction normalizeJobServices(rawJobServices, content) {\n  const allowed = new Set([\n    \"Window Painting\",\n    \"Repairs\",\n    \"Onsite Quote\",\n    \"Onsite Check Measure\",\n    \"Service Call\",\n    \"Follow Up\",\n    \"Pick Up Stock\",\n    \"Security Screen\",\n    \"Glass Replacement\",\n  ]);\n\n  const raw = (rawJobServices || \"\").trim();\n  if (allowed.has(raw)) return raw;\n\n  // --- Alias / fuzzy mapping (extend freely) ---\n  const c = (content || \"\").toLowerCase();\n  const r = raw.toLowerCase();\n\n  const aliasMap = [\n    { match: [\"window painting\", \"paint window\"], value: \"Window Painting\" },\n    { match: [\"repair\", \"repairs\"], value: \"Repairs\" },\n    { match: [\"onsite quote\", \"on site quote\", \"site quote\", \"quote\"], value: \"Onsite Quote\" },\n    { match: [\"measure\", \"check measure\", \"onsite check measure\"], value: \"Onsite Check Measure\" },\n    { match: [\"service call\", \"call out\", \"callout\"], value: \"Service Call\" },\n    { match: [\"follow up\", \"follow-up\", \"followup\"], value: \"Follow Up\" },\n    { match: [\"pick up stock\", \"pickup stock\", \"collect stock\"], value: \"Pick Up Stock\" },\n    { match: [\"security screen\", \"sec screen\", \"security screens\"], value: \"Security Screen\" },\n    { match: [\"glass replacement\", \"replace glass\", \"glass\"], value: \"Glass Replacement\" },\n  ];\n\n  for (const rule of aliasMap) {\n    if (rule.match.some(k => r.includes(k))) return rule.value;\n  }\n\n  // If raw missing or unclear, try infer from full content\n  for (const rule of aliasMap) {\n    if (rule.match.some(k => c.includes(k))) return rule.value;\n  }\n\n  // Default\n  return \"Repairs\";\n}\n\nfunction detectIsDhWsNsEmporium(contentRaw) {\n  const c = (contentRaw || \"\").toLowerCase();\n  return c.includes(\"emporium\") || c.includes(\"dhwsnsemporium\") || c.includes(\"dh ws ns emporium\");\n}\n\nfunction parseContent(contentRaw) {\n  let content = contentRaw;\n  if (typeof content === \"string\") {\n    content = content.replace(/^\"+|\"+$/g, \"\");\n    content = content.replace(/\\\\n/g, \"\\n\");\n  } else {\n    content = \"\";\n  }\n\n  const lines = content.split(\"\\n\");\n\n  const getValue = (label) => {\n    const prefix = `${label}:`;\n    const line = lines.find(l => l.trim().startsWith(prefix));\n    if (!line) return null;\n    return clean(line.split(prefix).slice(1).join(\":\"));\n  };\n\n  const rawJobServices = getValue(\"Job Services\");\n  const customerName = getValue(\"Customer Name\");\n  const emailAddress = getValue(\"Email Address\");\n  const streetAddressFull = getValue(\"Street Address\");\n  const mobileNumber = getValue(\"Mobile Number\");\n  const phoneNumber = getValue(\"Phone Number\");\n  const jobStartRaw = getValue(\"Job Start\");\n  const jobEndRaw = getValue(\"Job End\");\n  const estTimeHoursRaw = getValue(\"Est Time Hours\");\n  const estPriceRaw = getValue(\"Est Price\");\n  const manJobRaw = getValue(\"Man Job\");\n  const technicianName = getValue(\"Technician Name\");\n\n  const dspNotesBlock = extractBlock(\n    content,\n    \"DSP Notes:\",\n    [\"\\nEst Time Hours:\", \"\\n\\nEst Time Hours:\", \"\\nEst Price:\", \"\\nMan Job:\", \"\\nTechnician Name:\"]\n  );\n\n  const dspNotes = dspNotesBlock\n    ? clean(dspNotesBlock.replace(/^\\s*-\\s*/gm, \"\").trim())\n    : null;\n\n  const jobDescriptionBlock = extractBlock(\n    content,\n    \"Job Description:\",\n    [\"\\nDSP Notes:\", \"\\n\\nDSP Notes:\", \"\\nEst Time Hours:\", \"\\n\\nEst Time Hours:\"]\n  );\n\n  const jobDescription = jobDescriptionBlock ? clean(jobDescriptionBlock) : null;\n\n  let customerFirstName = null;\n  let customerLastName = null;\n  if (customerName) {\n    const parts = customerName.split(/\\s+/).filter(Boolean);\n    customerFirstName = clean(parts[0]);\n    customerLastName = clean(parts.slice(1).join(\" \")) || null;\n  }\n\n  const addr = parseAUAddress(streetAddressFull);\n\n  const estTimeHours = estTimeHoursRaw ? parseFloat(estTimeHoursRaw.replace(/[^0-9.]/g, \"\")) : null;\n  const estPrice = estPriceRaw ? parseFloat(estPriceRaw.replace(/[^0-9.]/g, \"\")) : null;\n  const manJob = manJobRaw ? parseInt(manJobRaw.replace(/[^0-9]/g, \"\"), 10) : null;\n\n  // ✅ normalized jobServices with default Repairs\n  const jobServices = normalizeJobServices(rawJobServices, content);\n\n  return {\n    content,\n    customerFirstName,\n    customerLastName,\n    jobServices,\n    emailAddress,\n    mobileNumber,\n    phoneNumber,\n    streetAddress: addr.streetAddress,\n    streetAddressDescription: null,\n    suburb: addr.suburb,\n    postalCode: addr.postalCode,\n    jobStart: parseDateTime(jobStartRaw),\n    jobEnd: parseDateTime(jobEndRaw),\n    jobDescription,\n    dspNotes,\n    estTimeHours,\n    estPrice,\n    manJob,\n    technicianName,\n  };\n}\n\nreturn items.map((item) => {\n  const parsed = parseContent(item.json.content);\n\n  return {\n    json: {\n      id: item.json.id ?? null,\n      channelId: item.json.channelId ?? null,\n      authorId: item.json.authorId ?? null,\n\n      timestamp: getNowBrisbaneTimestamp(),\n\n      csrName: item.json.authorName ?? null,\n      customerFirstName: parsed.customerFirstName,\n      customerLastName: parsed.customerLastName,\n      customerJobTitle: null,\n\n      // ✅ normalized enum with default Repairs\n      jobServices: parsed.jobServices,\n\n      howDidYouHearAboutUs: null,\n      emailAddress: parsed.emailAddress,\n      mobileNumber: parsed.mobileNumber,\n      phoneNumber: parsed.phoneNumber,\n\n      streetAddress: parsed.streetAddress,\n      streetAddressDescription: null,\n      suburb: parsed.suburb,\n      postalCode: parsed.postalCode,\n\n      // ✅ forced Job Type\n      jobType: \"Booked Job\",\n\n      jobStart: parsed.jobStart,\n      jobEnd: parsed.jobEnd,\n      jobDescription: parsed.jobDescription,\n      dspNotes: parsed.dspNotes,\n      estTimeHours: parsed.estTimeHours,\n      estPrice: parsed.estPrice,\n      manJob: parsed.manJob,\n      technicianName: parsed.technicianName,\n\n      isDhWsNsEmporium: detectIsDhWsNsEmporium(parsed.content),\n      isCreated: true,\n\n      // (optional) if you no longer use jobTitle, remove this line\n      jobTitle: null,\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        -772
+      ],
+      "id": "d04a11b8-8c62-451a-9952-9905f846edf0",
+      "name": "Parse Fields from Raw Data",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4abfb6b0-d81f-4142-91cc-70890badcb03",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "4413efc2-0f52-4a90-a6df-b6cf897a5d05",
+              "name": "channelId",
+              "value": "={{ $json.channelId }}",
+              "type": "string"
+            },
+            {
+              "id": "8b88a742-82cb-43a9-94fc-eec9d5436a16",
+              "name": "authorId",
+              "value": "={{ $json.authorId }}",
+              "type": "string"
+            },
+            {
+              "id": "9267ee9a-e1ce-4742-bfbb-b4dd355a71f4",
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "587add44-f3a7-435c-a6d9-6ad5b468591f",
+              "name": "csrName",
+              "value": "={{ $json.csrName }}",
+              "type": "string"
+            },
+            {
+              "id": "925e3d4b-e59b-4e03-b106-6e9447b12e6f",
+              "name": "customerFirstName",
+              "value": "={{ $json.customerFirstName }}",
+              "type": "string"
+            },
+            {
+              "id": "93dc55d5-b257-4a71-a719-f099d9ed9cc3",
+              "name": "customerLastName",
+              "value": "={{ $json.customerLastName }}",
+              "type": "string"
+            },
+            {
+              "id": "51fd3344-45ab-4ecc-af5d-8c2a879016ff",
+              "name": "customerJobTitle",
+              "value": "={{ $json.customerJobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "691f07c6-7c7d-4946-899b-c02a7e2c3a69",
+              "name": "jobServices",
+              "value": "={{ $json.jobServices }}",
+              "type": "string"
+            },
+            {
+              "id": "f79ede2e-96c5-4092-aeee-ccc73fbbc191",
+              "name": "howDidYouHearAboutUs",
+              "value": "={{ $json.howDidYouHearAboutUs }}",
+              "type": "string"
+            },
+            {
+              "id": "052f55ca-b022-4c16-a2cc-965541a0a601",
+              "name": "emailAddress",
+              "value": "={{ $json.emailAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "d853d790-f99d-4874-b750-67924827439e",
+              "name": "mobileNumber",
+              "value": "={{ $json.mobileNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "ca109e2c-d20f-46f5-b2ca-5fb2409ef76f",
+              "name": "phoneNumber",
+              "value": "={{ $json.phoneNumber }}",
+              "type": "string"
+            },
+            {
+              "id": "61fb4fde-d953-487c-997f-49d315f3980d",
+              "name": "streetAddress",
+              "value": "={{ $json.streetAddress }}",
+              "type": "string"
+            },
+            {
+              "id": "d02e6d4d-9104-4441-8421-fb5247ff77f1",
+              "name": "streetAddressDescription",
+              "value": "={{ $json.streetAddressDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "723beb9d-ed69-4ea4-828b-eb55f421bf2b",
+              "name": "suburb",
+              "value": "={{ $json.suburb }}",
+              "type": "string"
+            },
+            {
+              "id": "9c8f69ce-3f0f-4949-8ced-7c3d18ed9850",
+              "name": "postalCode",
+              "value": "={{ $json.postalCode }}",
+              "type": "string"
+            },
+            {
+              "id": "79556e94-4415-4edc-8f74-3c4a80be8fdf",
+              "name": "jobType",
+              "value": "={{ $json.jobType }}",
+              "type": "string"
+            },
+            {
+              "id": "96816861-a658-43b7-b323-70b23192b6fe",
+              "name": "jobStart",
+              "value": "={{ $json.jobStart }}",
+              "type": "string"
+            },
+            {
+              "id": "35cfd6b1-918e-4a49-a659-dab91312c929",
+              "name": "jobEnd",
+              "value": "={{ $json.jobEnd }}",
+              "type": "string"
+            },
+            {
+              "id": "5710b3a5-15c6-4d2d-afc8-5f6bf35d1164",
+              "name": "jobDescription",
+              "value": "={{ $json.jobDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "9c27bf39-587c-4310-a5c6-1f3b7b7f7faa",
+              "name": "dspNotes",
+              "value": "={{ $json.dspNotes }}",
+              "type": "string"
+            },
+            {
+              "id": "033f65ca-52d7-47a9-95e5-d51ebca07352",
+              "name": "estTimeHours",
+              "value": "={{ $json.estTimeHours }}",
+              "type": "number"
+            },
+            {
+              "id": "d08b3db5-9121-4503-9eb6-90e80cbcbc89",
+              "name": "estPrice",
+              "value": "={{ $json.estPrice }}",
+              "type": "number"
+            },
+            {
+              "id": "ce9c2964-42dc-4667-a88e-b5e90a6e5eb0",
+              "name": "manJob",
+              "value": "={{ $json.manJob }}",
+              "type": "number"
+            },
+            {
+              "id": "defb13d7-6bd7-48c6-8d27-71c167924597",
+              "name": "technicianName",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "c27e7b60-d8c0-44f6-b460-f7de5ee1ee7b",
+              "name": "isDhWsNsEmporium",
+              "value": "={{ $json.isDhWsNsEmporium }}",
+              "type": "boolean"
+            },
+            {
+              "id": "84f7908b-42a2-4243-a044-1937f843d774",
+              "name": "isCreated",
+              "value": "={{ $json.isCreated }}",
+              "type": "boolean"
+            },
+            {
+              "id": "f31b2b90-2306-491f-846f-9c9fbd165f5f",
+              "name": "jobTitle",
+              "value": "={{ $json.jobTitle }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        -772
+      ],
+      "id": "54db8339-8764-4205-8fb1-ac59763b1f0d",
+      "name": "Set Fields",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=You are a technician assignment engine.\n\nYour task is to select the most suitable technician(s) for a job based on proximity and availability.\n\nYou MUST follow these rules strictly.\n\nDATA SOURCES\n- Job location and requirements are provided via:\n  - streetAddress: {{ $json.streetAddress }}\n  - suburb: {{ $json.suburb }}\n  - postalCode: {{ $json.postalCode }}\n  - manJob: {{ $json.manJob }}\n  - jobStart: {{ $json.jobStart }}\n  - jobEnd: {{ $json.jobEnd }}\n- Technician data is provided ONLY from the Google Sheets tool.\n  - Column A: Technician Name\n  - Column B: Technician Address\n  - Column C: Suburb\n  - Column D: Off Date Start\n  - Column E: Off Date End\n\nAVAILABILITY RULES (CRITICAL)\n- Treat jobStart/jobEnd as the job time window.\n- Treat Off Date Start (Col D) / Off Date End (Col E) as the technician off-time window.\n- A technician is UNAVAILABLE if the job time window OVERLAPS the off-time window in any way.\n\nOverlap logic (inclusive):\n- Job overlaps Off if: (jobStart <= offEnd) AND (jobEnd >= offStart)\n\nSpecial cases:\n- If both Off Date Start and Off Date End are empty → technician is AVAILABLE.\n- If only Off Date Start is filled and Off Date End is empty → technician is unavailable from Off Date Start onward (assume open-ended off).\n- If only Off Date End is filled and Off Date Start is empty → technician is unavailable up to Off Date End (assume off began in the past).\n- If Off Date Start/End are present but cannot be parsed as dates → treat the technician as UNAVAILABLE (fail-safe).\n\nPROXIMITY RULES\n- Prefer technicians in the SAME suburb as the job.\n- If insufficient technicians are available in the same suburb:\n  - Select from the closest nearby suburb(s).\n  - Prefer technicians in the same city/region (e.g. Gold Coast vs Brisbane).\n- Use address and suburb similarity heuristics only.\n- Do NOT invent distances, coordinates, or travel times.\n\nSELECTION RULES\n- The number of technicians selected MUST equal manJob.\n  - If manJob = 1 → select 1 technician.\n  - If manJob = 2 → select 2 technicians.\n  - If manJob = 3 → select 3 technicians.\n- Select the closest AVAILABLE technicians first.\n- Never select an unavailable technician.\n- Never invent technician names.\n- Only select technicians that exist in Google Sheets.\n\nOUTPUT FORMAT (STRICT)\n- You MUST return valid JSON only.\n- The JSON MUST match this exact structure:\n\n{\n  \"text\": \"<Technician Name 1>, <Technician Name 2>, <Technician Name 3>\"\n}\n\nOUTPUT RULES (CRITICAL)\n- If manJob = 1, output exactly ONE name (no commas).\n- If manJob > 1, output exactly manJob names, separated by a comma and a single space.\n- Do NOT return arrays.\n- Do NOT include additional keys.\n- Do NOT include explanations.\n- Do NOT include markdown.\n- Do NOT include commentary.\n- Do NOT include whitespace outside the JSON object.\n- Do NOT wrap the response in code blocks.\n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "maxToolsIterations": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2,
+      "position": [
+        432,
+        -896
+      ],
+      "id": "a5272d7c-71d5-40e8-9dca-514796c5b459",
+      "name": "Evaluate the correct Tech",
+      "executeOnce": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "oQQrCQWqdo1CuRzx",
+          "name": "WRai: OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node AFTER the AI node\n// Goal: output ONLY { \"text\": \"Paul Darby\" }\n\nconst raw =\n  $json.output?.[0]?.content?.[0]?.text ??\n  $json.output?.[0]?.content?.find(c => c.type === \"output_text\")?.text ??\n  $json.text ??\n  null;\n\nlet parsed = null;\n\ntry {\n  parsed = raw ? JSON.parse(raw) : null;\n} catch (e) {\n  // fallback: if model returned plain text\n  parsed = raw ? { text: String(raw).trim() } : { text: null };\n}\n\nreturn [\n  {\n    json: {\n      text: parsed?.text ?? null,\n    },\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        -896
+      ],
+      "id": "69a8b809-10b1-41a9-b3b8-cf333e287fbb",
+      "name": "Technician Output"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1008,
+        -772
+      ],
+      "id": "9c2dda0e-9c3e-4492-8261-a802b232e818",
+      "name": "Merge Parse Out Data"
+    }
+  ],
+  "connections": {
+    "Flag DH emporium": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Wait DH Emporium",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listen to Booked job Discord  Channel": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait DH Emporium": {
+      "main": [
+        [
+          {
+            "node": "Flag DH emporium",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 10s to React Discord": {
+      "main": [
+        [
+          {
+            "node": "React with an emoji to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "Evaluate the correct Tech",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Parse Fields from Raw Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait 10s to React Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Fields from Raw Data": {
+      "main": [
+        [
+          {
+            "node": "Evaluate the correct Tech",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Parse Out Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set Fields": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate the correct Tech": {
+      "main": [
+        [
+          {
+            "node": "Technician Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Technician Output": {
+      "main": [
+        [
+          {
+            "node": "Merge Parse Out Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Parse Out Data": {
+      "main": [
+        [
+          {
+            "node": "Set Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "b4cFEFv1eFePOnMh",
+    "saveExecutionProgress": false,
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "none",
+    "saveManualExecutions": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d2220291-b2f4-47f0-ab65-6e53784e1b7a",
+  "activeVersionId": "d2220291-b2f4-47f0-ab65-6e53784e1b7a",
+  "versionCounter": 563,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-11-18T23:01:48.314Z",
+      "createdAt": "2025-11-18T23:01:48.314Z",
+      "role": "workflow:owner",
+      "workflowId": "wrLHe2EfymAYkFky",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-11-25T13:05:18.454Z",
+      "createdAt": "2025-11-25T13:05:18.454Z",
+      "id": "xn6seEX74pkTOLqC",
+      "name": "@lead"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-02-03T02:53:02.000Z",
+    "createdAt": "2026-02-03T02:52:46.207Z",
+    "versionId": "d2220291-b2f4-47f0-ab65-6e53784e1b7a",
+    "workflowId": "wrLHe2EfymAYkFky",
+    "nodes": [
+      {
+        "parameters": {
+          "resource": "message",
+          "operation": "react",
+          "guildId": {
+            "__rl": true,
+            "value": "753455160209965106",
+            "mode": "list",
+            "cachedResultName": "Window Revival",
+            "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "753455160209965111",
+            "mode": "list",
+            "cachedResultName": "booked_jobs",
+            "cachedResultUrl": "https://discord.com/channels/753455160209965106/753455160209965111"
+          },
+          "messageId": "={{ $json.id }}",
+          "emoji": "👍"
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          2128,
+          -676
+        ],
+        "id": "9ac72f23-53c8-456d-a8f1-d6f453b7e330",
+        "name": "React with an emoji to a message",
+        "webhookId": "e697dfc0-caf1-4d13-bfcc-ad41e77d1d34",
+        "executeOnce": true,
+        "retryOnFail": false,
+        "credentials": {
+          "discordBotApi": {
+            "id": "a0FDlWFh8PBA5Add",
+            "name": "WR: Discord Bot Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "753455160209965106",
+            "mode": "list",
+            "cachedResultName": "Window Revival",
+            "cachedResultUrl": "https://discord.com/channels/753455160209965106"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1372367179650957405",
+            "mode": "list",
+            "cachedResultName": "double-hung-emporium",
+            "cachedResultUrl": "https://discord.com/channels/753455160209965106/1372367179650957405"
+          },
+          "content": "===========\nJob Category: {{ $json.jobCategory }}\n==========\n* Customer Name:  {{ $json.customerFirstName }}  {{ $json.customerLastName }}\n* Email: {{ $json.emailAddress }}\n* Mobile Number: {{ $json.mobileNumber }}\n* Phone Number: {{ $json.phoneNumber }}\n* Address: {{ $json.streetAddress }} {{ $json.streetAddressDescription }}\n* Suburb: {{ $json.suburb }} \n* Postal Code: {{ $json.postalCode }}\n* Job Start: {{ $json.jobStart }}\n* Job End: {{ $json.jobEnd }}\n* Job Description: {{ $json.jobDetails }}\n\n* DSP notes: {{ $json.dspNotes }}\n* Est Price: {{ $json.estPrice }}\n* Technician: {{ $json.technicianName }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          2352,
+          -868
+        ],
+        "id": "f610dd0c-fb70-453c-bb89-b84ff7f434ad",
+        "name": "Flag DH emporium",
+        "webhookId": "e3101510-ab77-477a-b338-c7387f2e87cd",
+        "executeOnce": true,
+        "credentials": {
+          "discordBotApi": {
+            "id": "a0FDlWFh8PBA5Add",
+            "name": "WR: Discord Bot Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "5a532eb4-0f05-41fa-953d-a584e2712626",
+                "leftValue": "={{ $json.isDhWsNsEmporium }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1904,
+          -868
+        ],
+        "id": "32c22e54-94ff-4777-8c60-87c10a818213",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "guildIds": [
+            "753455160209965106"
+          ],
+          "channelIds": [
+            "753455160209965111"
+          ],
+          "roleIds": [
+            "901010696152698890",
+            "901010019900882994",
+            "1440502588972728415"
+          ],
+          "pattern": "every",
+          "additionalFields": {
+            "debounceSeconds": 5
+          }
+        },
+        "type": "n8n-nodes-discord-trigger-new.discordTrigger",
+        "typeVersion": 1,
+        "position": [
+          -240,
+          -768
+        ],
+        "id": "35db33fb-5eba-439f-a3a2-a2631ba53e4e",
+        "name": "Listen to Booked job Discord  Channel",
+        "executeOnce": true,
+        "credentials": {
+          "discordBotTriggerApi": {
+            "id": "bWnCMGqUZEPKKfgs",
+            "name": "WR: Discord Bot Trigger Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 10
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          2128,
+          -868
+        ],
+        "id": "413ce48d-9e95-407a-b4e9-f672fd1d4e9a",
+        "name": "Wait DH Emporium",
+        "webhookId": "5499f85a-753a-4001-a0e4-8cdc5b2ac0d5",
+        "executeOnce": true
+      },
+      {
+        "parameters": {
+          "amount": 1,
+          "unit": "minutes"
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1904,
+          -676
+        ],
+        "id": "a9fc48ec-edb8-4b78-aab0-28e591b6c4aa",
+        "name": "Wait 10s to React Discord",
+        "webhookId": "5499f85a-753a-4001-a0e4-8cdc5b2ac0d5",
+        "executeOnce": true
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1456,
+          -772
+        ],
+        "id": "010dbd07-f049-461f-8d0a-2f9e4609b3a0",
+        "name": "Wait1",
+        "webhookId": "ea7ddd03-7db8-41c9-93e6-1af8a7e73aab",
+        "executeOnce": true
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU",
+            "mode": "list",
+            "cachedResultName": "Technicians Status",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Main",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LNsSnjUy6tMTf3JXX5Rkk4zAd2sszFn1iW2Em0XZzLU/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheetsTool",
+        "typeVersion": 4.7,
+        "position": [
+          504,
+          -672
+        ],
+        "id": "5e9eb6ae-7161-4c1c-8d4c-98c0eb80f2a3",
+        "name": "Get row(s) in sheet in Google Sheets",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "id, content, channelId, authorId, authorName",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          -16,
+          -772
+        ],
+        "id": "834c179d-5c3b-46fd-ac19-e021d98ee09c",
+        "name": "Split Out"
+      },
+      {
+        "parameters": {
+          "operation": "appendOrUpdate",
+          "documentId": {
+            "__rl": true,
+            "value": "13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ",
+            "mode": "list",
+            "cachedResultName": "Leads Logs",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 321309652,
+            "mode": "list",
+            "cachedResultName": "booked jobs",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13lFnQiBUmo1W0oQoTNlcn94ouflhuRWlMYu9NQV7taQ/edit#gid=321309652"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "isCreated": "={{ $json.isCreated }}",
+              "id": "={{ $('Set Fields').item.json.id }}",
+              "channelId": "={{ $('Set Fields').item.json.channelId }}",
+              "authorId": "={{ $('Set Fields').item.json.authorId }}",
+              "timestamp": "={{ $('Set Fields').item.json.timestamp }}",
+              "csrName": "={{ $('Set Fields').item.json.csrName }}",
+              "customerFirstName": "={{ $('Set Fields').item.json.customerFirstName }}",
+              "customerLastName": "={{ $('Set Fields').item.json.customerLastName }}",
+              "customerJobTitle": "={{ $('Set Fields').item.json.customerJobTitle }}",
+              "jobServices": "={{ $('Set Fields').item.json.jobServices }}",
+              "howDidYouHearAboutUs": "={{ $('Set Fields').item.json.howDidYouHearAboutUs }}",
+              "emailAddress": "={{ $('Set Fields').item.json.emailAddress }}",
+              "mobileNumber": "={{ $('Set Fields').item.json.mobileNumber }}",
+              "phoneNumber": "={{ $('Set Fields').item.json.phoneNumber }}",
+              "streetAddress": "={{ $('Set Fields').item.json.streetAddress }}",
+              "streetAddressDescription": "={{ $('Set Fields').item.json.streetAddressDescription }}",
+              "suburb": "={{ $('Set Fields').item.json.suburb }}",
+              "postalCode": "={{ $('Set Fields').item.json.postalCode }}",
+              "jobType": "={{ $('Set Fields').item.json.jobType }}",
+              "jobStart": "={{ $('Set Fields').item.json.jobStart }}",
+              "jobEnd": "={{ $('Set Fields').item.json.jobEnd }}",
+              "jobDescription": "={{ $('Set Fields').item.json.jobDescription }}",
+              "dspNotes": "={{ $('Set Fields').item.json.dspNotes }}",
+              "estTimeHours": "={{ $('Set Fields').item.json.estTimeHours }}",
+              "estPrice": "={{ $('Set Fields').item.json.estPrice }}",
+              "manJob": "={{ $('Set Fields').item.json.manJob }}",
+              "technicianName": "={{ $('Set Fields').item.json.technicianName }}",
+              "isDhWsNsEmporium": "={{ $('Set Fields').item.json.isDhWsNsEmporium }}",
+              "jobTitle": "={{ $('Set Fields').item.json.jobTitle }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "channelId",
+                "displayName": "channelId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "authorId",
+                "displayName": "authorId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "timestamp",
+                "displayName": "timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "csrName",
+                "displayName": "csrName",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "customerFirstName",
+                "displayName": "customerFirstName",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "customerLastName",
+                "displayName": "customerLastName",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "customerJobTitle",
+                "displayName": "customerJobTitle",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "jobServices",
+                "displayName": "jobServices",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "howDidYouHearAboutUs",
+                "displayName": "howDidYouHearAboutUs",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "emailAddress",
+                "displayName": "emailAddress",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "mobileNumber",
+                "displayName": "mobileNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "phoneNumber",
+                "displayName": "phoneNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "streetAddress",
+                "displayName": "streetAddress",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "streetAddressDescription",
+                "displayName": "streetAddressDescription",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "suburb",
+                "displayName": "suburb",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "postalCode",
+                "displayName": "postalCode",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "jobType",
+                "displayName": "jobType",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "jobStart",
+                "displayName": "jobStart",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "jobEnd",
+                "displayName": "jobEnd",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "jobDescription",
+                "displayName": "jobDescription",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "dspNotes",
+                "displayName": "dspNotes",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "estTimeHours",
+                "displayName": "estTimeHours",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "estPrice",
+                "displayName": "estPrice",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "manJob",
+                "displayName": "manJob",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "technicianName",
+                "displayName": "technicianName",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "isDhWsNsEmporium",
+                "displayName": "isDhWsNsEmporium",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "isCreated",
+                "displayName": "isCreated",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "jobTitle",
+                "displayName": "jobTitle",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1664,
+          -784
+        ],
+        "id": "a1537263-98a8-4fc0-9e9a-cad36aff13b1",
+        "name": "Append or update row in sheet",
+        "executeOnce": true,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4FmXrss6MgN5rzt",
+            "name": "WR: Google Sheets Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Code node (JavaScript)\n\nfunction clean(v) {\n  if (v === undefined || v === null) return null;\n  const s = String(v).trim();\n  return s.length ? s : null;\n}\n\nfunction getNowBrisbaneTimestamp() {\n  // Format required: DD/MM/YYHH:mm:ss (no space)\n  const d = new Date();\n\n  const parts = new Intl.DateTimeFormat(\"en-AU\", {\n    timeZone: \"Australia/Brisbane\",\n    day: \"2-digit\",\n    month: \"2-digit\",\n    year: \"2-digit\",\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    second: \"2-digit\",\n    hour12: false,\n  }).formatToParts(d);\n\n  const map = Object.fromEntries(parts.map(p => [p.type, p.value]));\n  return `${map.day}/${map.month}/${map.year}${map.hour}:${map.minute}:${map.second}`;\n}\n\nfunction parseAUAddress(full) {\n  // full example: \"6 Offham Ct, Arundel QLD 4214, Australia\"\n  const out = {\n    streetAddress: null,           // street only\n    streetAddressDescription: null, // always null (not explicitly in raw)\n    suburb: null,\n    postalCode: null,\n  };\n  if (!full) return out;\n\n  const parts = full.split(\",\").map(p => p.trim()).filter(Boolean);\n\n  // Street only (before first comma)\n  out.streetAddress = clean(parts[0]);\n\n  // Suburb/postcode derived from same raw line (ok)\n  if (parts.length >= 2) {\n    const suburbStatePost = parts[1];\n    const m = suburbStatePost.match(/^(.+?)\\s+([A-Z]{2,3})\\s+(\\d{4})$/);\n    if (m) {\n      out.suburb = clean(m[1]);\n      out.postalCode = clean(m[3]);\n    } else {\n      const pc = suburbStatePost.match(/(\\d{4})/);\n      out.postalCode = clean(pc?.[1]);\n      out.suburb = clean(suburbStatePost.split(/\\s+/)[0]);\n    }\n  }\n\n  return out;\n}\n\nfunction parseDateTime(line) {\n  // Example: \"Thursday 05/02/2026 - 7am\"\n  // Output: \"2026-02-05 07:00\" (assumes DD/MM/YYYY)\n  if (!line) return null;\n\n  const m = line.match(/(\\d{2})\\/(\\d{2})\\/(\\d{4})\\s*-\\s*([0-9]{1,2})(?::([0-9]{2}))?\\s*(am|pm)/i);\n  if (!m) return null;\n\n  const dd = parseInt(m[1], 10);\n  const mm = parseInt(m[2], 10);\n  const yyyy = parseInt(m[3], 10);\n\n  let hh = parseInt(m[4], 10);\n  const min = m[5] ? parseInt(m[5], 10) : 0;\n  const ampm = m[6].toLowerCase();\n\n  if (ampm === \"pm\" && hh !== 12) hh += 12;\n  if (ampm === \"am\" && hh === 12) hh = 0;\n\n  const pad = (n) => String(n).padStart(2, \"0\");\n  return `${yyyy}-${pad(mm)}-${pad(dd)} ${pad(hh)}:${pad(min)}`;\n}\n\nfunction extractBlock(text, startLabel, stopLabels) {\n  const startIdx = text.indexOf(startLabel);\n  if (startIdx === -1) return null;\n\n  const after = text.slice(startIdx + startLabel.length);\n  let endIdx = after.length;\n\n  for (const lab of stopLabels) {\n    const i = after.indexOf(lab);\n    if (i !== -1 && i < endIdx) endIdx = i;\n  }\n  return clean(after.slice(0, endIdx));\n}\n\n/**\n * Normalize Job Services into one of the allowed enum values.\n * Default: \"Repairs\"\n *\n * Extend by adding aliases into the map below.\n */\nfunction normalizeJobServices(rawJobServices, content) {\n  const allowed = new Set([\n    \"Window Painting\",\n    \"Repairs\",\n    \"Onsite Quote\",\n    \"Onsite Check Measure\",\n    \"Service Call\",\n    \"Follow Up\",\n    \"Pick Up Stock\",\n    \"Security Screen\",\n    \"Glass Replacement\",\n  ]);\n\n  const raw = (rawJobServices || \"\").trim();\n  if (allowed.has(raw)) return raw;\n\n  // --- Alias / fuzzy mapping (extend freely) ---\n  const c = (content || \"\").toLowerCase();\n  const r = raw.toLowerCase();\n\n  const aliasMap = [\n    { match: [\"window painting\", \"paint window\"], value: \"Window Painting\" },\n    { match: [\"repair\", \"repairs\"], value: \"Repairs\" },\n    { match: [\"onsite quote\", \"on site quote\", \"site quote\", \"quote\"], value: \"Onsite Quote\" },\n    { match: [\"measure\", \"check measure\", \"onsite check measure\"], value: \"Onsite Check Measure\" },\n    { match: [\"service call\", \"call out\", \"callout\"], value: \"Service Call\" },\n    { match: [\"follow up\", \"follow-up\", \"followup\"], value: \"Follow Up\" },\n    { match: [\"pick up stock\", \"pickup stock\", \"collect stock\"], value: \"Pick Up Stock\" },\n    { match: [\"security screen\", \"sec screen\", \"security screens\"], value: \"Security Screen\" },\n    { match: [\"glass replacement\", \"replace glass\", \"glass\"], value: \"Glass Replacement\" },\n  ];\n\n  for (const rule of aliasMap) {\n    if (rule.match.some(k => r.includes(k))) return rule.value;\n  }\n\n  // If raw missing or unclear, try infer from full content\n  for (const rule of aliasMap) {\n    if (rule.match.some(k => c.includes(k))) return rule.value;\n  }\n\n  // Default\n  return \"Repairs\";\n}\n\nfunction detectIsDhWsNsEmporium(contentRaw) {\n  const c = (contentRaw || \"\").toLowerCase();\n  return c.includes(\"emporium\") || c.includes(\"dhwsnsemporium\") || c.includes(\"dh ws ns emporium\");\n}\n\nfunction parseContent(contentRaw) {\n  let content = contentRaw;\n  if (typeof content === \"string\") {\n    content = content.replace(/^\"+|\"+$/g, \"\");\n    content = content.replace(/\\\\n/g, \"\\n\");\n  } else {\n    content = \"\";\n  }\n\n  const lines = content.split(\"\\n\");\n\n  const getValue = (label) => {\n    const prefix = `${label}:`;\n    const line = lines.find(l => l.trim().startsWith(prefix));\n    if (!line) return null;\n    return clean(line.split(prefix).slice(1).join(\":\"));\n  };\n\n  const rawJobServices = getValue(\"Job Services\");\n  const customerName = getValue(\"Customer Name\");\n  const emailAddress = getValue(\"Email Address\");\n  const streetAddressFull = getValue(\"Street Address\");\n  const mobileNumber = getValue(\"Mobile Number\");\n  const phoneNumber = getValue(\"Phone Number\");\n  const jobStartRaw = getValue(\"Job Start\");\n  const jobEndRaw = getValue(\"Job End\");\n  const estTimeHoursRaw = getValue(\"Est Time Hours\");\n  const estPriceRaw = getValue(\"Est Price\");\n  const manJobRaw = getValue(\"Man Job\");\n  const technicianName = getValue(\"Technician Name\");\n\n  const dspNotesBlock = extractBlock(\n    content,\n    \"DSP Notes:\",\n    [\"\\nEst Time Hours:\", \"\\n\\nEst Time Hours:\", \"\\nEst Price:\", \"\\nMan Job:\", \"\\nTechnician Name:\"]\n  );\n\n  const dspNotes = dspNotesBlock\n    ? clean(dspNotesBlock.replace(/^\\s*-\\s*/gm, \"\").trim())\n    : null;\n\n  const jobDescriptionBlock = extractBlock(\n    content,\n    \"Job Description:\",\n    [\"\\nDSP Notes:\", \"\\n\\nDSP Notes:\", \"\\nEst Time Hours:\", \"\\n\\nEst Time Hours:\"]\n  );\n\n  const jobDescription = jobDescriptionBlock ? clean(jobDescriptionBlock) : null;\n\n  let customerFirstName = null;\n  let customerLastName = null;\n  if (customerName) {\n    const parts = customerName.split(/\\s+/).filter(Boolean);\n    customerFirstName = clean(parts[0]);\n    customerLastName = clean(parts.slice(1).join(\" \")) || null;\n  }\n\n  const addr = parseAUAddress(streetAddressFull);\n\n  const estTimeHours = estTimeHoursRaw ? parseFloat(estTimeHoursRaw.replace(/[^0-9.]/g, \"\")) : null;\n  const estPrice = estPriceRaw ? parseFloat(estPriceRaw.replace(/[^0-9.]/g, \"\")) : null;\n  const manJob = manJobRaw ? parseInt(manJobRaw.replace(/[^0-9]/g, \"\"), 10) : null;\n\n  // ✅ normalized jobServices with default Repairs\n  const jobServices = normalizeJobServices(rawJobServices, content);\n\n  return {\n    content,\n    customerFirstName,\n    customerLastName,\n    jobServices,\n    emailAddress,\n    mobileNumber,\n    phoneNumber,\n    streetAddress: addr.streetAddress,\n    streetAddressDescription: null,\n    suburb: addr.suburb,\n    postalCode: addr.postalCode,\n    jobStart: parseDateTime(jobStartRaw),\n    jobEnd: parseDateTime(jobEndRaw),\n    jobDescription,\n    dspNotes,\n    estTimeHours,\n    estPrice,\n    manJob,\n    technicianName,\n  };\n}\n\nreturn items.map((item) => {\n  const parsed = parseContent(item.json.content);\n\n  return {\n    json: {\n      id: item.json.id ?? null,\n      channelId: item.json.channelId ?? null,\n      authorId: item.json.authorId ?? null,\n\n      timestamp: getNowBrisbaneTimestamp(),\n\n      csrName: item.json.authorName ?? null,\n      customerFirstName: parsed.customerFirstName,\n      customerLastName: parsed.customerLastName,\n      customerJobTitle: null,\n\n      // ✅ normalized enum with default Repairs\n      jobServices: parsed.jobServices,\n\n      howDidYouHearAboutUs: null,\n      emailAddress: parsed.emailAddress,\n      mobileNumber: parsed.mobileNumber,\n      phoneNumber: parsed.phoneNumber,\n\n      streetAddress: parsed.streetAddress,\n      streetAddressDescription: null,\n      suburb: parsed.suburb,\n      postalCode: parsed.postalCode,\n\n      // ✅ forced Job Type\n      jobType: \"Booked Job\",\n\n      jobStart: parsed.jobStart,\n      jobEnd: parsed.jobEnd,\n      jobDescription: parsed.jobDescription,\n      dspNotes: parsed.dspNotes,\n      estTimeHours: parsed.estTimeHours,\n      estPrice: parsed.estPrice,\n      manJob: parsed.manJob,\n      technicianName: parsed.technicianName,\n\n      isDhWsNsEmporium: detectIsDhWsNsEmporium(parsed.content),\n      isCreated: true,\n\n      // (optional) if you no longer use jobTitle, remove this line\n      jobTitle: null,\n    }\n  };\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          208,
+          -772
+        ],
+        "id": "d04a11b8-8c62-451a-9952-9905f846edf0",
+        "name": "Parse Fields from Raw Data",
+        "executeOnce": true
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "4abfb6b0-d81f-4142-91cc-70890badcb03",
+                "name": "id",
+                "value": "={{ $json.id }}",
+                "type": "string"
+              },
+              {
+                "id": "4413efc2-0f52-4a90-a6df-b6cf897a5d05",
+                "name": "channelId",
+                "value": "={{ $json.channelId }}",
+                "type": "string"
+              },
+              {
+                "id": "8b88a742-82cb-43a9-94fc-eec9d5436a16",
+                "name": "authorId",
+                "value": "={{ $json.authorId }}",
+                "type": "string"
+              },
+              {
+                "id": "9267ee9a-e1ce-4742-bfbb-b4dd355a71f4",
+                "name": "timestamp",
+                "value": "={{ $json.timestamp }}",
+                "type": "string"
+              },
+              {
+                "id": "587add44-f3a7-435c-a6d9-6ad5b468591f",
+                "name": "csrName",
+                "value": "={{ $json.csrName }}",
+                "type": "string"
+              },
+              {
+                "id": "925e3d4b-e59b-4e03-b106-6e9447b12e6f",
+                "name": "customerFirstName",
+                "value": "={{ $json.customerFirstName }}",
+                "type": "string"
+              },
+              {
+                "id": "93dc55d5-b257-4a71-a719-f099d9ed9cc3",
+                "name": "customerLastName",
+                "value": "={{ $json.customerLastName }}",
+                "type": "string"
+              },
+              {
+                "id": "51fd3344-45ab-4ecc-af5d-8c2a879016ff",
+                "name": "customerJobTitle",
+                "value": "={{ $json.customerJobTitle }}",
+                "type": "string"
+              },
+              {
+                "id": "691f07c6-7c7d-4946-899b-c02a7e2c3a69",
+                "name": "jobServices",
+                "value": "={{ $json.jobServices }}",
+                "type": "string"
+              },
+              {
+                "id": "f79ede2e-96c5-4092-aeee-ccc73fbbc191",
+                "name": "howDidYouHearAboutUs",
+                "value": "={{ $json.howDidYouHearAboutUs }}",
+                "type": "string"
+              },
+              {
+                "id": "052f55ca-b022-4c16-a2cc-965541a0a601",
+                "name": "emailAddress",
+                "value": "={{ $json.emailAddress }}",
+                "type": "string"
+              },
+              {
+                "id": "d853d790-f99d-4874-b750-67924827439e",
+                "name": "mobileNumber",
+                "value": "={{ $json.mobileNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "ca109e2c-d20f-46f5-b2ca-5fb2409ef76f",
+                "name": "phoneNumber",
+                "value": "={{ $json.phoneNumber }}",
+                "type": "string"
+              },
+              {
+                "id": "61fb4fde-d953-487c-997f-49d315f3980d",
+                "name": "streetAddress",
+                "value": "={{ $json.streetAddress }}",
+                "type": "string"
+              },
+              {
+                "id": "d02e6d4d-9104-4441-8421-fb5247ff77f1",
+                "name": "streetAddressDescription",
+                "value": "={{ $json.streetAddressDescription }}",
+                "type": "string"
+              },
+              {
+                "id": "723beb9d-ed69-4ea4-828b-eb55f421bf2b",
+                "name": "suburb",
+                "value": "={{ $json.suburb }}",
+                "type": "string"
+              },
+              {
+                "id": "9c8f69ce-3f0f-4949-8ced-7c3d18ed9850",
+                "name": "postalCode",
+                "value": "={{ $json.postalCode }}",
+                "type": "string"
+              },
+              {
+                "id": "79556e94-4415-4edc-8f74-3c4a80be8fdf",
+                "name": "jobType",
+                "value": "={{ $json.jobType }}",
+                "type": "string"
+              },
+              {
+                "id": "96816861-a658-43b7-b323-70b23192b6fe",
+                "name": "jobStart",
+                "value": "={{ $json.jobStart }}",
+                "type": "string"
+              },
+              {
+                "id": "35cfd6b1-918e-4a49-a659-dab91312c929",
+                "name": "jobEnd",
+                "value": "={{ $json.jobEnd }}",
+                "type": "string"
+              },
+              {
+                "id": "5710b3a5-15c6-4d2d-afc8-5f6bf35d1164",
+                "name": "jobDescription",
+                "value": "={{ $json.jobDescription }}",
+                "type": "string"
+              },
+              {
+                "id": "9c27bf39-587c-4310-a5c6-1f3b7b7f7faa",
+                "name": "dspNotes",
+                "value": "={{ $json.dspNotes }}",
+                "type": "string"
+              },
+              {
+                "id": "033f65ca-52d7-47a9-95e5-d51ebca07352",
+                "name": "estTimeHours",
+                "value": "={{ $json.estTimeHours }}",
+                "type": "number"
+              },
+              {
+                "id": "d08b3db5-9121-4503-9eb6-90e80cbcbc89",
+                "name": "estPrice",
+                "value": "={{ $json.estPrice }}",
+                "type": "number"
+              },
+              {
+                "id": "ce9c2964-42dc-4667-a88e-b5e90a6e5eb0",
+                "name": "manJob",
+                "value": "={{ $json.manJob }}",
+                "type": "number"
+              },
+              {
+                "id": "defb13d7-6bd7-48c6-8d27-71c167924597",
+                "name": "technicianName",
+                "value": "={{ $json.text }}",
+                "type": "string"
+              },
+              {
+                "id": "c27e7b60-d8c0-44f6-b460-f7de5ee1ee7b",
+                "name": "isDhWsNsEmporium",
+                "value": "={{ $json.isDhWsNsEmporium }}",
+                "type": "boolean"
+              },
+              {
+                "id": "84f7908b-42a2-4243-a044-1937f843d774",
+                "name": "isCreated",
+                "value": "={{ $json.isCreated }}",
+                "type": "boolean"
+              },
+              {
+                "id": "f31b2b90-2306-491f-846f-9c9fbd165f5f",
+                "name": "jobTitle",
+                "value": "={{ $json.jobTitle }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1232,
+          -772
+        ],
+        "id": "54db8339-8764-4205-8fb1-ac59763b1f0d",
+        "name": "Set Fields",
+        "executeOnce": true
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-5-mini",
+            "mode": "list",
+            "cachedResultName": "GPT-5-MINI"
+          },
+          "responses": {
+            "values": [
+              {
+                "role": "system",
+                "content": "=You are a technician assignment engine.\n\nYour task is to select the most suitable technician(s) for a job based on proximity and availability.\n\nYou MUST follow these rules strictly.\n\nDATA SOURCES\n- Job location and requirements are provided via:\n  - streetAddress: {{ $json.streetAddress }}\n  - suburb: {{ $json.suburb }}\n  - postalCode: {{ $json.postalCode }}\n  - manJob: {{ $json.manJob }}\n  - jobStart: {{ $json.jobStart }}\n  - jobEnd: {{ $json.jobEnd }}\n- Technician data is provided ONLY from the Google Sheets tool.\n  - Column A: Technician Name\n  - Column B: Technician Address\n  - Column C: Suburb\n  - Column D: Off Date Start\n  - Column E: Off Date End\n\nAVAILABILITY RULES (CRITICAL)\n- Treat jobStart/jobEnd as the job time window.\n- Treat Off Date Start (Col D) / Off Date End (Col E) as the technician off-time window.\n- A technician is UNAVAILABLE if the job time window OVERLAPS the off-time window in any way.\n\nOverlap logic (inclusive):\n- Job overlaps Off if: (jobStart <= offEnd) AND (jobEnd >= offStart)\n\nSpecial cases:\n- If both Off Date Start and Off Date End are empty → technician is AVAILABLE.\n- If only Off Date Start is filled and Off Date End is empty → technician is unavailable from Off Date Start onward (assume open-ended off).\n- If only Off Date End is filled and Off Date Start is empty → technician is unavailable up to Off Date End (assume off began in the past).\n- If Off Date Start/End are present but cannot be parsed as dates → treat the technician as UNAVAILABLE (fail-safe).\n\nPROXIMITY RULES\n- Prefer technicians in the SAME suburb as the job.\n- If insufficient technicians are available in the same suburb:\n  - Select from the closest nearby suburb(s).\n  - Prefer technicians in the same city/region (e.g. Gold Coast vs Brisbane).\n- Use address and suburb similarity heuristics only.\n- Do NOT invent distances, coordinates, or travel times.\n\nSELECTION RULES\n- The number of technicians selected MUST equal manJob.\n  - If manJob = 1 → select 1 technician.\n  - If manJob = 2 → select 2 technicians.\n  - If manJob = 3 → select 3 technicians.\n- Select the closest AVAILABLE technicians first.\n- Never select an unavailable technician.\n- Never invent technician names.\n- Only select technicians that exist in Google Sheets.\n\nOUTPUT FORMAT (STRICT)\n- You MUST return valid JSON only.\n- The JSON MUST match this exact structure:\n\n{\n  \"text\": \"<Technician Name 1>, <Technician Name 2>, <Technician Name 3>\"\n}\n\nOUTPUT RULES (CRITICAL)\n- If manJob = 1, output exactly ONE name (no commas).\n- If manJob > 1, output exactly manJob names, separated by a comma and a single space.\n- Do NOT return arrays.\n- Do NOT include additional keys.\n- Do NOT include explanations.\n- Do NOT include markdown.\n- Do NOT include commentary.\n- Do NOT include whitespace outside the JSON object.\n- Do NOT wrap the response in code blocks.\n"
+              }
+            ]
+          },
+          "builtInTools": {},
+          "options": {
+            "maxToolsIterations": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 2,
+        "position": [
+          432,
+          -896
+        ],
+        "id": "a5272d7c-71d5-40e8-9dca-514796c5b459",
+        "name": "Evaluate the correct Tech",
+        "executeOnce": true,
+        "credentials": {
+          "openAiApi": {
+            "id": "oQQrCQWqdo1CuRzx",
+            "name": "WRai: OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// n8n Code node AFTER the AI node\n// Goal: output ONLY { \"text\": \"Paul Darby\" }\n\nconst raw =\n  $json.output?.[0]?.content?.[0]?.text ??\n  $json.output?.[0]?.content?.find(c => c.type === \"output_text\")?.text ??\n  $json.text ??\n  null;\n\nlet parsed = null;\n\ntry {\n  parsed = raw ? JSON.parse(raw) : null;\n} catch (e) {\n  // fallback: if model returned plain text\n  parsed = raw ? { text: String(raw).trim() } : { text: null };\n}\n\nreturn [\n  {\n    json: {\n      text: parsed?.text ?? null,\n    },\n  },\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          784,
+          -896
+        ],
+        "id": "69a8b809-10b1-41a9-b3b8-cf333e287fbb",
+        "name": "Technician Output"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          1008,
+          -772
+        ],
+        "id": "9c2dda0e-9c3e-4492-8261-a802b232e818",
+        "name": "Merge Parse Out Data"
+      }
+    ],
+    "connections": {
+      "Flag DH emporium": {
+        "main": [
+          []
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Wait DH Emporium",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Listen to Booked job Discord  Channel": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait DH Emporium": {
+        "main": [
+          [
+            {
+              "node": "Flag DH emporium",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait 10s to React Discord": {
+        "main": [
+          [
+            {
+              "node": "React with an emoji to a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "Append or update row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet in Google Sheets": {
+        "ai_tool": [
+          [
+            {
+              "node": "Evaluate the correct Tech",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out": {
+        "main": [
+          [
+            {
+              "node": "Parse Fields from Raw Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append or update row in sheet": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Wait 10s to React Discord",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Fields from Raw Data": {
+        "main": [
+          [
+            {
+              "node": "Evaluate the correct Tech",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge Parse Out Data",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Set Fields": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Evaluate the correct Tech": {
+        "main": [
+          [
+            {
+              "node": "Technician Output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Technician Output": {
+        "main": [
+          [
+            {
+              "node": "Merge Parse Out Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge Parse Out Data": {
+        "main": [
+          [
+            {
+              "node": "Set Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Christine Kam",
+    "name": "Version d2220291",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-02-03T02:53:02.443Z",
+        "id": 116,
+        "workflowId": "wrLHe2EfymAYkFky",
+        "versionId": "d2220291-b2f4-47f0-ab65-6e53784e1b7a",
+        "event": "activated",
+        "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b"
+      }
+    ]
+  }
+}
