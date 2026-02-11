@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-11T15:19:25.522Z",
+  "updatedAt": "2026-02-11T15:54:28.527Z",
   "createdAt": "2026-01-13T05:57:44.356Z",
   "id": "VO009CqRh4IAVzmP",
   "name": "04. Backup & Restore WF",
@@ -81,32 +81,36 @@
         "operation": "appendOrUpdate",
         "documentId": {
           "__rl": true,
-          "value": "1eiKcnWhkZmTJbhvvtLHhp9D3CCtTW3_awRTBTNy2ByQ",
+          "value": "1tKdVAQPyfl0LXCExNYjStmWmebb000rAoCULm88zdhA",
           "mode": "list",
           "cachedResultName": "Backups",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eiKcnWhkZmTJbhvvtLHhp9D3CCtTW3_awRTBTNy2ByQ/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tKdVAQPyfl0LXCExNYjStmWmebb000rAoCULm88zdhA/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eiKcnWhkZmTJbhvvtLHhp9D3CCtTW3_awRTBTNy2ByQ/edit#gid=0"
+          "cachedResultName": "Workflow",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tKdVAQPyfl0LXCExNYjStmWmebb000rAoCULm88zdhA/edit#gid=0"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Title": "={{ $('n8n → Get Workflow by ID').item.json.name }}",
-            "Last modified": "={{ $('n8n → Get Workflow by ID').item.json.updatedAt }}",
-            "Shared Url": "=https://drive.google.com/file/d/{{ $json.id }}"
+            "Id": "={{ $json.workflowId || $json.id }}",
+            "Title": "={{ $json.workflowName || $json.name }}",
+            "Date Created": "={{ $json.createdAt }}",
+            "Last Modified": "=",
+            "N8N Url": "==https://n8n.srv1127913.hstgr.cloud/workflow/{{ $json.workflowId || $json.id }}",
+            "Github Url": "={{ $json.data[1].content.html_url }}",
+            "Shared Url": "={{ $json.data[0].webViewLink }}"
           },
           "matchingColumns": [
-            "Title"
+            "Id"
           ],
           "schema": [
             {
-              "id": "Title",
-              "displayName": "Title",
+              "id": "Id",
+              "displayName": "Id",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -115,8 +119,8 @@
               "removed": false
             },
             {
-              "id": "Tag",
-              "displayName": "Tag",
+              "id": "Title",
+              "displayName": "Title",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -133,8 +137,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Last modified",
-              "displayName": "Last modified",
+              "id": "Last Modified",
+              "displayName": "Last Modified",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -177,15 +181,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -1120,
+        -480,
         -32
       ],
       "id": "0e5bbdfe-0a34-4531-8132-9242a41beaff",
       "name": "Append or update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "iNsBYYAG0CoB29qK",
-          "name": "WR: Google Sheets Shop"
+          "id": "S4FmXrss6MgN5rzt",
+          "name": "WR: Google Sheets Account"
         }
       }
     },
@@ -316,20 +320,6 @@
       ],
       "id": "4cd79763-8bbc-4f70-9fae-9a31aef9b186",
       "name": "Loop Over Items"
-    },
-    {
-      "parameters": {
-        "amount": 0.5
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        -1344,
-        -32
-      ],
-      "id": "69a35516-a8df-4457-9e0f-80802b5db48b",
-      "name": "Wait1",
-      "webhookId": "801c9260-f7a8-4b73-afba-6a8c61e280a1"
     },
     {
       "parameters": {
@@ -792,16 +782,20 @@
     },
     {
       "parameters": {
-        "name": "={{ $('n8n → Get Workflow by ID').item.json.name }}",
+        "name": "={{ $json.workflowName }}",
         "driveId": {
           "__rl": true,
-          "value": "1HmBSAtGgcZLSbO2BxikQbvbzAcZzY7u9",
-          "mode": "id"
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
         },
         "folderId": {
           "__rl": true,
-          "value": "https://drive.google.com/drive/u/0/folders/1SDMuJ-oFxW1laCNTpvFMb2t5Gd2ofLhnhttps://drive.google.com/drive/u/0/folders/1SDMuJ-oFxW1laCNTpvFMb2t5Gd2ofLhn",
-          "mode": "url"
+          "value": "1ZJG7CQ6_1S0_SynthSJGerGHeSqzOSmy",
+          "mode": "list",
+          "cachedResultName": "Backup",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1ZJG7CQ6_1S0_SynthSJGerGHeSqzOSmy"
         },
         "options": {}
       },
@@ -815,8 +809,8 @@
       "name": "Google Drive File Builder",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "ukMqhBlcAttN3yTg",
-          "name": "WR: Google Drive account Shop"
+          "id": "cO0NLqiTRlyGeXAH",
+          "name": "WR: Google Drive Account"
         }
       }
     },
@@ -865,45 +859,9 @@
         "assignments": {
           "assignments": [
             {
-              "id": "6252d26a-956d-48e5-8d55-7ae0cc10dca8",
-              "name": "Id",
-              "value": "={{ $json.Id }}",
-              "type": "string"
-            },
-            {
-              "id": "61467e1d-380e-41c1-bfd6-58cf1e9cabcc",
-              "name": "Title",
-              "value": "={{ $json.Title }}",
-              "type": "string"
-            },
-            {
-              "id": "b1b03e7a-4b58-4e4d-bd9c-f5c906c476e6",
-              "name": "N8N Url",
-              "value": "={{ $json[\"N8N Url\"] }}",
-              "type": "string"
-            },
-            {
-              "id": "ffd58f13-1f8b-4f93-bbbe-b0704d697e6c",
-              "name": "Github Url",
-              "value": "={{ $json[\"Github Url\"] }}",
-              "type": "string"
-            },
-            {
               "id": "cfa7919f-9ffe-4664-9137-51b896a4973a",
               "name": "Shared Url",
               "value": "={{ $json[\"Shared Url\"] }}",
-              "type": "string"
-            },
-            {
-              "id": "22559843-9588-4eb3-87cf-712b18b25b0a",
-              "name": "Date Created",
-              "value": "={{ $json[\"Date Created\"] }}",
-              "type": "string"
-            },
-            {
-              "id": "325ee922-cb84-4899-8bb8-e0a720bd2363",
-              "name": "Last Modified",
-              "value": "={{ $json[\"Last Modified\"] }}",
               "type": "string"
             }
           ]
@@ -939,21 +897,91 @@
       "name": "Delete Existing Drive Backup",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "ukMqhBlcAttN3yTg",
-          "name": "WR: Google Drive account Shop"
+          "id": "cO0NLqiTRlyGeXAH",
+          "name": "WR: Google Drive Account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5dffcc1f-5136-4ae0-826b-b8d73dc56e18",
+              "name": "n8n_id",
+              "value": "={{ $('n8n → Get Workflow by ID').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "b187d35a-9ae3-46c9-bb08-bd3e07d9d0b8",
+              "name": "drive_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "e76b5251-6955-4f7a-a986-35dae2912e2e",
+              "name": "name",
+              "value": "={{ $('n8n → Get Workflow by ID').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "09e140c2-9de6-4ede-b9e0-15689f941e1f",
+              "name": "createdAt",
+              "value": "={{ $('n8n → Get Workflow by ID').item.json.createdAt }}",
+              "type": "string"
+            },
+            {
+              "id": "eb108deb-01c6-4d70-9448-c093867d42f1",
+              "name": "updatedAt",
+              "value": "={{ $('n8n → Get Workflow by ID').item.json.updatedAt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1792,
+        -160
+      ],
+      "id": "524d8cc5-1b0b-4818-a9e9-6a03a176d55d",
+      "name": "Set Drive File Metadata"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "34775986-2867-4e53-b4b3-f6392d652107",
+              "name": "github",
+              "value": "={{ $json.content.html_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1792,
+        112
+      ],
+      "id": "e5106ef9-c15e-4fbd-a48a-06fa475d6ea9",
+      "name": "Set GitHub File Metadata"
     },
     {
       "parameters": {},
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1760,
+        -1408,
         -32
       ],
       "id": "ffaca69a-c406-4319-bcfa-1e0910e5e238",
-      "name": "Merge1"
+      "name": "Combine Drive + GitHub Results"
     },
     {
       "parameters": {
@@ -963,11 +991,25 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -1552,
+        -1184,
         -32
       ],
       "id": "9f3cdb51-8b7a-4f72-adad-96168b7b689c",
-      "name": "Aggregate1"
+      "name": "Consolidate Backup Data"
+    },
+    {
+      "parameters": {
+        "amount": 0.5
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -928,
+        -32
+      ],
+      "id": "69a35516-a8df-4457-9e0f-80802b5db48b",
+      "name": "Stabilize Before Sheet Update",
+      "webhookId": "801c9260-f7a8-4b73-afba-6a8c61e280a1"
     }
   ],
   "connections": {
@@ -1048,17 +1090,6 @@
         [
           {
             "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait1": {
-      "main": [
-        [
-          {
-            "node": "Append or update row in sheet",
             "type": "main",
             "index": 0
           }
@@ -1207,9 +1238,9 @@
       "main": [
         [
           {
-            "node": "Merge1",
+            "node": "Set GitHub File Metadata",
             "type": "main",
-            "index": 1
+            "index": 0
           }
         ]
       ]
@@ -1240,7 +1271,7 @@
       "main": [
         [
           {
-            "node": "Merge1",
+            "node": "Set Drive File Metadata",
             "type": "main",
             "index": 0
           }
@@ -1295,22 +1326,55 @@
         []
       ]
     },
-    "Merge1": {
+    "Set Drive File Metadata": {
       "main": [
         [
           {
-            "node": "Aggregate1",
+            "node": "Combine Drive + GitHub Results",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Aggregate1": {
+    "Set GitHub File Metadata": {
       "main": [
         [
           {
-            "node": "Wait1",
+            "node": "Combine Drive + GitHub Results",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Drive + GitHub Results": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Backup Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidate Backup Data": {
+      "main": [
+        [
+          {
+            "node": "Stabilize Before Sheet Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stabilize Before Sheet Update": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
             "type": "main",
             "index": 0
           }
@@ -1331,9 +1395,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "aa2e97d2-25bb-465a-807f-9201b48f561f",
+  "versionId": "e9289def-85e8-4daf-97f8-289704ed409f",
   "activeVersionId": "1af24fc7-1c21-474e-b9d4-cc5745bbd061",
-  "versionCounter": 467,
+  "versionCounter": 532,
   "triggerCount": 2,
   "shared": [
     {
