@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-11T15:59:11.498Z",
+  "updatedAt": "2026-02-11T15:59:25.222Z",
   "createdAt": "2026-01-13T05:57:44.356Z",
   "id": "VO009CqRh4IAVzmP",
   "name": "04. Backup & Restore WF",
@@ -1015,7 +1015,8 @@
       "parameters": {
         "content": "## Update working during Published instance\n",
         "height": 784,
-        "width": 3280
+        "width": 3280,
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -1410,9 +1411,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
-  "activeVersionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
-  "versionCounter": 563,
+  "versionId": "df3c253f-1e5d-47a0-a67a-8c0c4fe64e3e",
+  "activeVersionId": "df3c253f-1e5d-47a0-a67a-8c0c4fe64e3e",
+  "versionCounter": 566,
   "triggerCount": 2,
   "shared": [
     {
@@ -1486,9 +1487,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-02-11T15:59:14.000Z",
-    "createdAt": "2026-02-11T15:59:11.499Z",
-    "versionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
+    "updatedAt": "2026-02-11T15:59:41.000Z",
+    "createdAt": "2026-02-11T15:59:25.223Z",
+    "versionId": "df3c253f-1e5d-47a0-a67a-8c0c4fe64e3e",
     "workflowId": "VO009CqRh4IAVzmP",
     "nodes": [
       {
@@ -2499,7 +2500,8 @@
         "parameters": {
           "content": "## Update working during Published instance\n",
           "height": 784,
-          "width": 3280
+          "width": 3280,
+          "color": 6
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
@@ -2882,15 +2884,15 @@
       }
     },
     "authors": "Christine Kam",
-    "name": "Version 8337d9e0",
+    "name": "Version df3c253f",
     "description": "",
     "autosaved": true,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-02-11T15:59:14.516Z",
-        "id": 149,
+        "createdAt": "2026-02-11T15:59:41.964Z",
+        "id": 150,
         "workflowId": "VO009CqRh4IAVzmP",
-        "versionId": "8337d9e0-5b92-4587-8bd0-a11ce0a31466",
+        "versionId": "df3c253f-1e5d-47a0-a67a-8c0c4fe64e3e",
         "event": "activated",
         "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b"
       }
