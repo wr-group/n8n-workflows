@@ -1,0 +1,167 @@
+{
+  "updatedAt": "2025-12-03T12:28:43.000Z",
+  "createdAt": "2025-11-21T02:45:00.534Z",
+  "id": "QAc1qmZNOByAMd9C",
+  "name": "03. Twilio Messaging",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "c1859f1f-2a1a-48d1-8c56-89c2288a2af1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "2bc9a785-ea2b-46a8-af52-1a1f36292f47",
+      "name": "Webhook",
+      "webhookId": "c1859f1f-2a1a-48d1-8c56-89c2288a2af1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "com.twilio.messaging.inbound-message.received"
+        ]
+      },
+      "type": "n8n-nodes-base.twilioTrigger",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        -272
+      ],
+      "id": "bfc26c4b-02d0-4497-9f51-dcae6377cafc",
+      "name": "Twilio Trigger",
+      "webhookId": "6674eac5-e959-4ee6-aca4-1ad7e1e6ffa6",
+      "credentials": {
+        "twilioApi": {
+          "id": "fL6K4bYjJzUodKaq",
+          "name": "WR: Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -272
+      ],
+      "id": "52b27ad9-924f-4f81-81ce-503445178c35",
+      "name": "Send an SMS/MMS/WhatsApp message",
+      "credentials": {
+        "twilioApi": {
+          "id": "fL6K4bYjJzUodKaq",
+          "name": "WR: Twilio account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Twilio Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Twilio Trigger": {
+      "sinkId": "DG5d1692be90aed8b8c48e39a202d3dee8",
+      "subscriptionId": "DF144cfb03e61e48bf0c60f3f66c9e7af5"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "3294ebde-ebc7-459a-88b3-ae339af7aac3",
+  "activeVersionId": null,
+  "versionCounter": 13,
+  "triggerCount": 2,
+  "shared": [
+    {
+      "updatedAt": "2025-11-21T02:45:00.538Z",
+      "createdAt": "2025-11-21T02:45:00.538Z",
+      "role": "workflow:owner",
+      "workflowId": "QAc1qmZNOByAMd9C",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-10T14:01:06.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-11",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}
