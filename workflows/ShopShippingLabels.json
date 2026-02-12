@@ -1,0 +1,219 @@
+{
+  "updatedAt": "2026-02-12T02:30:34.583Z",
+  "createdAt": "2026-02-11T07:32:01.419Z",
+  "id": "2BC5GYdsMqkwAPK6zW1Dg",
+  "name": "ShopShippingLabels",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "discord/prepare",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5f1c1bb5-4bb6-4a03-858b-8171d97ae1c2",
+      "name": "Webhook",
+      "webhookId": "a6c48024-8fc8-4a5e-a424-8bb8334e2cdf"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1471040467142709289",
+          "mode": "list",
+          "cachedResultName": "RevivalShop",
+          "cachedResultUrl": "https://discord.com/channels/1471040467142709289"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1471040658558029905",
+          "mode": "list",
+          "cachedResultName": "orders",
+          "cachedResultUrl": "https://discord.com/channels/1471040467142709289/1471040658558029905"
+        },
+        "content": "preparing",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -96
+      ],
+      "id": "af5f201d-df83-4d14-8c0f-c0106627af41",
+      "name": "Send a message",
+      "webhookId": "1bb86274-e9c6-40b3-89ad-ff8954c66d42",
+      "credentials": {
+        "discordBotApi": {
+          "id": "Q7zz7uhF16mvp292",
+          "name": "Discord Bot account Shop"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bcd8aeac-1ae4-4a49-a69c-da95455af7d0",
+              "leftValue": "={{ $json.headers['x-n8n-secret'] }}",
+              "rightValue": "30459f22e51d4667d94371dcdb66bdfbade2c460c603ed57eab0e9c1cc89999e",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        160,
+        0
+      ],
+      "id": "dcb32fc3-154e-4d16-8319-8b64f4fe7b3f",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        400,
+        112
+      ],
+      "id": "7a1fb2ca-b859-40ab-86f3-f7fc577d9b9a",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "edfd5faa-a79e-4127-ab2e-969b755ad670",
+  "activeVersionId": null,
+  "versionCounter": 28,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-11T07:32:01.421Z",
+      "createdAt": "2026-02-11T07:32:01.421Z",
+      "role": "workflow:owner",
+      "workflowId": "2BC5GYdsMqkwAPK6zW1Dg",
+      "projectId": "6TsYTzg0HY92xH2K",
+      "project": {
+        "updatedAt": "2025-11-14T08:33:27.896Z",
+        "createdAt": "2025-11-14T07:49:25.938Z",
+        "id": "6TsYTzg0HY92xH2K",
+        "name": "Christine Kam <windowrevival@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-11-14T07:49:25.938Z",
+            "createdAt": "2025-11-14T07:49:25.938Z",
+            "userId": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+            "projectId": "6TsYTzg0HY92xH2K",
+            "user": {
+              "updatedAt": "2026-02-12T14:10:16.000Z",
+              "createdAt": "2025-11-14T07:49:14.641Z",
+              "id": "bc31a112-3ed8-48ca-b94c-7225571c3d7b",
+              "email": "windowrevival@gmail.com",
+              "firstName": "Christine",
+              "lastName": "Kam",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-11-14T08:34:38.735Z",
+                "personalization_survey_n8n_version": "1.119.1",
+                "automationGoalDevops": [
+                  "reporting",
+                  "other"
+                ],
+                "automationGoalDevopsOther": "Automate all apps",
+                "companySize": "<20",
+                "companyType": "systems-integrator",
+                "role": "it",
+                "reportedSource": "google"
+              },
+              "settings": {
+                "userActivated": true,
+                "easyAIWorkflowOnboarded": true,
+                "firstSuccessfulWorkflowId": "ZwjGOdSLvNlPoB1E",
+                "userActivatedAt": 1763281773859,
+                "npsSurvey": {
+                  "responded": true,
+                  "lastShownAt": 1763554974919
+                }
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-13",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}
