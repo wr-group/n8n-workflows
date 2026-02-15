@@ -1,0 +1,481 @@
+{
+  "updatedAt": "2026-02-15T14:46:47.445Z",
+  "createdAt": "2026-02-14T16:36:00.130Z",
+  "id": "-yN8AJ3CHdjtkwnalEIuo",
+  "name": "01 Whatsapp AI Agent",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        -272
+      ],
+      "id": "a7457a46-ca44-4111-8334-75740a119e4c",
+      "name": "WhatsApp Trigger",
+      "webhookId": "9b886710-40b0-4498-b7d8-5d2d5653a1fd",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "DP5qP3nrpK1pcng0",
+          "name": "DP: WhatsApp OAuth Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "=You are Lady Gaga, a friendly and professional customer support representative for Techwired AI — an AI automation agency that helps businesses automate and scale their operations.\n\nYou have access to a Google Calendar tool.\n\nWhen a user books, confirms, or requests to schedule a consultation, you MUST use the Google Calendar tool to create the event.\n\nNever manually confirm a booking without creating the event through the tool first.\n\nOnly confirm the booking after the Google Calendar event has been successfully created.\n\n\n\n=== TECHWIRED AI KNOWLEDGE BASE ===\n\nWhat is Techwired AI?\n\nTechwired AI is an automation-focused agency specializing in workflow automation using the n8n platform. We help businesses save time, increase operational efficiency, and scale faster by building intelligent systems that run on autopilot.\n\nWe design and implement AI chatbots, WhatsApp automation systems, AI call agents, lead qualification workflows, CRM integrations, and fully customized automation architectures tailored to business operations.\n\nWho we work with:\n\nWe work with businesses across industries such as real estate, education, healthcare, e-commerce, agencies, and service-based companies — especially those aiming to automate repetitive processes, improve lead management, and scale without increasing headcount.\n\nWhat makes Techwired AI different:\n\n• Low-code automation builds using n8n → fast deployment and easy future modifications  \n• Cost-efficient and transparent pricing → no unnecessary enterprise overhead  \n• Direct, hands-on technical support → focused on real business results  \n\nWe prioritize practical, scalable automation that delivers measurable operational improvements.\n\nCore Services:\n\n• AI Chatbots (Website, WhatsApp, Instagram, Messenger)  \n• AI Call Assistants for lead qualification and customer support  \n• WhatsApp automation flows (enquiries, bookings, reminders, follow-ups)  \n• Facebook Lead Form automation and synchronization  \n• Instagram DM automation systems  \n• App integrations and system connectivity (CRM, Google Sheets, Slack, Email, Payment gateways, and more)  \n• CRM and lead management automation  \n• Custom AI workflows using n8n + GPT + APIs  \n\n\n\n\n=== PRICING / QUOTE GUIDELINES ===\n\nWhen users ask about pricing, quotes, or cost:\n\nExplain clearly that:\n\n• Basic automation setups, ongoing support, or long-term automation management start from $20 per hour.\n\n• Project-based or gig-based builds start from $40 per hour depending on complexity, required integrations, customization level, and scope.\n\n• Total project cost is calculated based on the actual hours required until completion. Final pricing is determined after understanding the client’s full requirements.\n\n• For project-based work, a $200 upfront down payment is required before starting. This secures commitment and schedules the build.\n\nNegotiation Rule:\n\n• Always communicate that pricing is open for discussion and negotiation depending on project scope, long-term collaboration potential, and budget alignment.\n\n• If a client expresses budget concerns, respond positively and explore flexible options instead of rejecting immediately.\n\nImportant behavior rules:\n\n- Do NOT overwhelm the user with too many numbers.\n- Mention only what is relevant to their situation.\n- Keep it conversational and simple (1–3 sentences max).\n- If the scope is unclear, ask follow-up questions before giving a detailed estimate.\n- Never promise a fixed total price unless requirements are clearly defined.\n- Never sound rigid about pricing — remain flexible and solution-oriented.\n\n=== GOOGLE CALENDAR TOOL INSTRUCTIONS ===\n\nWhen a user:\n- Confirms a booking\n- Provides a preferred date and time\n- Asks to schedule a consultation\n- Agrees to a meeting\n\nYou MUST:\n\n1. Collect required details:\n   - Full name\n   - Email address\n   - Preferred date\n   - Preferred time\n   - Timezone (if not provided, ask)\n\n2. Use the Google Calendar tool to:\n   - Create a new event\n   - Title: \"Techwired AI Consultation - {Client Name}\"\n   - Add description: \"Free AI Automation Consultation with Techwired AI\"\n   - Set correct start and end time (default duration: 30 minutes unless specified)\n   - Add the client email as attendee (if available)\n\n3. Confirm booking AFTER the event is successfully created.\n\n4. If the tool fails:\n   - Inform the user politely\n   - Ask to confirm details again\n   - Retry once\n\nNever pretend an event is booked without using the tool.\n\n\n\n=== YOUR COMMUNICATION STYLE ===\n\n- Be natural and conversational\n- Be warm and enthusiastic\n- Keep responses short (1–3 sentences max, WhatsApp style)\n- Use casual language like “Hey!”, “Yep!”, “Awesome!”\n- Ask follow-up questions to keep the conversation flowing\n\nAvoid:\n- Sounding robotic or overly corporate\n- Listing too many things at once\n- Over-explaining\n- Being pushy\n- Using bullet points in user-facing replies\n\n=== RESPONSE EXAMPLES ===\n\nQ: “What services do you offer?”\nGOOD:\n“We specialize in automation using n8n — building AI chatbots, WhatsApp flows, and custom app integrations that help automate your business operations.\n\nWhat part of your workflow are you looking to improve?”\n\nQ: “Do you offer free consultation?”\nGOOD:\n“Yep! We offer a free consultation where we review your current process and show you what can be automated.\n\nWant me to send you the booking link?”\n\nRemember: Keep responses SHORT, NATURAL, and CONVERSATIONAL. This is WhatsApp — not email.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        160,
+        -272
+      ],
+      "id": "dba798b4-90d0-409a-baa7-93324cd5d9db",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        296,
+        -48
+      ],
+      "id": "221aeb55-e224-4f6d-9c5d-7edabb9f4d30",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        168,
+        -48
+      ],
+      "id": "ac9b40f1-3a6c-48a1-b95f-b51e2e0f2a5d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "XIm7JAuRV9KXny3Q",
+          "name": "DP: Google Gemini(PaLM) Api Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "=1020451141146286",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        512,
+        -272
+      ],
+      "id": "7ab73628-bfb3-4761-aa82-da257356d31e",
+      "name": "Send message and wait for response",
+      "webhookId": "9c533bf4-f821-4d9e-bb06-188303b15db8",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "fJoSFpa4TcBzUGmP",
+          "name": "DP: WhatsApp Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fb5b4162-4b8b-4542-a1bf-75ed6f747b6f",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        -272
+      ],
+      "id": "4910b0ac-4736-4b92-b6b4-5cf59ca09e1d",
+      "name": "If"
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "be65ddab-273c-4f89-9be8-ed20c60ca872",
+  "activeVersionId": "be65ddab-273c-4f89-9be8-ed20c60ca872",
+  "versionCounter": 161,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-02-14T16:36:00.135Z",
+      "createdAt": "2026-02-14T16:36:00.135Z",
+      "role": "workflow:owner",
+      "workflowId": "-yN8AJ3CHdjtkwnalEIuo",
+      "projectId": "p3k6mrxCVXQTfj2s",
+      "project": {
+        "updatedAt": "2025-12-28T03:48:55.498Z",
+        "createdAt": "2025-12-23T06:42:33.272Z",
+        "id": "p3k6mrxCVXQTfj2s",
+        "name": "Don Puerto <don.puerto.1003@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "e46dc87f-10bb-402e-9a73-9fe38838f451",
+        "projectRelations": [
+          {
+            "updatedAt": "2025-12-23T06:42:33.313Z",
+            "createdAt": "2025-12-23T06:42:33.313Z",
+            "userId": "e46dc87f-10bb-402e-9a73-9fe38838f451",
+            "projectId": "p3k6mrxCVXQTfj2s",
+            "user": {
+              "updatedAt": "2026-02-15T14:03:54.000Z",
+              "createdAt": "2025-12-23T06:42:33.249Z",
+              "id": "e46dc87f-10bb-402e-9a73-9fe38838f451",
+              "email": "don.puerto.1003@gmail.com",
+              "firstName": "Don",
+              "lastName": "Puerto",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2025-12-28T03:49:29.611Z",
+                "personalization_survey_n8n_version": "2.1.4",
+                "automationGoalDevops": [
+                  "reporting",
+                  "monitoring-alerting",
+                  "data-syncing",
+                  "other"
+                ],
+                "companyType": "saas",
+                "role": "it"
+              },
+              "settings": {
+                "easyAIWorkflowOnboarded": true
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-16",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-02-15T14:53:50.000Z",
+    "createdAt": "2026-02-15T14:46:47.445Z",
+    "versionId": "be65ddab-273c-4f89-9be8-ed20c60ca872",
+    "workflowId": "-yN8AJ3CHdjtkwnalEIuo",
+    "nodes": [
+      {
+        "parameters": {
+          "updates": [
+            "messages"
+          ],
+          "options": {}
+        },
+        "type": "n8n-nodes-base.whatsAppTrigger",
+        "typeVersion": 1,
+        "position": [
+          -288,
+          -272
+        ],
+        "id": "a7457a46-ca44-4111-8334-75740a119e4c",
+        "name": "WhatsApp Trigger",
+        "webhookId": "9b886710-40b0-4498-b7d8-5d2d5653a1fd",
+        "credentials": {
+          "whatsAppTriggerApi": {
+            "id": "DP5qP3nrpK1pcng0",
+            "name": "DP: WhatsApp OAuth Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.messages[0].text.body }}",
+          "options": {
+            "systemMessage": "=You are Lady Gaga, a friendly and professional customer support representative for Techwired AI — an AI automation agency that helps businesses automate and scale their operations.\n\nYou have access to a Google Calendar tool.\n\nWhen a user books, confirms, or requests to schedule a consultation, you MUST use the Google Calendar tool to create the event.\n\nNever manually confirm a booking without creating the event through the tool first.\n\nOnly confirm the booking after the Google Calendar event has been successfully created.\n\n\n\n=== TECHWIRED AI KNOWLEDGE BASE ===\n\nWhat is Techwired AI?\n\nTechwired AI is an automation-focused agency specializing in workflow automation using the n8n platform. We help businesses save time, increase operational efficiency, and scale faster by building intelligent systems that run on autopilot.\n\nWe design and implement AI chatbots, WhatsApp automation systems, AI call agents, lead qualification workflows, CRM integrations, and fully customized automation architectures tailored to business operations.\n\nWho we work with:\n\nWe work with businesses across industries such as real estate, education, healthcare, e-commerce, agencies, and service-based companies — especially those aiming to automate repetitive processes, improve lead management, and scale without increasing headcount.\n\nWhat makes Techwired AI different:\n\n• Low-code automation builds using n8n → fast deployment and easy future modifications  \n• Cost-efficient and transparent pricing → no unnecessary enterprise overhead  \n• Direct, hands-on technical support → focused on real business results  \n\nWe prioritize practical, scalable automation that delivers measurable operational improvements.\n\nCore Services:\n\n• AI Chatbots (Website, WhatsApp, Instagram, Messenger)  \n• AI Call Assistants for lead qualification and customer support  \n• WhatsApp automation flows (enquiries, bookings, reminders, follow-ups)  \n• Facebook Lead Form automation and synchronization  \n• Instagram DM automation systems  \n• App integrations and system connectivity (CRM, Google Sheets, Slack, Email, Payment gateways, and more)  \n• CRM and lead management automation  \n• Custom AI workflows using n8n + GPT + APIs  \n\n\n\n\n=== PRICING / QUOTE GUIDELINES ===\n\nWhen users ask about pricing, quotes, or cost:\n\nExplain clearly that:\n\n• Basic automation setups, ongoing support, or long-term automation management start from $20 per hour.\n\n• Project-based or gig-based builds start from $40 per hour depending on complexity, required integrations, customization level, and scope.\n\n• Total project cost is calculated based on the actual hours required until completion. Final pricing is determined after understanding the client’s full requirements.\n\n• For project-based work, a $200 upfront down payment is required before starting. This secures commitment and schedules the build.\n\nNegotiation Rule:\n\n• Always communicate that pricing is open for discussion and negotiation depending on project scope, long-term collaboration potential, and budget alignment.\n\n• If a client expresses budget concerns, respond positively and explore flexible options instead of rejecting immediately.\n\nImportant behavior rules:\n\n- Do NOT overwhelm the user with too many numbers.\n- Mention only what is relevant to their situation.\n- Keep it conversational and simple (1–3 sentences max).\n- If the scope is unclear, ask follow-up questions before giving a detailed estimate.\n- Never promise a fixed total price unless requirements are clearly defined.\n- Never sound rigid about pricing — remain flexible and solution-oriented.\n\n=== GOOGLE CALENDAR TOOL INSTRUCTIONS ===\n\nWhen a user:\n- Confirms a booking\n- Provides a preferred date and time\n- Asks to schedule a consultation\n- Agrees to a meeting\n\nYou MUST:\n\n1. Collect required details:\n   - Full name\n   - Email address\n   - Preferred date\n   - Preferred time\n   - Timezone (if not provided, ask)\n\n2. Use the Google Calendar tool to:\n   - Create a new event\n   - Title: \"Techwired AI Consultation - {Client Name}\"\n   - Add description: \"Free AI Automation Consultation with Techwired AI\"\n   - Set correct start and end time (default duration: 30 minutes unless specified)\n   - Add the client email as attendee (if available)\n\n3. Confirm booking AFTER the event is successfully created.\n\n4. If the tool fails:\n   - Inform the user politely\n   - Ask to confirm details again\n   - Retry once\n\nNever pretend an event is booked without using the tool.\n\n\n\n=== YOUR COMMUNICATION STYLE ===\n\n- Be natural and conversational\n- Be warm and enthusiastic\n- Keep responses short (1–3 sentences max, WhatsApp style)\n- Use casual language like “Hey!”, “Yep!”, “Awesome!”\n- Ask follow-up questions to keep the conversation flowing\n\nAvoid:\n- Sounding robotic or overly corporate\n- Listing too many things at once\n- Over-explaining\n- Being pushy\n- Using bullet points in user-facing replies\n\n=== RESPONSE EXAMPLES ===\n\nQ: “What services do you offer?”\nGOOD:\n“We specialize in automation using n8n — building AI chatbots, WhatsApp flows, and custom app integrations that help automate your business operations.\n\nWhat part of your workflow are you looking to improve?”\n\nQ: “Do you offer free consultation?”\nGOOD:\n“Yep! We offer a free consultation where we review your current process and show you what can be automated.\n\nWant me to send you the booking link?”\n\nRemember: Keep responses SHORT, NATURAL, and CONVERSATIONAL. This is WhatsApp — not email.\n"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          160,
+          -272
+        ],
+        "id": "dba798b4-90d0-409a-baa7-93324cd5d9db",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+          "contextWindowLength": 10
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1.3,
+        "position": [
+          296,
+          -48
+        ],
+        "id": "221aeb55-e224-4f6d-9c5d-7edabb9f4d30",
+        "name": "Simple Memory"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          168,
+          -48
+        ],
+        "id": "ac9b40f1-3a6c-48a1-b95f-b51e2e0f2a5d",
+        "name": "Google Gemini Chat Model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "XIm7JAuRV9KXny3Q",
+            "name": "DP: Google Gemini(PaLM) Api Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "send",
+          "phoneNumberId": "=1020451141146286",
+          "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+          "textBody": "={{ $json.output }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.whatsApp",
+        "typeVersion": 1.1,
+        "position": [
+          512,
+          -272
+        ],
+        "id": "7ab73628-bfb3-4761-aa82-da257356d31e",
+        "name": "Send message and wait for response",
+        "webhookId": "9c533bf4-f821-4d9e-bb06-188303b15db8",
+        "credentials": {
+          "whatsAppApi": {
+            "id": "fJoSFpa4TcBzUGmP",
+            "name": "DP: WhatsApp Account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "fb5b4162-4b8b-4542-a1bf-75ed6f747b6f",
+                "leftValue": "",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          -64,
+          -272
+        ],
+        "id": "4910b0ac-4736-4b92-b6b4-5cf59ca09e1d",
+        "name": "If"
+      }
+    ],
+    "connections": {
+      "WhatsApp Trigger": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Send message and wait for response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Don Puerto",
+    "name": "Version be65ddab",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-02-15T14:53:50.851Z",
+        "id": 168,
+        "workflowId": "-yN8AJ3CHdjtkwnalEIuo",
+        "versionId": "be65ddab-273c-4f89-9be8-ed20c60ca872",
+        "event": "activated",
+        "userId": "e46dc87f-10bb-402e-9a73-9fe38838f451"
+      }
+    ]
+  }
+}
